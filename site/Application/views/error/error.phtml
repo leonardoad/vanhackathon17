@@ -1,0 +1,12 @@
+<html>
+<head>
+	<title> <? echo $this->title ?> </title>
+</head>
+<body>
+	<h1><? echo $this->title ?></h1>
+	<? if ($this->message): ?>
+		<p>The following error occurred:</p>
+		<? echo $this->message ?>
+	<? endif; ?>
+</body>
+</html>
