@@ -40,6 +40,22 @@ class Course extends Db_Table {
         }
     }
 
+    public function getAvarageStars() {
+        $l = new Review();
+        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse and bookedcourse.id_course = ' . $this->getID(), '');
+        $l->readLst();
+        for ($i = 0; $i < $l->countItens(); $i++) {
+            $lReview = $l->getItem($i);
+            $countStars += $lReview->getStars();
+        }
+        $avg = $countStars / $l->countItens();
+        for ($i = 0; $i < $avg; $i++) {
+//            $ret .= "<i class='fa fa-star'></i>";
+            $ret .= '* ';
+        }
+        return $ret;
+    }
+
 //    public static function getCategoryList($i = '') {
 //        $list[''] = ' - ';
 //        $list['1'] = 'Cat 1';

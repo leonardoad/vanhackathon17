@@ -57,6 +57,23 @@ class Usuario extends Db_Table {
         $this->a_dificuldade = json_encode($param);
     }
 
+    public function getAvarageStars() {
+        $l = new Review();
+        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse ', '');
+        $l->join('course', ' course.id_course = bookedcourse.id_course and course.id_educator = ' . $this->getID(), '');
+        $l->readLst();
+        for ($i = 0; $i < $l->countItens(); $i++) {
+            $lReview = $l->getItem($i);
+            $countStars += $lReview->getStars();
+        }
+        $avg = $countStars / $l->countItens();
+        for ($i = 0; $i < $avg; $i++) {
+//            $ret .= "<i class='fa fa-star'></i>";
+            $ret .= '* ';
+        }
+        return $ret;
+    }
+
     /**
      * Retorna a lista de Tecnicos do sistema de OS
      *
@@ -316,7 +333,6 @@ class Usuario extends Db_Table {
         $this->setTelephone($post->telephone);
     }
 
-
     public static function getGroupsList($i = '') {
         $list[''] = ' - ';
         $list['3'] = 'I am an Educator';
@@ -341,4 +357,5 @@ class Usuario extends Db_Table {
         $this->setSenha(Format_Crypt::encryptPass($post->senha));
         $this->setDatasenha(date('d/m/Y'));
     }
+
 }

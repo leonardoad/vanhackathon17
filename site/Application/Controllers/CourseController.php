@@ -161,7 +161,7 @@ class CourseController extends Zend_Controller_Action {
         $form->addElement($element);
 
         $element = new Ui_Element_Text('VideoLink', "Video Link");
-        $element->setAttrib('placeholder', 'Paste the YouTube link here!');
+        $element->setAttrib('placeholder', 'Paste here the code that comes after the "?v=" on the YouTube link! E.g. BO0Gt5hoHU4');
         $element->setAttrib('maxlength', '1000');
 //        $element->setRequired();
         $form->addElement($element);
