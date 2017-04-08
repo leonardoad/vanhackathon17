@@ -18,6 +18,7 @@ class IndexController extends Zend_Controller_Action {
         $session = Zend_Registry::get('session');
         $usuario = $session->usuario;
 
+        
 
         $view->assign('titulo', "Início");
         $view->assign('scripts', Browser_Control::getScripts());
@@ -33,6 +34,10 @@ class IndexController extends Zend_Controller_Action {
         // =========== Menu  ==========
         // INDICADORES
         $menuItem = new Ui_Element_MenuItem('home', 'Home', HTTP_REFERER . 'index', '', 'home');
+        $mainMenu->addMenuItem($menuItem);
+
+        $menuItem = new Ui_Element_MenuItem("LunchnLearn" , "Lunch n' Learn", HTTP_REFERER . 'course/index', '', 'free-code-camp');
+        $menuItem->setVisible('PROC_CAD_LaL', 'ver');
         $mainMenu->addMenuItem($menuItem);
 
          
