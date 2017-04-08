@@ -1,0 +1,144 @@
+.lnl-fluid{
+	background-color: #eee;
+	padding-bottom: 30px;
+}
+.lnl-nav{
+	background: #fff;
+	border: none;
+	margin-bottom: 3px;
+}
+.lnl-brand {
+	padding: 6px;
+}
+.lnl-manu-search{
+	text-align: center;
+}
+.lnl-profile-header{
+	min-height: 300px;
+	background: url(../images/lunch-n-learn-header-bw.jpg);
+    background-size: cover;
+    background-position: center -330px;
+    padding: 0px;
+    margin: 0px;
+}
+.lnl-profile-header:before {
+    display: block;
+    content: "";
+    background: rgba(63, 169, 245, 0.8);
+    width: 100%;
+    height: 300px;
+}
+.lnl-profile-body{
+	margin-top: -100px;
+	background-color: #fff;
+	border-radius: 5px;
+	padding: 30px;
+	border: 1px solid #e5e5e5;
+}
+
+.float-right{
+	float: right;
+}
+.lnl-subtitle{
+	margin-bottom: 10px;
+}
+.lnl-profession{
+	margin-bottom: 10px;
+}
+.lnl-blue{background: #3fa9f5; color: #fff}
+.lnl-pink{background: #f4a996; color: #fff}
+.lnl-green{background: #63c16e; color: #fff}
+
+.label-blue {
+    background: #3fa9f5;
+    font-size: 16px;
+}
+.card {
+	font-size: 1em;
+	overflow: hidden;
+	padding: 0;
+	border: none;
+	border-radius: .28571429rem;
+	box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+}
+
+.card-block {
+	font-size: 1em;
+	position: relative;
+	margin: 0;
+	padding: 1em;
+	border: none;
+	border-top: 1px solid rgba(34, 36, 38, .1);
+	box-shadow: none;
+}
+
+.card-img-top {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+.card-title {
+	font-size: 1.28571429em;
+	font-weight: 700;
+	line-height: 1.2857em;
+}
+
+.card-text {
+	clear: both;
+	margin-top: .5em;
+	color: rgba(0, 0, 0, .68);
+}
+
+.card-footer {
+	font-size: 1em;
+	position: static;
+	top: 0;
+	left: 0;
+	max-width: 100%;
+	padding: .75em 1em;
+	color: rgba(0, 0, 0, .4);
+	border-top: 1px solid rgba(0, 0, 0, .05) !important;
+	background: #fff;
+	overflow: auto;
+}
+
+.card-inverse .btn {
+	border: 1px solid rgba(0, 0, 0, .05);
+}
+.lnl-price {
+    font-weight: bold;
+    font-size: 26px;
+    line-height: 30px;
+    color: #63c16e;
+}
+.lnl-media{
+	overflow: visible;
+}
+.lnl-profile-thumbnail{
+	margin-top: -100px;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+/* Rating Styles */
+.lnl-stars{margin-top: 10px;}
+.lnl-stars .rating{color: #3fa9f5;}
+.glyphicon { margin-right:5px;}
+.rating .glyphicon {font-size: 22px;}
+.rating-num { margin-top:0px;font-size: 54px; }
+.progress { margin-bottom: 5px;}
+.progress-bar { text-align: left; }
+.rating-desc .col-md-3 {padding-right: 0px;}
+.sr-only { margin-left: 5px;overflow: visible;clip: auto; }
+
+/* End Rating Styles */
+
+.lnl-footer{
+    padding: 22px;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
+    text-align: center;
+}
