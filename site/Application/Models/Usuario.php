@@ -57,8 +57,6 @@ class Usuario extends Db_Table {
         $this->a_dificuldade = json_encode($param);
     }
 
-            
-
     /**
      * Retorna a lista de Tecnicos do sistema de OS
      *
@@ -206,7 +204,7 @@ class Usuario extends Db_Table {
      * Verifica se o usuario pode acessar uma determinada area do sistema ou executar uma determinada ação.
      *
      * @param $controlador or $processo
-     * @param $acao
+     * @param $acao ['ver'|'inserir'|'excluir'|'editar']
      * @return boolean
      */
     public static function verificaAcesso($controlador, $acao = 'ver') {

@@ -40,13 +40,13 @@ class BookedCourseController extends Zend_Controller_Action {
         $button = new Ui_Element_DataTables_Button('btnNovaBookedCourse', 'Editar');
         $button->setImg('edit');
         $button->setHref(HTTP_REFERER . $this->Action . '/edit');
-        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'inserir');
+        $button->setVisible('PROC_CAD_BOOKING', 'inserir');
         $grid->addButton($button);
 
         $button = new Ui_Element_DataTables_Button('btnExcluirBookedCourse', 'Excluir');
         $button->setImg('trash');
         $button->setAttrib('msg', "Deseja mesmo excluir este item?");
-        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'excluir');
+        $button->setVisible('PROC_CAD_BOOKING', 'excluir');
         $grid->addButton($button);
 
 //
@@ -99,9 +99,8 @@ class BookedCourseController extends Zend_Controller_Action {
 
         $post->id_indicador;
         $lLst = new $this->Model;
-//        if ($post->id_processo != '') {
-//            $lLst->where('id_processo', $post->id_processo);
-//        }
+        $lLst->join('course', 'course.id_educator = bookedcourse.id_educator and course.id_educator = '. Usuario::getIdUsuarioLogado(), 'id_educator');
+//        $lLst->where('course.id_educator', Usuario::getIdUsuarioLogado());
         $lLst->readLst();
 
         Grid_ControlDataTables::setDataGrid($lLst, false, true);
@@ -158,6 +157,7 @@ class BookedCourseController extends Zend_Controller_Action {
 
         $element = new Ui_Element_Date('RealDate', "Confirmed Date");
         $element->setRequired();
+        $element->setReadOnly(!Usuario::verificaAcesso('CHANGE_REALDATE', 'editar'));
         $element->setValue(date('d/m/Y'));
         $form->addElement($element);
 
@@ -187,13 +187,13 @@ class BookedCourseController extends Zend_Controller_Action {
 //        $button = new Ui_Element_DataTables_Button('btnNovaBookedCourse', 'Editar');
 //        $button->setImg('edit');
 //        $button->setHref(HTTP_REFERER . $this->Action . '/edit');
-//        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'inserir');
+//        $button->setVisible('PROC_CAD_BOOKING', 'inserir');
 //        $grid->addButton($button);
 //
 //        $button = new Ui_Element_DataTables_Button('btnExcluirBookedCourse', 'Excluir');
 //        $button->setImg('trash');
 //        $button->setAttrib('msg', "Deseja mesmo excluir este item?");
-//        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'excluir');
+//        $button->setVisible('PROC_CAD_BOOKING', 'excluir');
 //        $grid->addButton($button);
 //
 //        $column = new Ui_Element_DataTables_Column_Text('Category', 'CategoryDesc');
@@ -233,7 +233,7 @@ class BookedCourseController extends Zend_Controller_Action {
         $button->setDisplay('Save', 'check');
         $button->setType('success');
 //        $button->setVisible(!$readOnly);
-        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'editar');
+        $button->setVisible('PROC_CAD_BOOKING', 'editar');
         $button->setAttrib('click', '');
         if (isset($post->id)) {
             $button->setAttrib('params', 'id=' . $post->id);
@@ -303,7 +303,7 @@ class BookedCourseController extends Zend_Controller_Action {
         $button->setDisplay('Save', 'check');
         $button->setType('success');
 //        $button->setVisible(!$readOnly);
-        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'editar');
+        $button->setVisible('PROC_CAD_BOOKING', 'editar');
         $button->setAttrib('click', '');
         if (isset($post->id)) {
             $button->setAttrib('params', 'id=' . $post->id);
