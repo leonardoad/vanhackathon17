@@ -39,13 +39,13 @@ class CourseController extends Zend_Controller_Action {
         $button = new Ui_Element_DataTables_Button('btnNovaCourse', 'Editar');
         $button->setImg('edit');
         $button->setHref(HTTP_REFERER . $this->Action . '/edit');
-        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'inserir');
+        $button->setVisible('PROC_CAD_LaL', 'inserir');
         $grid->addButton($button);
 
         $button = new Ui_Element_DataTables_Button('btnExcluirCourse', 'Excluir');
         $button->setImg('trash');
         $button->setAttrib('msg', "Deseja mesmo excluir este item?");
-        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'excluir');
+        $button->setVisible('PROC_CAD_LaL', 'excluir');
         $grid->addButton($button);
 
 
@@ -189,7 +189,7 @@ class CourseController extends Zend_Controller_Action {
         $button->setDisplay('Save', 'check');
         $button->setType('success');
 //        $button->setVisible(!$readOnly);
-        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'editar');
+        $button->setVisible('PROC_CAD_LaL', 'editar');
         $button->setAttrib('click', '');
         if (isset($post->id)) {
             $button->setAttrib('params', 'id=' . $post->id);
