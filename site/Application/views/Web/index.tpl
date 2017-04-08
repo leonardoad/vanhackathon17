@@ -1,8 +1,12 @@
-<h2>This is the home page</h2>
+<html>
+<head>
+    <title>{$pageTitle}</title>
+</head>
+<body>
 
-
-<p>Register here to start</p>
-{$formSignup}
+{$menu}
+<h2>This is the main web page</h2>
+{$content}
 
         <script type="text/javascript">
             //var cBaseUrl = '/Projetos/Opertur/';
@@ -10,7 +14,7 @@
             var cBaseUrl = '{$baseUrl}';
             var HTTP_HOST = '{$HTTP_HOST}';
         </script>
-        
+
 {$scripts}
 
         <!-- jQuery Version 1.11.0 -->
@@ -95,3 +99,5 @@
 
             </script>
         {/literal}
+</body>
+</html>

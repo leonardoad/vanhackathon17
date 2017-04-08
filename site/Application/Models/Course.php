@@ -63,4 +63,35 @@ class Course extends Db_Table {
 //        $this->setTexto($post->getUnescaped('Texto'));
     }
 
+    public function getPopularCourses()
+    {
+        $l = new Review();
+        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse','');//make a max here
+        $l->join('course', 'course.id_course = course.id_course','id_course, title, description,videolink, time, cost, audience_min, audience_max');
+        $l->readLst();
+        $lPopular = $l->getItens();
+
+//        foreach ($lPopular as $key => $value) {
+//             $fotos = Arquivo::getNomeArquivos($value['id_noticia'], 1);
+// //            $lPacotes[$key]['imagem'] = str_replace('/', '**', $fotos[0]);
+//             $lPacotes[$key]['imagem'] = $fotos[0];
+//             $lPacotes[$key]['textobr'] = nl2br($value['textobr']);
+//         }
+
+        return $lPopular;
+    }
+
+    public function getFormattedTime()
+    {
+        //return date('H \H\r m\M\i\n', $this->getTime());
+        // var_dump($this->getTime());
+        // die();
+        return $this->getTime();
+    }
+
+    public function getFormattedAudience()
+    {
+
+    }
+
 }

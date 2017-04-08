@@ -19,22 +19,76 @@ class WebController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $form = new Ui_Form();
-        $form->setName('formSignup');
-        $form->setAction($this->Action);
-
-        $button = new Ui_Element_Btn('btnSignUp');
-        $button->setDisplay('Sign up', 'new');
-        $button->setType('success');
-       // $button->setHref(BASE_URL . $this->Action . '/register');
-
-        $form->addElement($button);
+        // popular Lunch n Learns
+        $Course = new Course();
+        $lPopular = $Course->getPopularCourses();
 
         $view = Zend_Registry::get('view');
-        //$view->assign('titulo', "Home");
+
+        $view->assign('popularCourses', $lPopular);
+        $html = $view->fetch('Web/Home.tpl');
+
+        $pageTitle = "Lunch n' Learn";
+
+//start WebController::getMenu()
         $view->assign('scripts', Browser_Control::getScripts());
-        $view->assign('formSignup', $form->displayTpl($view, 'Web/btnRegister.tpl'));
+//end WebController::getMenu()
+
+        $view->assign('content', $html);
+        $view->assign('pageTitle', $pageTitle);
+        $view->assign('menu', WebController::getMenu());
         $view->output('Web/index.tpl');
+
+
+    }
+
+    public static function getMenu() {
+        $form = new Ui_Form();
+        $form->setName('formSignup');
+        $form->setAction('web');
+
+        $button = new Ui_Element_Btn('btnSignUp');
+        $button->setDisplay('Sign up', '');
+        $button->setType('success');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnLogIn');
+        $button->setDisplay('Log In', '');
+        $button->setType('success');
+        $button->setVisible(Usuario::getIdUsuarioLogado() == '');
+        $button->setHref(BASE_URL .'login');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnLogOut');
+        $button->setDisplay('Log Out', '');
+        $button->setType('success');
+        $button->setHref(BASE_URL . 'logout');
+        $button->setVisible(Usuario::getIdUsuarioLogado() != '');
+        $form->addElement($button);
+
+        $searchform = new Ui_Form();
+        $searchform->setName('searchForm');
+        $searchform->setAction('web');
+
+        $element = new Ui_Element_Text('search', "");
+        $element->setAttrib('maxlength', '255');
+        $searchform->addElement($element);
+
+        $button = new Ui_Element_Btn('btnSearch');
+        $button->setDisplay('Search', 's');
+        $button->setType('success');
+        //$button->setHref(BASE_URL . $this->Action . '/site/logout');
+        $searchform->addElement($button);
+
+        $view = Zend_Registry::get('view');
+        $view->assign('formSignUp', $form->displayTpl($view, 'Web/formSignUp.tpl'));
+        $view->assign('searchform', $searchform->displayTpl($view, 'Web/searchForm.tpl'));
+        return $view->fetch('Web/menu.tpl');
+    }
+
+
+    public function btnsearchclickAction() {
+        
     }
 
     public function btnsignupclickAction() {
