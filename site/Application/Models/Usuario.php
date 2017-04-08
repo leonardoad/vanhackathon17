@@ -57,39 +57,7 @@ class Usuario extends Db_Table {
         $this->a_dificuldade = json_encode($param);
     }
 
-    /**
-     * Retorna a lista de Tecnicos do sistema de OS
-     *
-     * @return array
-     */
-    static function getUsuarioGilneiList($i = '') {
-
-//        if (!isset($_SESSION['getTecnicoList'])) {
-        $lObjLst = new Db_Sinigaglia();
-        $lObjLst->query("SELECT Usuarios.Tecnico as CodigoTecnico,"
-                . " Usuarios.Nome as Apelido  "
-                . "FROM Usuarios "
-                . "ORDER BY Usuarios.Nome;"
-        );
-        $rows = $lObjLst->fetchAll();
-
-        $list = array();
-        $list[""] = "";
-        foreach ($rows as $row) {
-            $list[$row["CodigoTecnico"]] = utf8_encode($row["Apelido"]);
-        }
-        $_SESSION['getTecnicoList'] = $list;
-//        } else {
-//            $list = $_SESSION['getTecnicoList'];
-//        }
-//        print'<pre>';
-//        die(print_r($list));
-        if (intval($i) != 0) {
-//            print'<pre>';(print_r(str_pad($i, 3, '0', STR_PAD_LEFT)  ));
-            return $list[str_pad($i, 3, '0', STR_PAD_LEFT)];
-        }
-        return $list;
-    }
+            
 
     /**
      * Retorna a lista de Tecnicos do sistema de OS
