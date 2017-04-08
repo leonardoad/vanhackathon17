@@ -91,9 +91,7 @@ class CourseController extends Zend_Controller_Action {
 
         $post->id_indicador;
         $lLst = new $this->Model;
-//        if ($post->id_processo != '') {
-//            $lLst->where('id_processo', $post->id_processo);
-//        }
+        $lLst->where('id_educator', Usuario::getIdUsuarioLogado());
         $lLst->readLst();
 
         Grid_ControlDataTables::setDataGrid($lLst, false, true);
@@ -174,11 +172,11 @@ class CourseController extends Zend_Controller_Action {
 //        $element->setTinyMce();
         $element->setRequired();
         $form->addElement($element);
-
-        $element = new Ui_Element_File("Image", 'Image');
-        $element->setAttrib('multiple', '');
-//        $element->setAttrib('obrig', '');
-        $form->addElement($element);
+//
+//        $element = new Ui_Element_File("Image", 'Image');
+//        $element->setAttrib('multiple', '');
+////        $element->setAttrib('obrig', '');
+//        $form->addElement($element);
 
 
         if (isset($post->id)) {
