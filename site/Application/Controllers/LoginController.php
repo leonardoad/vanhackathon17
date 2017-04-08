@@ -160,7 +160,7 @@ class LoginController extends Zend_Controller_Action {
             $br->addFieldValue('senha', '');
             $br->addFieldValue('user', '');
             $br->setDataForm('formLogin');
-            $br->setHtml('msg', 'User or password invalid');
+            $br->setHtml('msg', 'Invalid user or password.');
             $br->setClass('msg', 'alert alert-danger');
         }
         $br->send();

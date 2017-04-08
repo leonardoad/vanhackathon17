@@ -18,8 +18,6 @@ class IndexController extends Zend_Controller_Action {
         $session = Zend_Registry::get('session');
         $usuario = $session->usuario;
 
-        
-
         $view->assign('titulo', "Início");
         $view->assign('scripts', Browser_Control::getScripts());
         $view->assign('body', $view->fetch('Index/index.tpl'));

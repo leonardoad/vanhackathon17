@@ -686,7 +686,7 @@ class UsuarioController extends Zend_Controller_Action {
 
         $view->assign('scripts', Browser_Control::getScripts());
         $view->assign('titulo', "My Profile");
-        $view->assign('body', $form->displayTpl($view,'Usuario/edit.tpl'));
+        $view->assign('body', $form->displayTpl($view,'Usuario/editProfile.tpl'));
     //Usuario/edit.tpl
         $view->output('index.tpl');
     }
@@ -719,8 +719,7 @@ class UsuarioController extends Zend_Controller_Action {
 
     public function btncancelarprofileclickAction() {
         $br = new Browser_Control;
-        $br->setBrowserUrl(BASE_URL);
-        // $br->setRemoveWindow('EditUsers');
-        // $br->send();
+        $br->setBrowserUrl(BASE_URL.'index');
+        $br->send();
     }
 }

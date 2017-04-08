@@ -350,4 +350,25 @@ class Usuario extends Db_Table {
         $this->setTelephone($post->telephone);
     }
 
+
+    public static function getRoleList($i = '') {
+        $list[''] = ' - ';
+        $list['E'] = 'I am an Educator';
+        $list['C'] = 'I am a Company';
+        if ($i != '') {
+            return $list[$i];
+        }
+        return $list;
+    }
+
+    public function setDataFromRegisterRequest($post) {
+        $this->setNomeCompleto($post->nomecompleto);
+        $this->setEmail($post->email);
+        $this->setAtivo(cTRUE);
+        $this->setTelephone($post->telephone);
+        $this->setExcluivel(cTRUE);
+        $this->setEditavel(cTRUE);
+        $this->setSenha(Format_Crypt::encryptPass($post->senha));
+        $this->setDatasenha(date('d/m/Y'));
+    }
 }
