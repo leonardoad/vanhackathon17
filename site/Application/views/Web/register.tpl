@@ -4,7 +4,7 @@
         <input type="hidden" autofocus="true" />
         <div class="row">
             <div class="col-lg-4">
-                <p>{$role}  </p>
+                <p>{$grupo}  </p>
             </div>
         </div>
         <div class="row">

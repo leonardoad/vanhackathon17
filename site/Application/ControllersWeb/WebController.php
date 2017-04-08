@@ -70,8 +70,8 @@ class WebController extends Zend_Controller_Action {
         // $element->setRequired();
         // $form->addElement($element);
 
-        $element = new Ui_Element_Select('role', "Choose your role");
-        $element->addMultiOptions(Usuario::getRoleList());
+        $element = new Ui_Element_Select('grupo', "Choose your role");
+        $element->addMultiOptions(Usuario::getGroupsList());
         $element->setAttrib('obrig', 'obrig');
         $element->setRequired();
         $form->addElement($element);

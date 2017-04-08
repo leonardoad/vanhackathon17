@@ -171,33 +171,12 @@ class UsuarioController extends Zend_Controller_Action {
 //            }
             $tabGeral->addElement($element);
 
-//        $element = new Ui_Element_Text('idexterno');
-//        $element->setAttrib('maxlength', '25');
-//        $element->setAttrib('obrig', 'obrig');
-//        $element->setRequired();
-//        $element->setAttrib('size', 10);
-//        $tabGeral->addElement($element);
-//
-            $element = new Ui_Element_Select('idexterno', 'Código de Técnico no sistema Antigo');
-            $element->addMultiOptions(Fichatecnica::getTecnicoList());
-            $tabGeral->addElement($element);
-
 
             $users = new Usuario;
             $users->where('tipo', 'grupo');
             $element = new Ui_Element_Select('grupo', 'Grupo de Usuário');
             $element->setAttrib('event', 'change');
             $element->addMultiOptions($users->getOptionList('id_usuario', 'nomecompleto', $users));
-            $tabGeral->addElement($element);
-
-            $element = new Ui_Element_Select('dificuldade', 'Dificuldade na produção dos Laudos');
-//            $element->addMultiOption('', '');
-            $element->addMultiOption(1, 'Grau 1');
-            $element->addMultiOption(2, 'Grau 2');
-            $element->addMultiOption(3, 'Grau 3');
-            $element->addMultiOption(4, 'Grau 4');
-            $element->setMultiSelect();
-//            $element->setSelect2();
             $tabGeral->addElement($element);
 
             $element = new Ui_Element_Password('senha', 'Senha');
@@ -469,11 +448,11 @@ class UsuarioController extends Zend_Controller_Action {
         $user->save();
 
 
-        $br->setBrowserUrl(BASE_URL);
-        // $br->setRemoveWindow('EditUsers');
-        // $br->setUpdateDataTables('gridUsers');
-        // $br->setUpdateDataTables('gridGrupos');
-        // $br->send();
+//        $br->setBrowserUrl(BASE_URL);
+        $br->setRemoveWindow('EditUsers');
+        $br->setUpdateDataTables('gridUsers');
+        $br->setUpdateDataTables('gridGrupos');
+        $br->send();
 
         Session_Control::setDataSession('formUsersEdit', '');
     }
@@ -605,8 +584,6 @@ class UsuarioController extends Zend_Controller_Action {
         $br->setUpdateDataTables('gridUsers');
         $br->send();
     }
-    
-
 
     public function grupochangeAction() {
         $user = Usuario::getInstance('userEdit');
@@ -686,8 +663,8 @@ class UsuarioController extends Zend_Controller_Action {
 
         $view->assign('scripts', Browser_Control::getScripts());
         $view->assign('titulo', "My Profile");
-        $view->assign('body', $form->displayTpl($view,'Usuario/editProfile.tpl'));
-    //Usuario/edit.tpl
+        $view->assign('body', $form->displayTpl($view, 'Usuario/editProfile.tpl'));
+        //Usuario/edit.tpl
         $view->output('index.tpl');
     }
 
@@ -711,7 +688,7 @@ class UsuarioController extends Zend_Controller_Action {
         $user->save();
 
 
-        $br->setBrowserUrl(BASE_URL.'index');
+        $br->setBrowserUrl(BASE_URL . 'index');
         $br->send();
 
         Session_Control::setDataSession('formUsersEdit', '');
@@ -722,4 +699,5 @@ class UsuarioController extends Zend_Controller_Action {
         $br->setBrowserUrl(BASE_URL.'index');
         $br->send();
     }
+
 }

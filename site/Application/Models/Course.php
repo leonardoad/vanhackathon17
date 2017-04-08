@@ -29,6 +29,7 @@ class Course extends Db_Table {
     function __construct($config = array(), $definition = null) {
         parent::__construct($config, $definition);
         $this->a_RegisterDate = date('d/m/Y H:m:i');
+        $this->a_ID_Educator = Usuario::getIdUsuarioLogado();
     }
 
     public function getCategoryDesc() {

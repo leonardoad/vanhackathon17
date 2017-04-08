@@ -10,6 +10,10 @@ class Ui_Element_Checkbox extends Zend_Form_Element_Checkbox {
         parent::__construct($id, '');
 
         $this->label = $label;
+
+        $this->setChecked(cTRUE);
+        $this->setCheckedValue(cTRUE);
+        $this->setUncheckedValue(cFALSE);
     }
 
     /**
