@@ -470,10 +470,11 @@ class UsuarioController extends Zend_Controller_Action {
         $user->save();
 
 
-        $br->setRemoveWindow('EditUsers');
-        $br->setUpdateDataTables('gridUsers');
-        $br->setUpdateDataTables('gridGrupos');
-        $br->send();
+        $br->setBrowserUrl(BASE_URL);
+        // $br->setRemoveWindow('EditUsers');
+        // $br->setUpdateDataTables('gridUsers');
+        // $br->setUpdateDataTables('gridGrupos');
+        // $br->send();
 
         Session_Control::setDataSession('formUsersEdit', '');
     }
@@ -605,6 +606,8 @@ class UsuarioController extends Zend_Controller_Action {
         $br->setUpdateDataTables('gridUsers');
         $br->send();
     }
+    
+
 
     public function grupochangeAction() {
         $user = Usuario::getInstance('userEdit');
@@ -630,4 +633,95 @@ class UsuarioController extends Zend_Controller_Action {
         
     }
 
+    public function loadprofileAction() {
+        $post = Zend_Registry::get('post');
+
+        $br = new Browser_Control();
+        $view = Zend_Registry::get('view');
+
+        //temporariamente estou desativando o readonly para poder cadastrar as acoes antigas
+        $readOnly = false;
+
+        $user = new Usuario;
+        $user->read(Usuario::getIdUsuarioLogado());
+
+        $form = new Ui_Form();
+        $form->setAction('usuario');
+        $form->setName('formProfileEdit');
+
+        $element = new Ui_Element_Text('nomecompleto', "Name");
+        $element->setAttrib('maxlength', '35');
+        $element->setRequired();
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('email', "E-mail");
+        $element->setAttrib('maxlength', '255');
+        $element->setRequired();
+        $form->addElement($element);
+
+        $element = new Ui_Element_Text('telephone', "Phone number");
+        $element->setAttrib('maxlength', '25');
+        $element->setRequired();
+        $form->addElement($element);
+
+        $form->setDataForm($user);
+        $user->setInstance('userEdit');
+
+        $button = new Ui_Element_Btn('btnSaveProfile');
+        $button->setDisplay('Save', 'check');
+        $button->setType('success');
+//        $button->setVisible(!$readOnly);
+        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'editar');
+        $button->setAttrib('click', '');
+
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $cancel = new Ui_Element_Btn('btnCancelarProfile');
+        $cancel->setDisplay('Close', 'times');
+        $cancel->setAttrib('params', 'tipo=' . $post->tipo);
+        $form->addElement($cancel);
+
+        $form->setDataSession();
+
+        $view->assign('scripts', Browser_Control::getScripts());
+        $view->assign('titulo', "My Profile");
+        $view->assign('body', $form->displayTpl($view,'Usuario/edit.tpl'));
+    //Usuario/edit.tpl
+        $view->output('index.tpl');
+    }
+
+    public function btnsaveprofileclickAction() {
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control();
+
+        $form = Session_Control::getDataSession('formUsersEdit');
+
+        //$valid = $form->processAjax($_POST);
+
+        $br = new Browser_Control();
+        // if ($valid != 'true') {
+        //     $br->validaForm($valid);
+        //     $br->send();
+        //     exit;
+        // }
+
+        $user = Usuario::getInstance('userEdit');
+        $user->setDataFromRequest($post);
+        $user->save();
+
+
+        $br->setBrowserUrl(BASE_URL.'index');
+        $br->send();
+
+        Session_Control::setDataSession('formUsersEdit', '');
+    }
+
+    public function btncancelarprofileclickAction() {
+        $br = new Browser_Control;
+        $br->setBrowserUrl(BASE_URL);
+        // $br->setRemoveWindow('EditUsers');
+        // $br->send();
+    }
 }

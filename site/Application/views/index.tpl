@@ -197,9 +197,9 @@
                                 <i class="fa fa-user fa-fw"></i> <span class="hidden-sm hidden-xs">{$nomeUsuario}</span> <i class="fa fa-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                <li><a href="#"><i class="fa fa-user fa-fw"></i> Editar Perfil</a>
+                                <li><a href="{$baseUrl}usuario/loadprofile"><i class="fa fa-user fa-fw"></i> My profile</a>
                                 </li>
-                                <li><a href="{$baseUrl}login/trocasenha"><i class="fa fa-gear fa-fw"></i> Trocar de Senha</a>
+                                <li><a href="{$baseUrl}login/trocasenha"><i class="fa fa-gear fa-fw"></i>Change password</a>
                                 </li>
                                 {if $permissoesLst.proc_cad_usuarios !='' || $permissoesLst.all!=''}
                                     <li><a href="{$baseUrl}usuario/users"><i class="fa fa-gear fa-fw"></i> Usuários</a>

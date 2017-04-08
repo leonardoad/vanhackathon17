@@ -15,7 +15,7 @@ class Usuario extends Db_Table {
     public $_primary = 'id_usuario';
     protected $_classList = array(array('nome' => 'Permissao', 'campo' => 'id_usuario'));
     protected $_log_ativo = false;
-    protected $_log_text = 'Usuário';
+    protected $_log_text = 'User';
     protected $_log_info = 'a_nomecompleto';
 
     public static function getIdExternoLogado() {
@@ -126,7 +126,7 @@ class Usuario extends Db_Table {
 
     public function setDataFromRequest($post) {
         $this->setDificuldade($post->dificuldade);
-        $this->setNomeCompleto($post->nomeCompleto);
+        $this->setNomeCompleto($post->nomecompleto);
         $this->setLoginUser($post->loginUser);
         $this->setTipo($post->tipo);
         $this->setGrupo($post->grupo);
@@ -136,6 +136,7 @@ class Usuario extends Db_Table {
         $this->setAssinaturaEmail($post->assinaturaEmail);
         $this->setAtivo($post->ativo);
         $this->setIdExterno($post->idexterno);
+        $this->setTelephone($post->telephone);
         $this->setExcluivel(cTRUE);
         $this->setEditavel(cTRUE);
         if ($post->senha != '') {
