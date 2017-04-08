@@ -20,7 +20,7 @@ class IndexController extends Zend_Controller_Action {
 
 
 
-        $view->assign('titulo', "Início");
+        $view->assign('titulo', "Home");
         $view->assign('scripts', Browser_Control::getScripts());
         $view->assign('body', $view->fetch('Index/index.tpl'));
         $view->output('index.tpl');

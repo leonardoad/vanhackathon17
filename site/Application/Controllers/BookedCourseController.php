@@ -5,6 +5,7 @@ class BookedCourseController extends Zend_Controller_Action {
     public function init() {
         Browser_Control::setScript('js', 'Mask', 'Mask/Mask.js');
         $this->IdGrid = 'gridBookedCourse';
+        $this->IdGrid2 = 'gridReview';
         $this->NomeForm = 'formBookedCourse';
         $this->Action = 'BookedCourse';
         $this->TituloLista = "Lunch n' Learn";
@@ -54,20 +55,23 @@ class BookedCourseController extends Zend_Controller_Action {
 //        $grid->addColumn($column);
 
         $column = new Ui_Element_DataTables_Column_Text('Course Title', 'CourseTitle');
-        $column->setWidth('7');
+        $column->setWidth('4');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Company Name', 'CompanyName');
+        $column->setWidth('4');
         $grid->addColumn($column);
 
         $column = new Ui_Element_DataTables_Column_Text('Pretend Date', 'PretendDate');
         $column->setWidth('2');
         $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Real Date', 'RealDate');
+        $column = new Ui_Element_DataTables_Column_Text('Confirmed Date', 'RealDate');
         $column->setWidth('2');
         $grid->addColumn($column);
 
 
         $form->addElement($grid);
-        Session_Control::setDataSession($grid->getId(), $grid);
 
 
         $button = new Ui_Element_Btn('btnNovaBookedCourse');
@@ -103,6 +107,18 @@ class BookedCourseController extends Zend_Controller_Action {
         Grid_ControlDataTables::setDataGrid($lLst, false, true);
     }
 
+    public function listareviewAction() {
+        $post = Zend_Registry::get('post');
+
+        $lLst = new Review;
+        if ($post->id_bookedcourse != '') {
+            $lLst->where('id_bookedcourse', $post->id_bookedcourse);
+        }
+        $lLst->readLst();
+
+        Grid_ControlDataTables::setDataGrid($lLst, false, true);
+    }
+
     public function editAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
@@ -128,17 +144,24 @@ class BookedCourseController extends Zend_Controller_Action {
         $element->setRequired();
         $form->addElement($element);
 
+        $element = new Ui_Element_Select('ID_Company', "Company");
+//        $element->addMultiOptions(Category::getCategoryList());
+//        $element->addMultiOptions(Category::getOptionList2('id_usuario', 'nomecompleto', 'nomecompleto', 'Usuario', false, 'readCompanyLst'));
+        $element->addMultiOptions(Category::getOptionList2('id_usuario', 'nomecompleto', 'nomecompleto', 'Usuario'));
+        $element->setRequired();
+        $form->addElement($element);
+
         $element = new Ui_Element_Date('PretendDate', "Pretend Date");
         $element->setRequired();
 //        $element->setValue(date('d/m/Y'));
         $form->addElement($element);
 
-        $element = new Ui_Element_Date('RealDate', "RealDate");
+        $element = new Ui_Element_Date('RealDate', "Confirmed Date");
         $element->setRequired();
         $element->setValue(date('d/m/Y'));
         $form->addElement($element);
 
-        $element = new Ui_Element_Checkbox('BundleFood', "Bundle in the Food"); 
+        $element = new Ui_Element_Checkbox('BundleFood', "Bundle in the Food");
         $form->addElement($element);
 
         $element = new Ui_Element_Textarea('DietaryRestriction', "DietaryRestriction");
@@ -148,11 +171,63 @@ class BookedCourseController extends Zend_Controller_Action {
         $form->addElement($element);
 
 
+
+
+        /*
+         *  --------- Reviews Grid  ------------
+         */
+        $grid = new Ui_Element_DataTables($this->IdGrid2);
+        $grid->setParams('', BASE_URL . $this->Action . '/listaReview/id_bookedcourse/' . $post->id);
+        $grid->setStateSave(true);
+        $grid->setShowSearching(false);
+        $grid->setShowOrdering(false);
+        $grid->setShowLengthChange(false);
+        $grid->setShowInfo(false);
+
+//        $button = new Ui_Element_DataTables_Button('btnNovaBookedCourse', 'Editar');
+//        $button->setImg('edit');
+//        $button->setHref(HTTP_REFERER . $this->Action . '/edit');
+//        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'inserir');
+//        $grid->addButton($button);
+//
+//        $button = new Ui_Element_DataTables_Button('btnExcluirBookedCourse', 'Excluir');
+//        $button->setImg('trash');
+//        $button->setAttrib('msg', "Deseja mesmo excluir este item?");
+//        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'excluir');
+//        $grid->addButton($button);
+//
+//        $column = new Ui_Element_DataTables_Column_Text('Category', 'CategoryDesc');
+//        $column->setWidth('3');
+//        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Name', 'CompanyName');
+        $column->setWidth('3');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Stars', 'StarsGrid');
+        $column->setWidth('3');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Comment', 'Comment');
+        $column->setWidth('8');
+        $grid->addColumn($column);
+
+
+
+        $form->addElement($grid);
+// ===================================================
+
+
         if (isset($post->id)) {
             $form->setDataForm($obj);
         }
         $obj->setInstance($this->ItemEditInstanceName);
 
+
+        $button = new Ui_Element_Btn('btnNewReview');
+        $button->setDisplay('Leave a Review', 'commenting-o');
+        $button->setType('info');
+        $form->addElement($button);
 
         $button = new Ui_Element_Btn('btnSalvarBookedCourse');
         $button->setDisplay('Save', 'check');
@@ -180,6 +255,80 @@ class BookedCourseController extends Zend_Controller_Action {
         $view->output('index.tpl');
     }
 
+    public function btnnewreviewclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+        $view = Zend_Registry::get('view');
+
+        if (isset($post->id)) {
+            $readOnly = true;
+        }
+
+        $obj = new Review;
+        if (isset($post->id)) {
+            $obj->read($post->id);
+        }
+
+        $form = new Ui_Form();
+        $form->setAction($this->Action);
+        $form->setName('formReviewEdit');
+
+
+        $element = new Ui_Element_Select('Stars', "Stars");
+        $element->addMultiOptions(Review::getStarsList());
+        $element->setRequired();
+        $form->addElement($element);
+
+        $element = new Ui_Element_Select('ID_Company', "Company");
+        $element->addMultiOptions(Category::getOptionList2('id_usuario', 'nomecompleto', 'nomecompleto', 'Usuario'));
+        $element->setValue(Usuario::getIdUsuarioLogado());
+        $element->setRequired();
+        $form->addElement($element);
+
+
+        $element = new Ui_Element_Textarea('Comment', "Comment");
+        $element->setAttrib('maxlength', '5000');
+        $element->setAttrib('rows', '7');
+//        $element->setTinyMce();
+        $form->addElement($element);
+
+
+        if (isset($post->id)) {
+            $form->setDataForm($obj);
+        }
+        $obj->setInstance('ReviewEdit');
+
+
+        $button = new Ui_Element_Btn('btnSalvarReview');
+        $button->setDisplay('Save', 'check');
+        $button->setType('success');
+//        $button->setVisible(!$readOnly);
+        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'editar');
+        $button->setAttrib('click', '');
+        if (isset($post->id)) {
+            $button->setAttrib('params', 'id=' . $post->id);
+        }
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('validaObrig', '1');
+        $form->addElement($button);
+
+        $cancelar = new Ui_Element_Btn('btnCancelarReview');
+        $cancelar->setDisplay('Close', 'times');
+        $cancelar->setAttrib('params', 'tipo=' . $post->tipo);
+        $form->addElement($cancelar);
+
+        $form->setDataSession();
+
+
+
+        $w = new Ui_Window('EditReview', 'Leve us your Review!', $form->displayTpl($view, 'BookedCourse/review.tpl'));
+        $w->setDimension('795', '620');
+        $w->setCloseOnEscape();
+
+        $br->newWindow($w);
+        $br->send();
+    }
+
     /**
      * FECHAR A JANELA
      */
@@ -204,6 +353,28 @@ class BookedCourseController extends Zend_Controller_Action {
             die();
         }
         $br->setMsgAlert('Saved!', 'Your changes were stored with success!');
+        $br->send();
+        exit;
+    }
+
+    public function btnsalvarreviewclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+        $R = BookedCourse::getInstance('ReviewEdit');
+        $BookedCourse = BookedCourse::getInstance($this->ItemEditInstanceName);
+
+        $R->setDataFromRequest($post);
+        $R->setID_BookedCourse($BookedCourse->getID());
+        try {
+            $R->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+        $br->setMsgAlert('Saved!', 'Your changes were stored with success!');
+        $br->setRemoveWindow('EditReview');
+        $br->setUpdateDataTables($this->IdGrid2);
         $br->send();
         exit;
     }
