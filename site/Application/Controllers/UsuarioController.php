@@ -263,8 +263,7 @@ class UsuarioController extends Zend_Controller_Action {
 //        $gridPermissoes->setFillListOptions('Permissao', 'readLst');
 //        $gridPermissoes->setController('Permissao');
 //        $gridPermissoes->setDimension('', '300');
-//        
-//        
+
 
         $button = new Ui_Element_DataTables_Button('btnExcluirPermissao', 'Excluir');
         $button->setImg('trash-o');
@@ -708,7 +707,7 @@ class UsuarioController extends Zend_Controller_Action {
         // }
 
         $user = Usuario::getInstance('userEdit');
-        $user->setDataFromRequest($post);
+        $user->setDataFromProfileRequest($post);
         $user->save();
 
 

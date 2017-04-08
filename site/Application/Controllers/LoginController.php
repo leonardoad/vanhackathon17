@@ -130,7 +130,7 @@ class LoginController extends Zend_Controller_Action {
             $config->read(1);
             if ($config->getTrocaSenhaTempo() == cTRUE && $config->getTempoTrocaSenha() <= $tempo) {
                 $url = BASE_URL . 'login/trocasenha/id/' . $user->getID() . '/m/outdated';
-                Log::createLogFile('O usuário ' . $user->getNomeCompleto() . ' Foi enviado para a Troca de Senha por tempo sem trocá-la');
+                Log::createLogFile('The user ' . $user->getNomeCompleto() . ' have his password expired and asked to change it.');
             } else {
                 if ($post->next != '') {
                     $url = base64_decode($post->next);
@@ -139,13 +139,13 @@ class LoginController extends Zend_Controller_Action {
                 } else {
                     $url = BASE_URL . 'index';
                 }
-                Log::createLogFile('O usuário ' . $user->getNomeCompleto() . ' acessou o sistema');
+                Log::createLogFile('The user ' . $user->getNomeCompleto() . ' accessed the system');
             }
             $session = Zend_Registry::get('session');
             $session->usuario = $user;
             Zend_Registry::set('session', $session);
 
-            $br->setHtml('msg', 'Olá <strong>' . $user->getNomeCompleto() . '</strong>! <br>Seja bem-vindo!');
+            $br->setHtml('msg', 'Hello <strong>' . $user->getNomeCompleto() . '</strong>! <br>Welcome!');
             $br->setClass('msg', 'alert alert-success');
             $br->setCommand('$("#loginbox").animate({
                 opacity: 0,
@@ -160,7 +160,7 @@ class LoginController extends Zend_Controller_Action {
             $br->addFieldValue('senha', '');
             $br->addFieldValue('user', '');
             $br->setDataForm('formLogin');
-            $br->setHtml('msg', '<strong>Atenção!</strong> <br>Usuário ou senha incorretos!');
+            $br->setHtml('msg', 'User or password invalid');
             $br->setClass('msg', 'alert alert-danger');
         }
         $br->send();

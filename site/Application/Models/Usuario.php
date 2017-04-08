@@ -344,4 +344,10 @@ class Usuario extends Db_Table {
         }
     }
 
+    public function setDataFromProfileRequest($post) {
+        $this->setNomeCompleto($post->nomecompleto);
+        $this->setEmail($post->email);
+        $this->setTelephone($post->telephone);
+    }
+
 }
