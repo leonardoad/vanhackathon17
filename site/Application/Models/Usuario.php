@@ -321,8 +321,8 @@ class Usuario extends Db_Table {
 
     public static function getGroupsList($i = '') {
         $list[''] = ' - ';
-        $list['2'] = 'I am an Educator';
-        $list['3'] = 'I am a Company';
+        $list['3'] = 'I am an Educator';
+        $list['4'] = 'I am a Company';
         if ($i != '') {
             return $list[$i];
         }
@@ -332,10 +332,14 @@ class Usuario extends Db_Table {
     public function setDataFromRegisterRequest($post) {
         $this->setNomeCompleto($post->nomecompleto);
         $this->setEmail($post->email);
-        $this->setAtivo(cTRUE);
         $this->setTelephone($post->telephone);
+        $this->setGrupo($post->grupo);
+        $this->setAtivo(cTRUE);
         $this->setExcluivel(cTRUE);
         $this->setEditavel(cTRUE);
+        $this->setTipo('user');
+        $this->setDificuldade('null');
+
         $this->setSenha(Format_Crypt::encryptPass($post->senha));
         $this->setDatasenha(date('d/m/Y'));
     }
