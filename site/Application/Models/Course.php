@@ -56,6 +56,30 @@ class Course extends Db_Table {
         return $ret;
     }
 
+    public function getPhotoPath() {
+        return HTTP_REFERER . 'Public/Images/Course/' . $this->getID() . '_' . $this->getPhoto();
+    }
+
+    public function formatTime($time) {
+        $h = substr($time, 0, 5);
+        list($h, $m) = explode(':', $h);
+        if ($h > 0) {
+            $ret .= $h . 'h ';
+        }
+        if ($m > 0) {
+            $ret .= $m . 'm';
+        }
+        return $ret;
+    }
+
+    public function getFormatedTime() {
+        return $this->formatTime($this->getTime());
+    }
+
+    public function getFormatedSetupTime() {
+        return $this->formatTime($this->getSetupTime());
+    }
+
 //    public static function getCategoryList($i = '') {
 //        $list[''] = ' - ';
 //        $list['1'] = 'Cat 1';
