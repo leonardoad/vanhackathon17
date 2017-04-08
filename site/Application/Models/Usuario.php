@@ -94,7 +94,7 @@ class Usuario extends Db_Table {
 
     public function setDataFromRequest($post) {
         $this->setDificuldade($post->dificuldade);
-        $this->setNomeCompleto($post->nomecompleto);
+        $this->setNomeCompleto($post->nomeCompleto);
         $this->setLoginUser($post->loginUser);
         $this->setTipo($post->tipo);
         $this->setGrupo($post->grupo);

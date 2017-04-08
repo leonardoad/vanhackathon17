@@ -448,11 +448,11 @@ class UsuarioController extends Zend_Controller_Action {
         $user->save();
 
 
-        $br->setBrowserUrl(BASE_URL);
-        // $br->setRemoveWindow('EditUsers');
-        // $br->setUpdateDataTables('gridUsers');
-        // $br->setUpdateDataTables('gridGrupos');
-        // $br->send();
+//        $br->setBrowserUrl(BASE_URL);
+        $br->setRemoveWindow('EditUsers');
+        $br->setUpdateDataTables('gridUsers');
+        $br->setUpdateDataTables('gridGrupos');
+        $br->send();
 
         Session_Control::setDataSession('formUsersEdit', '');
     }
@@ -584,8 +584,6 @@ class UsuarioController extends Zend_Controller_Action {
         $br->setUpdateDataTables('gridUsers');
         $br->send();
     }
-    
-
 
     public function grupochangeAction() {
         $user = Usuario::getInstance('userEdit');
@@ -665,8 +663,8 @@ class UsuarioController extends Zend_Controller_Action {
 
         $view->assign('scripts', Browser_Control::getScripts());
         $view->assign('titulo', "My Profile");
-        $view->assign('body', $form->displayTpl($view,'Usuario/edit.tpl'));
-    //Usuario/edit.tpl
+        $view->assign('body', $form->displayTpl($view, 'Usuario/editProfile.tpl'));
+        //Usuario/edit.tpl
         $view->output('index.tpl');
     }
 
@@ -690,7 +688,7 @@ class UsuarioController extends Zend_Controller_Action {
         $user->save();
 
 
-        $br->setBrowserUrl(BASE_URL.'index');
+        $br->setBrowserUrl(BASE_URL . 'index');
         $br->send();
 
         Session_Control::setDataSession('formUsersEdit', '');
@@ -702,4 +700,5 @@ class UsuarioController extends Zend_Controller_Action {
         // $br->setRemoveWindow('EditUsers');
         // $br->send();
     }
+
 }

@@ -118,7 +118,7 @@ class LoginController extends Zend_Controller_Action {
         setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day
 //        }
         $users = new Usuario();
-        $users->where('loginuser', $post->user);
+        $users->where('email', $post->user);
         $users->where('senha', Format_Crypt::encryptPass($post->senha));
         $users->where('ativo', 'S');
         $user = $users->readLst()->getItem(0);
@@ -183,7 +183,7 @@ class LoginController extends Zend_Controller_Action {
 
         $m = $post->m;
         if ($m == 'outdated') {
-            $msg = "Sua senha precisa ser trocada, por motivos de segurança.";
+            $msg = "Your password needs to be changed for security reasons.";
         }
 
         $form = new Ui_Form();
@@ -196,37 +196,37 @@ class LoginController extends Zend_Controller_Action {
         $element->setValue($id);
         $form->addElement($element);
 
-        $element = new Ui_Element_Password('senhaAtual', 'Senha Atual');
+        $element = new Ui_Element_Password('senhaAtual', 'Current Password');
         $element->setAttrib('maxlenght', '30');
         $element->setAttrib('size', '21');
         $element->setAttrib('obrig', 'obrig');
         $element->setAttrib('cript', '1');
         $element->setAttrib('class', 'form-control');
-        $element->setAttrib('placeholder', 'Senha Atual');
+        $element->setAttrib('placeholder', 'Current Password');
         $element->setAttrib('required', '');
         $element->setRequired();
 //		$element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
 
-        $element = new Ui_Element_Password('senhaNova', 'Senha NOVA');
+        $element = new Ui_Element_Password('senhaNova', 'NEW Password');
         $element->setAttrib('maxlenght', '30');
         $element->setAttrib('size', '21');
         $element->setAttrib('obrig', 'obrig');
         $element->setAttrib('cript', '1');
         $element->setAttrib('class', 'form-control');
-        $element->setAttrib('placeholder', 'Senha Nova');
+        $element->setAttrib('placeholder', 'Enter the NEW Password');
         $element->setAttrib('required', '');
         $element->setRequired();
 //		$element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
 
-        $element = new Ui_Element_Password('senhaNovaAgain', 'Repita a senha NOVA');
+        $element = new Ui_Element_Password('senhaNovaAgain', 'NEW Password again');
         $element->setAttrib('maxlenght', '30');
         $element->setAttrib('size', '21');
         $element->setAttrib('obrig', 'obrig');
         $element->setAttrib('cript', '1');
         $element->setAttrib('class', 'form-control');
-        $element->setAttrib('placeholder', 'Repita Senha Nova');
+        $element->setAttrib('placeholder', 'Enter you NEW Password Again!');
         $element->setAttrib('required', '');
         $element->setRequired();
         $element->setAttrib('hotkeys', 'enter, btnTrocaSenha, click');
@@ -250,7 +250,7 @@ class LoginController extends Zend_Controller_Action {
 //		$form->addElement($element);
 
         $button = new Ui_Element_Btn('btnTrocaSenha');
-        $button->setDisplay('Trocar Senha');
+        $button->setDisplay('Save the new Password');
         $button->setAttrib('sendFormFields', '1');
         $button->setAttrib('class', 'btn btn-md btn-primary');
         if ($id != '') {
