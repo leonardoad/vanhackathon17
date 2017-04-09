@@ -55,11 +55,15 @@ class BookedCourseController extends Zend_Controller_Action {
 //        $grid->addColumn($column);
 
         $column = new Ui_Element_DataTables_Column_Text('Course Title', 'CourseTitle');
-        $column->setWidth('4');
+        $column->setWidth('3');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Educator Name', 'EducatorName');
+        $column->setWidth('3');
         $grid->addColumn($column);
 
         $column = new Ui_Element_DataTables_Column_Text('Company Name', 'CompanyName');
-        $column->setWidth('4');
+        $column->setWidth('3');
         $grid->addColumn($column);
 
         $column = new Ui_Element_DataTables_Column_Text('Pretend Date', 'PretendDate');
@@ -98,7 +102,16 @@ class BookedCourseController extends Zend_Controller_Action {
         $post = Zend_Registry::get('post');
 
         $lLst = new $this->Model;
-        $lLst->join('course', 'course.id_course = bookedcourse.id_course and course.id_educator = ' . Usuario::getIdUsuarioLogado(), 'id_educator');
+        $group = Usuario::getGroupUserLogado();
+//        print'<pre>';die(print_r( $group ));
+        if ($group == 4) { // COMPANY
+            $lLst->join('course', 'course.id_course = bookedcourse.id_course and bookedcourse.id_company = ' . Usuario::getIdUsuarioLogado(), 'id_educator');
+        } else
+        if ($group == 3) { //EDUCATOR
+            $lLst->join('course', 'course.id_course = bookedcourse.id_course and course.id_educator = ' . Usuario::getIdUsuarioLogado(), 'title,time,cost,setuptime,id_educator');
+        } else {//ADMIN
+            $lLst->join('course', 'course.id_course = bookedcourse.id_course and (course.id_educator = ' . Usuario::getIdUsuarioLogado() . ' or bookedcourse.id_company = ' . Usuario::getIdUsuarioLogado() . ')', 'title,time,cost,setuptime,id_educator');
+        }
         $lLst->readLst();
 
         Grid_ControlDataTables::setDataGrid($lLst, false, true);
@@ -163,7 +176,7 @@ class BookedCourseController extends Zend_Controller_Action {
         $form->addElement($element);
 
         $element = new Ui_Element_Date('RealDate', "Confirmed Date");
-        $element->setRequired();
+//        $element->setRequired();
         $element->setReadOnly(!Usuario::verificaAcesso('CHANGE_REALDATE', 'editar'));
 //        $element->setValue(date('d/m/Y'));
         $form->addElement($element);
@@ -242,7 +255,7 @@ class BookedCourseController extends Zend_Controller_Action {
         $button->setDisplay('Save', 'check');
         $button->setType('success');
 //        $button->setVisible(!$readOnly);
-        $button->setVisible('PROC_CAD_BOOKED', 'editar');
+//        $button->setVisible('PROC_CAD_BOOKED', 'editar');
         $button->setAttrib('click', '');
         if (isset($post->id)) {
             $button->setAttrib('params', 'id=' . $post->id);
@@ -362,6 +375,7 @@ class BookedCourseController extends Zend_Controller_Action {
             die();
         }
         $br->setMsgAlert('Saved!', 'Your changes were stored with success!');
+        $br->setBrowserUrl(HTTP_REFERER . 'index');
         $br->send();
         exit;
     }
