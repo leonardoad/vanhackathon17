@@ -15,10 +15,28 @@ Clone the project files.
 ```
 $ git clone git@github.com:romuloberri/rbmicroframework.git
 ```
+Set permission to the templates and images folder:
+```
+/Libs/View/templates_c
+/site/Public/Images/Course
+```
 
+Restore the database using the script that is on the path
+```
+/Res/vanhackathon17-29.sql
+```
+
+Configure the database access information on the file `/site/Application/Config.ini` like the example below
+```
+db.adapter = pdo_mysql
+db.config.host = localhost
+db.config.username = vanhackathon17
+db.config.password = 'mypassword'
+db.config.dbname = vanhackathon17
+```
 
 ## Authors
 
-* **Rômulo Berri** - *Initial work* - [romuloberri](https://github.com/romuloberri)
-* **Leonardo Danielli** - *Initial work* - [romuloberri](https://github.com/romuloberri)
-* **Jose Mario Gutierez** - *Initial work* - [romuloberri](https://github.com/romuloberri)
+* **Rômulo Berri** - [romuloberri](https://github.com/romuloberri)
+* **Leonardo Danielli** - [leonardoad](https://github.com/leonardoad)
+* **Jose Mario Gutierez** - [josemariogutierrez](https://github.com/josemariogutierrez)
