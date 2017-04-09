@@ -152,45 +152,52 @@ class Course extends Db_Table {
     }
 
     private function formatCourses($res) {
-
         foreach ($res as $num => $row) {
+
+
 
             if ($res[$num]['rating'] == NULL) {
                 $res[$num]['rating'] = 'not rated yet';
             } else {
-                $res[$num]['rating'] = number_format($res[$num]['rating'],1);
+                $res[$num]['rating'] = number_format($res[$num]['rating'], 1);
             }
+            $c = new Course();
+            foreach ($row as $key => $value) {
+                $set = "set$key";
+                $c->$set($value);
+            }
+            $l[] = $c;
         }
-        return $res;
+        return $l;
     }
+
     public function getPopularCourses($qtd = 3) {
         $sql = "SELECT COUNT(r.id_review) popularity,
-                       AVG(r.stars) rating,
-                       c.id_course, c.id_educator, c.title, c.description,
-                       c.registerdate, c.videolink, c.`time`,
-                       c.setuptime, c.cost, c.audience_min,
-                       c.audience_max, c.photo
-                        FROM course c
-                        LEFT JOIN bookedcourse b
-                          ON c.id_course = b.id_course
-                        LEFT JOIN review r
-                          ON b.id_bookedcourse = r.id_bookedcourse
-                       GROUP BY c.id_course
-                       ORDER BY 1 desc
-                       LIMIT $qtd";
+                      AVG(r.stars) rating,
+                      c.id_course, c.id_educator, c.title, c.description,
+                      c.registerdate, c.videolink, c.`time`,
+                      c.setuptime, c.cost, c.audience_min,
+                      c.audience_max, c.photo, u.nomecompleto
+                       FROM course c
+                       JOIN usuario u
+                         ON c.id_educator = u.id_usuario
+                       LEFT JOIN bookedcourse b
+                         ON c.id_course = b.id_course
+                       LEFT JOIN review r
+                         ON b.id_bookedcourse = r.id_bookedcourse
+                      WHERE u.approved = 'S'
+                      GROUP BY c.id_course
+                      ORDER BY 1 desc
+                      LIMIT $qtd";
 
-        $db   = Zend_Registry::get('db');
+        $db = Zend_Registry::get('db');
         $stmt = $db->query($sql);
-        $res  = $stmt->fetchAll();
+        $res = $stmt->fetchAll();
 
         return $this->formatCourses($res);
     }
 
-    public function getCourses($search,
-            $priceminvalue, $pricemaxvalue,
-            $audienceminvalue, $audiencemaxvalue,
-            $ratingminvalue, $ratingmaxvalue)
-    {
+    public function getCourses($search, $priceminvalue, $pricemaxvalue, $audienceminvalue, $audiencemaxvalue, $ratingminvalue, $ratingmaxvalue) {
 
 
         $where = " c.cost BETWEEN $priceminvalue AND $pricemaxvalue ".
@@ -227,9 +234,9 @@ class Course extends Db_Table {
                        GROUP BY c.id_course
                        HAVING rating BETWEEN $ratingminvalue AND $ratingmaxvalue $showNotRated
                        ORDER BY 1";
-        $db   = Zend_Registry::get('db');
+        $db = Zend_Registry::get('db');
         $stmt = $db->query($sql);
-        $res  = $stmt->fetchAll();
+        $res = $stmt->fetchAll();
 
         return $this->formatCourses($res);
     }

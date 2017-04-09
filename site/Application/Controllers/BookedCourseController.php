@@ -195,13 +195,13 @@ class BookedCourseController extends Zend_Controller_Action {
 //        $button = new Ui_Element_DataTables_Button('btnNovaBookedCourse', 'Editar');
 //        $button->setImg('edit');
 //        $button->setHref(HTTP_REFERER . $this->Action . '/edit');
-//        $button->setVisible('PROC_CAD_BOOKING', 'inserir');
+//        $button->setVisible('PROC_CAD_BOOKED', 'inserir');
 //        $grid->addButton($button);
 //
 //        $button = new Ui_Element_DataTables_Button('btnExcluirBookedCourse', 'Excluir');
 //        $button->setImg('trash');
 //        $button->setAttrib('msg', "Deseja mesmo excluir este item?");
-//        $button->setVisible('PROC_CAD_BOOKING', 'excluir');
+//        $button->setVisible('PROC_CAD_BOOKED', 'excluir');
 //        $grid->addButton($button);
 //
 //        $column = new Ui_Element_DataTables_Column_Text('Category', 'CategoryDesc');
@@ -242,7 +242,7 @@ class BookedCourseController extends Zend_Controller_Action {
         $button->setDisplay('Save', 'check');
         $button->setType('success');
 //        $button->setVisible(!$readOnly);
-        $button->setVisible('PROC_CAD_BOOKING', 'editar');
+        $button->setVisible('PROC_CAD_BOOKED', 'editar');
         $button->setAttrib('click', '');
         if (isset($post->id)) {
             $button->setAttrib('params', 'id=' . $post->id);
@@ -312,7 +312,7 @@ class BookedCourseController extends Zend_Controller_Action {
         $button->setDisplay('Save', 'check');
         $button->setType('success');
 //        $button->setVisible(!$readOnly);
-        $button->setVisible('PROC_CAD_BOOKING', 'editar');
+        $button->setVisible('PROC_CAD_BOOKED', 'editar');
         $button->setAttrib('click', '');
         if (isset($post->id)) {
             $button->setAttrib('params', 'id=' . $post->id);
