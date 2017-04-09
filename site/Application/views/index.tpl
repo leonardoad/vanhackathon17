@@ -105,7 +105,7 @@
         <div>
             <!-- Bootstrap Core CSS -->
             {*        <link href="{$baseUrl}Public/Css/datepicker.css" rel="stylesheet">*}
-            <link href="{$baseUrl}../Libs/Scripts/Datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+            <link href="{$baseUrl}../Libs/Scripts/Datepicker/Css/bootstrap-datepicker.min.css" rel="stylesheet">
 
             <!-- Bootstrap Core CSS -->
             <link href="{$baseUrl}Public/Css/bootstrap.min.css" rel="stylesheet">
@@ -136,7 +136,7 @@
             <link href="{$baseUrl}Public/Css/normalize.css" rel="stylesheet"  >
             <link href="{$baseUrl}Public/Css/padrao.css" rel="stylesheet"  >
         <!-- Custom styles for this template -->
-        <link href="{$baseUrl}Public/css/style.css" rel="stylesheet">
+        <link href="{$baseUrl}Public/Css/style.css" rel="stylesheet">
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
             <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

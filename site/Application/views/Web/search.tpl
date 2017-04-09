@@ -41,7 +41,7 @@
                     <div class="card card-inverse card-info">
                       <img class="card-img-top" src="{$courses[i]->getPhotoPath()}">
                       <div class="card-block">
-                        <h4 class="card-title mt-3">{$courses[i]->get()}</h4>
+                        <h4 class="card-title mt-3">{$courses[i]->getTitle()}</h4>
                         <div class="meta card-text">
                           <p>{$courses[i]->getDescription()}</p>
                           <hr>
