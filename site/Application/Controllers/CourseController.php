@@ -117,6 +117,7 @@ class CourseController extends Zend_Controller_Action {
         $form = new Ui_Form();
         $form->setAction($this->Action);
         $form->setName('formCourseEdit');
+        $form->setAttrib('enctype', 'multipart/form-data');
 
 
         $element = new Ui_Element_Select('ID_Category', "Category");
@@ -161,7 +162,7 @@ class CourseController extends Zend_Controller_Action {
         $form->addElement($element);
 
         $element = new Ui_Element_Text('VideoLink', "Video Link");
-        $element->setAttrib('placeholder', 'Paste the YouTube link here!');
+        $element->setAttrib('placeholder', 'Paste here the code that comes after the "?v=" on the YouTube link! E.g. BO0Gt5hoHU4');
         $element->setAttrib('maxlength', '1000');
 //        $element->setRequired();
         $form->addElement($element);
@@ -173,11 +174,12 @@ class CourseController extends Zend_Controller_Action {
         $element->setRequired();
         $form->addElement($element);
 //
-//        $element = new Ui_Element_File("Image", 'Image');
+        $element = new Ui_Element_File("Photo", 'Photo');
 //        $element->setAttrib('multiple', '');
-////        $element->setAttrib('obrig', '');
-//        $form->addElement($element);
+//        $element->setAttrib('obrig', '');
+        $form->addElement($element);
 
+        $view->assign('PhotoPath', $obj->getPhotoPath());
 
         if (isset($post->id)) {
             $form->setDataForm($obj);
@@ -224,8 +226,15 @@ class CourseController extends Zend_Controller_Action {
     public function btnsalvarcourseclickAction() {
         $br = new Browser_Control();
         $post = Zend_Registry::get('post');
-        $course = Course::getInstance($this->ItemEditInstanceName);
+//        print'<pre>';
+//        die(print_r($post->Photo));
 
+        $photo = $post->Photo;
+
+
+        $course = Course::getInstance($this->ItemEditInstanceName);
+//print'<pre>';die(print_r(  RAIZ_DIRETORY . 'site/Public/Images/Course/' . $photo['name'] ));
+        $course->setPhoto($photo['name']);
         $course->setDataFromRequest($post);
         try {
             $course->save();
@@ -234,7 +243,11 @@ class CourseController extends Zend_Controller_Action {
             $br->send();
             die();
         }
+//        print'<pre>';die(print_r( $photo['tmp_name'] ));
+        move_uploaded_file($photo['tmp_name'], RAIZ_DIRETORY . 'site/Public/Images/Course/' . $course->getID() . '_' . $photo['name']);
         $br->setMsgAlert('Saved!', 'Your changes were stored with success!');
+        $br->setAttrib('PhotoPath', 'src', $course->getPhotoPath());
+
         $br->send();
         exit;
     }

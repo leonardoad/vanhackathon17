@@ -15,8 +15,12 @@
         </div>
         <!-- LINHA 4  -->
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 {$Description}
+            </div>
+            <div class="col-lg-6">
+                {$Photo}
+                <img id="PhotoPath" src="{$PhotoPath}" style="height: 200px;width: 200px">
             </div>
         </div>
         <!-- LINHA 4  -->

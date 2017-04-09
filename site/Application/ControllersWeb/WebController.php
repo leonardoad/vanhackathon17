@@ -4,7 +4,7 @@ class WebController extends Zend_Controller_Action {
 
     public function init() {
         Browser_Control::setScript('js', 'Md5', 'md5.js');
-            // Browser_Control::setScript('js', 'Mask', 'Mask/Mask.js');
+        // Browser_Control::setScript('js', 'Mask', 'Mask/Mask.js');
         // $this->IdGrid = 'gridCourse';
         // $this->NomeForm = 'formCourse';
         $this->Action = 'web';
@@ -19,22 +19,76 @@ class WebController extends Zend_Controller_Action {
 
     public function indexAction() {
 
-        $form = new Ui_Form();
-        $form->setName('formSignup');
-        $form->setAction($this->Action);
-
-        $button = new Ui_Element_Btn('btnSignUp');
-        $button->setDisplay('Sign up', 'new');
-        $button->setType('success');
-       // $button->setHref(BASE_URL . $this->Action . '/register');
-
-        $form->addElement($button);
+        // popular Lunch n Learns
+        $Course = new Course();
+        $lPopular = $Course->getPopularCourses();
 
         $view = Zend_Registry::get('view');
-        //$view->assign('titulo', "Home");
+
+        $view->assign('popularCourses', $lPopular);
+        $html = $view->fetch('Web/Home.tpl');
+
+        $pageTitle = "Lunch n' Learn";
+
+//start WebController::getMenu()
         $view->assign('scripts', Browser_Control::getScripts());
-        $view->assign('formSignup', $form->displayTpl($view, 'Web/btnRegister.tpl'));
+//end WebController::getMenu()
+
+        $view->assign('content', $html);
+        $view->assign('pageTitle', $pageTitle);
+        $view->assign('menu', WebController::getMenu());
         $view->output('Web/index.tpl');
+
+
+    }
+
+    public static function getMenu() {
+        $form = new Ui_Form();
+        $form->setName('formSignup');
+        $form->setAction('web');
+
+        $button = new Ui_Element_Btn('btnSignUp');
+        $button->setDisplay('Sign up', '');
+        $button->setType('success');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnLogIn');
+        $button->setDisplay('Log In', '');
+        $button->setType('success');
+        $button->setVisible(Usuario::getIdUsuarioLogado() == '');
+        $button->setHref(BASE_URL .'login');
+        $form->addElement($button);
+
+        $button = new Ui_Element_Btn('btnLogOut');
+        $button->setDisplay('Log Out', '');
+        $button->setType('success');
+        $button->setHref(BASE_URL . 'logout');
+        $button->setVisible(Usuario::getIdUsuarioLogado() != '');
+        $form->addElement($button);
+
+        $searchform = new Ui_Form();
+        $searchform->setName('searchForm');
+        $searchform->setAction('web');
+
+        $element = new Ui_Element_Text('search', "");
+        $element->setAttrib('maxlength', '255');
+        $searchform->addElement($element);
+
+        $button = new Ui_Element_Btn('btnSearch');
+        $button->setDisplay('Search', 's');
+        $button->setType('success');
+        //$button->setHref(BASE_URL . $this->Action . '/site/logout');
+        $searchform->addElement($button);
+
+        $view = Zend_Registry::get('view');
+        $view->assign('formSignUp', $form->displayTpl($view, 'Web/formSignUp.tpl'));
+        $view->assign('searchform', $searchform->displayTpl($view, 'Web/searchForm.tpl'));
+        return $view->fetch('Web/menu.tpl');
+    }
+
+
+    public function btnsearchclickAction() {
+        
     }
 
     public function btnsignupclickAction() {
@@ -91,10 +145,10 @@ class WebController extends Zend_Controller_Action {
         $btnCancel->setDisplay('Cancel', 'times'); //??
         $form->addElement($btnCancel);
 
-        $form->setDataSession(); 
+        $form->setDataSession();
 
         $user = new Usuario();
-        $user->setInstance('userRegister'); 
+        $user->setInstance('userRegister');
 
         $view = Zend_Registry::get('view');
 
@@ -127,7 +181,7 @@ class WebController extends Zend_Controller_Action {
         $user->save();
 
 
-        $br->setBrowserUrl(BASE_URL.'/../index');
+        $br->setBrowserUrl(BASE_URL . '/../index');
         $br->setRemoveWindow('RegisterUsers');
         // $br->setUpdateDataTables('gridUsers');
         // $br->setUpdateDataTables('gridGrupos');
@@ -136,45 +190,51 @@ class WebController extends Zend_Controller_Action {
         Session_Control::setDataSession('formUsersEdit', '');
     }
 
+    public function lunchandlearnAction() {
+        $post = Zend_Registry::get('post');
+        $view = Zend_Registry::get('view');
 
-//     public function pacdetalhesAction() {
-//         $post = Zend_Registry::get('post');
-//         $view = Zend_Registry::get('view');
+        $ID = $post->id;
 
-//         $lIdPacote = $post->id;
+        $lCourse = new Course();
+        $lCourse = $lCourse->read($ID);
 
-//         $lPacote = new Noticia();
-//         $lPacote = $lPacote->read($lIdPacote, 'array');
+        $view->assign('course', $lCourse);
 
-//         $tipo = new Tipo();
-//         $tipo->read($lPacote[0]['id_tipo']);
+        $html = $view->fetch('Web/course.tpl');
 
-//         foreach ($lPacote as $key => $value) {
-//             $fotos = Arquivo::getNomeArquivos($value['id_noticia']);
-//             $lPacote[$key]['galeria'] = (count($fotos) > 0 ? $fotos : '');
-//             $lPacote[$key]['textobr'] = nl2br($value['textobr']);
-//         }
+        $pageTitle = "Lunch n' Learn " . $lCourse->getTitle();
+        $view->assign('content', $html);
+        $view->assign('pageTitle', $pageTitle);
+        $view->assign('menu', WebController::getMenu());
+        $view->output('Web/index.tpl');
+    }
 
-//         $view->assign('lista', $lPacote);
+    public function profileAction() {
+        $post = Zend_Registry::get('post');
+        $view = Zend_Registry::get('view');
 
-//         $titulo = 'Pacotes ' . $tipo->getDescricao() . ' > ' . $lPacote[0]['titulobr'];
+        $ID = $post->id;
 
-//         $view->assign('formContato', WebController::getFormSeguro($titulo));
-//         $view->assign('conteudo', $view->fetch('Web/pacoteDetalhe.tpl'));
+        $lUser = new Usuario();
+        $lUser = $lUser->read($ID);
 
+        $view->assign('profile', $lUser);
 
-//         $view->assign('titulo', $titulo);
-//         $view->assign('menu', WebController::getMenu());
-//         $view->output('Web/index.tpl');
-//     }
+        $html = $view->fetch('Web/profile.tpl');
+
+        $pageTitle = " " . $lUser->getNomeCompleto();
+        $view->assign('content', $html);
+        $view->assign('pageTitle', $pageTitle);
+        $view->assign('menu', WebController::getMenu());
+        $view->output('Web/index.tpl');
+    }
 
 //     public function pacotesAction() {
 //         $post = Zend_Registry::get('post');
 //         $view = Zend_Registry::get('view');
-
 //         $tipoPagina = $post->t;
 //         $busca = $post->q;
-
 //         $lPacotes = new Noticia();
 //         $lPacotes->where('tipo', 2);
 //         if ($tipoPagina) {
@@ -184,7 +244,6 @@ class WebController extends Zend_Controller_Action {
 //             $lPacotes->where('upper(textobr)', strtoupper($busca), 'like');
 //             $lPacotes->where('upper(titulobr)', strtoupper($busca), 'like', 'or');
 //             $tituloPagina = "Busca por Pacotes";
-
 //             $view->assign('textoBusca', $post->q);
 //         } else if ($tipoPagina) {
 //             $tipo = new Tipo();
@@ -195,160 +254,113 @@ class WebController extends Zend_Controller_Action {
 //         }
 //         $lPacotes->readLst('array');
 //         $lPacotes = $lPacotes->getItens();
-
 //         foreach ($lPacotes as $key => $value) {
 //             $fotos = Arquivo::getNomeArquivos($value['id_noticia'], 1);
 // //            $lPacotes[$key]['imagem'] = str_replace('/', '**', $fotos[0]);
 //             $lPacotes[$key]['imagem'] = $fotos[0];
 //             $lPacotes[$key]['textobr'] = nl2br($value['textobr']);
 //         }
-
-
 //         $view->assign('lista', $lPacotes);
 //         if (count($lPacotes) > 0) {
 //             $view->assign('conteudo', $view->fetch('Web/pacotes_destaque.tpl'));
 //         } else {
 //             $view->assign('conteudo', "Nenum pacote por aqui, ainda!");
 //         }
-
 //         $view->assign('titulo', $tituloPagina);
 //         $view->assign('menu', WebController::getMenu());
 //         $view->output('Web/index.tpl');
 //     }
-
 //     public function dicasAction() {
 //         $post = Zend_Registry::get('post');
 //         $view = Zend_Registry::get('view');
-
 //         $id = $post->id;
-
 //         $lDicas = new Noticia();
 //         $lDicas->where('id_noticia', $id);
 //         $lDicas->readLst('array');
 //         $lDicas = $lDicas->getItens();
-
 //         foreach ($lDicas as $key => $value) {
 //             $lDicas[$key]['textobr'] = nl2br($value['textobr']);
 //         }
-
 //         $view->assign('lista', $lDicas);
 //         $view->assign('conteudo', $view->fetch('Web/pacoteDetalhe.tpl'));
-
-
 //         $view->assign('titulo', 'Informações > ' . $value['titulobr']);
 //         $view->assign('menu', WebController::getMenu());
 //         $view->output('Web/index.tpl');
 //     }
-
 //     public function agenciaAction() {
 //         $post = Zend_Registry::get('post');
 //         $view = Zend_Registry::get('view');
-
 //         $view->assign('titulo', 'A AGÊNCIA');
 //         $view->assign('menu', WebController::getMenu());
 //         $view->assign('conteudo', $view->fetch('Web/agencia.tpl'));
-
 //         $view->output('Web/index.tpl');
 //     }
-
 //     public function cadastreseAction() {
 //         $post = Zend_Registry::get('post');
 //         $view = Zend_Registry::get('view');
-
 //         $view->assign('titulo', 'Cadastre-se');
 //         $view->assign('menu', WebController::getMenu());
 //         $view->assign('formContato', WebController::getFormContato("Cadastro", false));
 //         $view->assign('conteudo', $view->fetch('Web/cadastrese.tpl'));
-
 //         $view->output('Web/index.tpl');
 //     }
-
 //     public function seguroAction() {
 //         $post = Zend_Registry::get('post');
 //         $view = Zend_Registry::get('view');
-
 //         $view->assign('titulo', 'Seguro de Viagem');
 //         $view->assign('menu', WebController::getMenu());
 //         $view->assign('imagem', HTTP_REFERER . "Public/Images/seguro.jpg");
 //         $view->assign('texto', "Para fazer uma viagem segura preencha o formulário abaixo. Logo entraremos em contato para atender sua solicitação.");
 //         $view->assign('formContato', WebController::getFormSeguro("Seguro"));
 //         $view->assign('conteudo', $view->fetch('Web/seguro.tpl'));
-
 //         $view->output('Web/index.tpl');
 //     }
-
 //     public function passaereaAction() {
 //         $post = Zend_Registry::get('post');
 //         $view = Zend_Registry::get('view');
-
 //         $view->assign('titulo', 'Compra de Passagens Aéreas');
 //         $view->assign('menu', WebController::getMenu());
 //         $view->assign('imagem', HTTP_REFERER . "Public/Images/aviao.jpg");
 //         $view->assign('texto', "Para comprar passagens aéreas preencha o formulário abaixo. Logo entraremos em contato para atender sua solicitação.");
 //         $view->assign('formContato', WebController::getFormSeguro("Passagem Aérea"));
 //         $view->assign('conteudo', $view->fetch('Web/seguro.tpl'));
-
 //         $view->output('Web/index.tpl');
 //     }
-
 //     public function hotelAction() {
 //         $post = Zend_Registry::get('post');
 //         $view = Zend_Registry::get('view');
-
 //         $view->assign('titulo', 'Reserva de Hotel');
 //         $view->assign('menu', WebController::getMenu());
 //         $view->assign('imagem', HTTP_REFERER . "Public/Images/hotel.jpg");
 //         $view->assign('texto', "Para fazer sua reserva de hospedagem preencha o formulário abaixo. Logo entraremos em contato para atender sua solicitação.");
 //         $view->assign('formContato', WebController::getFormSeguro("Reserva de Hotel"));
 //         $view->assign('conteudo', $view->fetch('Web/seguro.tpl'));
-
 //         $view->output('Web/index.tpl');
 //     }
-
 //     public function aluguelcarroAction() {
 //         $post = Zend_Registry::get('post');
 //         $view = Zend_Registry::get('view');
-
 //         $view->assign('titulo', 'Aluguel de Carros');
 //         $view->assign('menu', WebController::getMenu());
 //         $view->assign('imagem', HTTP_REFERER . "Public/Images/carro.jpg");
 //         $view->assign('texto', "Para alugar seu carro preencha o formulário abaixo. Logo entraremos em contato para atender sua solicitação.");
 //         $view->assign('formContato', WebController::getFormSeguro("Aluguel de Carros"));
 //         $view->assign('conteudo', $view->fetch('Web/seguro.tpl'));
-
 //         $view->output('Web/index.tpl');
 //     }
-
 //     public function contatoAction() {
 //         $post = Zend_Registry::get('post');
 //         $view = Zend_Registry::get('view');
-
 //         $view->assign('titulo', 'Entre em Contato');
 //         $view->assign('menu', WebController::getMenu());
 //         $view->assign('formContato', WebController::getFormContato());
 //         $view->assign('conteudo', $view->fetch('Web/contato.tpl'));
-
 //         $view->output('Web/index.tpl');
 //     }
-
-//     public static function getMenu() {
-//         $view = Zend_Registry::get('view');
-
-//         // Pacotes
-//         $tipo = new Tipo();
-//         $tipo->readLst('array');
-//         $view->assign('tipoPacote', $tipo->getItens());
-
-//         // Dicas
-//         $dica = new Noticia;
-//         $dica->sortOrder('titulobr');
-//         $dica->where('tipo', 1);
-//         $dica->readLst('array');
-
-
-//         $view->assign('dicas', $dica->getItens());
-//         return $view->fetch('Web/menu.tpl');
-//     }
+    public static function getMenu() {
+        $view = Zend_Registry::get('view');
+        return $view->fetch('Web/menu.tpl');
+    }
 
 //     /**
 //      * 
@@ -358,29 +370,23 @@ class WebController extends Zend_Controller_Action {
 //      */
 //     public static function getFormSeguro($assunto = '') {
 //         $view = Zend_Registry::get('view');
-
-
 //         $form = new Ui_Form();
 //         $form->setAction('Web');
 //         $form->setName('formPedidoEdit');
-
 //         $element = new Ui_Element_Text('nome');
 //         $element->setAttrib('obrig', 'obrig');
 //         $element->setRequired();
 //         $element->setAttrib('size', '30');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Text('email');
 //         $element->setAttrib('obrig', 'obrig');
 //         $element->setRequired();
 //         $element->setAttrib('size', '30');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Text('telefone');
 //         $element->setRequired();
 //         $element->setAttrib('size', '30');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Hidden('assunto');
 // //        $element->setAttrib('obrig', 'obrig');
 // //        $element->setRequired();
@@ -388,8 +394,6 @@ class WebController extends Zend_Controller_Action {
 //         $element->setValue($assunto);
 // //        $element->setReadOnly(($assunto != ''));
 //         $form->addElement($element);
-
-
 //         $element = new Ui_Element_Select('qtdAdultos');
 //         $element->addMultiOption('0', '0');
 //         $element->addMultiOption('1', '1');
@@ -403,7 +407,6 @@ class WebController extends Zend_Controller_Action {
 //         $element->addMultiOption('9', '9');
 //         $element->addMultiOption('10', '10');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Select('qtdChild');
 //         $element->addMultiOption('0', '0');
 //         $element->addMultiOption('1', '1');
@@ -417,7 +420,6 @@ class WebController extends Zend_Controller_Action {
 //         $element->addMultiOption('9', '9');
 //         $element->addMultiOption('10', '10');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Select('qtdInf');
 //         $element->addMultiOption('0', '0');
 //         $element->addMultiOption('1', '1');
@@ -431,54 +433,43 @@ class WebController extends Zend_Controller_Action {
 //         $element->addMultiOption('9', '9');
 //         $element->addMultiOption('10', '10');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Text('CidadeOrigem');
 // //        $element->setAttrib('obrig', 'obrig');
 // //        $element->setRequired();
 //         $element->setAttrib('size', '30');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Text('CidadeDestino');
 // //        $element->setAttrib('obrig', 'obrig');
 // //        $element->setRequired();
 //         $element->setAttrib('size', '30');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Date('DataInicio');
 //         $element->setAttrib('obrig', 'obrig');
 //         $element->setRequired();
 //         $element->setAttrib('size', '20');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Date('DataFim');
 //         $element->setAttrib('obrig', 'obrig');
 //         $element->setRequired();
 //         $element->setAttrib('size', '20');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Textarea('msg');
 // //        $element->setAttrib('obrig', 'obrig');
 // //        $element->setRequired();
 //         $element->setAttrib('cols', '22');
 //         $element->setAttrib('rows', '3');
 //         $form->addElement($element);
-
-
-
 //         $salvar = new Ui_Element_Btn('btnEnviar');
 //         $salvar->setDisplay('Solicitar', PATH_IMAGES . 'Buttons/Ok.png');
 //         $salvar->setAttrib('sendFormFields', '1');
 //         $salvar->setAttrib('validaObrig', '1');
 //         $form->addElement($salvar);
-
 //         $form->setDataSession();
 //         Browser_Control::setScript('css', 'Date', ''); // não sei porque, mas tem que tirar esses scripts para o calendário funcionar....
 //         Browser_Control::setScript('js', 'Date', ''); // não sei porque, mas tem que tirar esses scripts para o calendário funcionar....
-
 //         $view->assign('scripts', Browser_Control::getScripts());
 //         return $form->displayTpl($view, 'Web/form_contato.tpl');
 //     }
-
 //     /**
 //      * 
 //      * @param type $assunto
@@ -487,29 +478,23 @@ class WebController extends Zend_Controller_Action {
 //      */
 //     public static function getFormContato($assunto = '', $mostraMsg = true) {
 //         $view = Zend_Registry::get('view');
-
-
 //         $form = new Ui_Form();
 //         $form->setAction('Web');
 //         $form->setName('formPedidoEdit');
-
 //         $element = new Ui_Element_Text('nome');
 //         $element->setAttrib('obrig', 'obrig');
 //         $element->setRequired();
 //         $element->setAttrib('size', '30');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Text('email');
 //         $element->setAttrib('obrig', 'obrig');
 //         $element->setRequired();
 //         $element->setAttrib('size', '30');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Text('telefone');
 //         $element->setRequired();
 //         $element->setAttrib('size', '30');
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Text('assunto');
 //         $element->setAttrib('obrig', 'obrig');
 //         $element->setRequired();
@@ -517,7 +502,6 @@ class WebController extends Zend_Controller_Action {
 //         $element->setValue($assunto);
 //         $element->setReadOnly(($assunto != ''));
 //         $form->addElement($element);
-
 //         $element = new Ui_Element_Textarea('msg');
 //         $element->setAttrib('obrig', 'obrig');
 //         $element->setRequired();
@@ -525,48 +509,37 @@ class WebController extends Zend_Controller_Action {
 //         $element->setAttrib('cols', '22');
 //         $element->setAttrib('rows', '3');
 //         $form->addElement($element);
-
-
-
 //         $salvar = new Ui_Element_Btn('btnEnviar');
 //         $salvar->setDisplay('Enviar', PATH_IMAGES . 'Buttons/Ok.png');
 //         $salvar->setAttrib('sendFormFields', '1');
 //         $salvar->setAttrib('validaObrig', '1');
 //         $form->addElement($salvar);
-
 //         $form->setDataSession();
-
 //         $view->assign('scripts', Browser_Control::getScripts());
 //         return $form->displayTpl($view, 'Web/form_contato.tpl');
 //     }
-
 //     public function resizeimageAction() {
 //         // Na tag img o código de redimensionamento será chamado assim:
 // // <img src='resize_img.php?caminho=fotos/arquivo.gif&l_max=120&a_max=120' /> 
 //         $post = Zend_Registry::get('post');
 // //        print '<pre>';
 // //        die(print_r(str_replace('**', '/', $post->caminho)));
-
 //         $filename = str_replace('**', '/', $post->caminho); // caminho do arquivo de imagem
 //         $width = $post->l_max; // largura máxima
 //         $height = $post->a_max; // altura máxima
 // //// Get new dimensions
 //         list($width_orig, $height_orig) = getimagesize($filename);
-
 //         if ($width && ($width_orig < $height_orig)) {
 //             $width = ($height / $height_orig) * $width_orig;
 //         } else {
 //             $height = ($width / $width_orig) * $height_orig;
 //         }
-
 // // Resample
 //         $image_p = imagecreatetruecolor($width, $height);
-
 // //====================================
 // // Esta parte eu acrescentei
 // //        preg_match("/\.[a-zA-Z]+/", $filename, $_array);
 //         $_array = explode(".", $filename);
-
 //         switch (strtolower(end($_array))) {
 //             case "jpg":
 //                 // Content type
@@ -586,16 +559,12 @@ class WebController extends Zend_Controller_Action {
 //         }
 // //====================================
 //         imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-
 // // Output
 //         imagejpeg($image_p, null, 100);
 //     }
-
 //     public function btnenviarclickAction() {
 // //        $view = Zend_Registry::get('view');
-
 //         $post = Zend_Registry::get('post');
-
 //         $authDetails = array(
 //             'port' => 2525, //or 465 
 //             'auth' => 'login',
@@ -604,8 +573,6 @@ class WebController extends Zend_Controller_Action {
 //         );
 //         $transport = new Zend_Mail_Transport_Smtp('mx1.hostinger.com.br', $authDetails);
 //         Zend_Mail::setDefaultTransport($transport);
-
-
 //         $email .= '<p> Novo contato pelo site! </p>';
 //         $email .= '<fieldset>';
 //         $email .= '<p> Assunto: ' . $post->assunto . '</p>';
@@ -635,24 +602,19 @@ class WebController extends Zend_Controller_Action {
 //         }
 //         $email .= '<p> Mensagem: ' . $post->msg . '</p>';
 //         $email .= '</fieldset>';
-
-
 //         $mail = new Zend_Mail();
 //         $mail->setBodyHtml($email);
 //         $mail->setFrom('carlos@dupresviagens.com.br', 'Site Dupres');
 // //        $mail->addTo('leonardodanieli@gmail.com', 'Leo');
 //         $mail->addTo('carlos@dupresviagens.com.br', 'Carlos');
 //         $mail->setSubject(utf8_decode('Contato via Site. ' . html_entity_decode($post->assunto)));
-
 //         try {
 //             // your code here  
 //             $mail->send($transport);
-
 //             $obj = new Pedido();
 //             $obj->setDataFromRequest($post);
 //             $obj->setDataEnvio(date('d/m/Y'));
 //             $obj->save();
-
 //             $br = new Browser_Control();
 //             $br->resetForm('formPedidoEdit');
 //             $br->setCommand('alert("Sua mensagem foi enviada com sucesso!  Em brave entraremos em contato!")');
@@ -663,5 +625,4 @@ class WebController extends Zend_Controller_Action {
 //             exit;
 //         }
 //     }
-
 }

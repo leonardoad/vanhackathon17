@@ -40,6 +40,46 @@ class Course extends Db_Table {
         }
     }
 
+    public function getAvarageStars() {
+        $l = new Review();
+        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse and bookedcourse.id_course = ' . $this->getID(), '');
+        $l->readLst();
+        for ($i = 0; $i < $l->countItens(); $i++) {
+            $lReview = $l->getItem($i);
+            $countStars += $lReview->getStars();
+        }
+        $avg = $countStars / $l->countItens();
+        for ($i = 0; $i < $avg; $i++) {
+//            $ret .= "<i class='fa fa-star'></i>";
+            $ret .= '* ';
+        }
+        return $ret;
+    }
+
+    public function getPhotoPath() {
+        return HTTP_REFERER . 'Public/Images/Course/' . $this->getID() . '_' . $this->getPhoto();
+    }
+
+    public function formatTime($time) {
+        $h = substr($time, 0, 5);
+        list($h, $m) = explode(':', $h);
+        if ($h > 0) {
+            $ret .= $h . 'h ';
+        }
+        if ($m > 0) {
+            $ret .= $m . 'm';
+        }
+        return $ret;
+    }
+
+    public function getFormatedTime() {
+        return $this->formatTime($this->getTime());
+    }
+
+    public function getFormatedSetupTime() {
+        return $this->formatTime($this->getSetupTime());
+    }
+
 //    public static function getCategoryList($i = '') {
 //        $list[''] = ' - ';
 //        $list['1'] = 'Cat 1';
@@ -61,6 +101,37 @@ class Course extends Db_Table {
         $this->setAudience_Min($post->Audience_Min);
         $this->setAudience_Max($post->Audience_Max);
 //        $this->setTexto($post->getUnescaped('Texto'));
+    }
+
+    public function getPopularCourses()
+    {
+        $l = new Review();
+        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse','');//make a max here
+        $l->join('course', 'course.id_course = course.id_course','id_course, title, description,videolink, time, cost, audience_min, audience_max');
+        $l->readLst();
+        $lPopular = $l->getItens();
+
+//        foreach ($lPopular as $key => $value) {
+//             $fotos = Arquivo::getNomeArquivos($value['id_noticia'], 1);
+// //            $lPacotes[$key]['imagem'] = str_replace('/', '**', $fotos[0]);
+//             $lPacotes[$key]['imagem'] = $fotos[0];
+//             $lPacotes[$key]['textobr'] = nl2br($value['textobr']);
+//         }
+
+        return $lPopular;
+    }
+
+    public function getFormattedTime()
+    {
+        //return date('H \H\r m\M\i\n', $this->getTime());
+        // var_dump($this->getTime());
+        // die();
+        return $this->getTime();
+    }
+
+    public function getFormattedAudience()
+    {
+
     }
 
 }

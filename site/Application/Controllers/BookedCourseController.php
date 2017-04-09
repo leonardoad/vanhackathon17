@@ -99,8 +99,7 @@ class BookedCourseController extends Zend_Controller_Action {
 
         $post->id_indicador;
         $lLst = new $this->Model;
-        $lLst->join('course', 'course.id_educator = bookedcourse.id_educator and course.id_educator = '. Usuario::getIdUsuarioLogado(), 'id_educator');
-//        $lLst->where('course.id_educator', Usuario::getIdUsuarioLogado());
+        $lLst->join('course', 'course.id_course = bookedcourse.id_course and course.id_educator = '. Usuario::getIdUsuarioLogado(), 'id_educator');
         $lLst->readLst();
 
         Grid_ControlDataTables::setDataGrid($lLst, false, true);
