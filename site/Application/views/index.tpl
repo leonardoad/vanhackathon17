@@ -135,6 +135,8 @@
             <!-- Normatize CSS -->
             <link href="{$baseUrl}Public/Css/normalize.css" rel="stylesheet"  >
             <link href="{$baseUrl}Public/Css/padrao.css" rel="stylesheet"  >
+        <!-- Custom styles for this template -->
+        <link href="{$baseUrl}Public/css/style.css" rel="stylesheet">
 
             <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
             <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

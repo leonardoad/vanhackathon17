@@ -85,7 +85,7 @@
                                         </div>
                                         <div class="card-text">
                                             {*                                            <p><strong>Location:</strong> {$courseLst[j]->getLocation()}</p>*}
-                                            <p><strong>Duration:</strong> {$courseLst[j]->getFormatedTime()}</p>
+                                            <p><strong>Duration:</strong> {$courseLst[j]->getFormattedTime()}</p>
                                             <p><strong>Group Size:</strong> {$courseLst[j]->getGroupSize()}</p>
                                         </div>
                                     </div>
