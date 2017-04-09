@@ -1,6 +1,5 @@
 <head>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
@@ -40,7 +39,7 @@
 
                   <div class="col-md-4 single-lnl">
                     <div class="card card-inverse card-info">
-                      <img class="card-img-top" src="{$course->getPhotoPath()}">
+                      <img class="card-img-top" src="{$courses[i]->getPhotoPath()}">
                       <div class="card-block">
                         <h4 class="card-title mt-3">{$courses[i]->get()}</h4>
                         <div class="meta card-text">
