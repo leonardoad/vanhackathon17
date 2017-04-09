@@ -11,6 +11,7 @@ h1, h2{
 .lnl-pink{background: #f4a996; color: #fff}
 .lnl-green{background: #63c16e; color: #fff}
 
+.separator{width: 100%; margin: 15px 0px; border: 0;}
 .lnl-fluid{
 	background-color: #eee;
 	padding-bottom: 30px;
@@ -29,32 +30,32 @@ h1, h2{
 .lnl-profile-header{
 	min-height: 300px;
 	background: url(../images/lunch-n-learn-header-bw.jpg);
-    background-size: cover;
-    background-position: center -330px;
-    padding: 0px;
-    margin: 0px;
+	background-size: cover;
+	background-position: center -330px;
+	padding: 0px;
+	margin: 0px;
 }
 .lnl-profile-header:before {
-    display: block;
-    content: "";
-    background: rgba(63, 169, 245, 0.8);
-    width: 100%;
-    height: 300px;
+	display: block;
+	content: "";
+	background: rgba(63, 169, 245, 0.8);
+	width: 100%;
+	height: 300px;
 }
 .lnl-singlelnl-header{
 	min-height: 300px;
 	background: url(../images/lunch-n-learn-header-bw.jpg);
-    background-size: cover;
-    background-position: center -330px;
-    padding: 0px;
-    margin: 0px;
+	background-size: cover;
+	background-position: center -330px;
+	padding: 0px;
+	margin: 0px;
 }
 .lnl-singlelnl-header:after {
-    display: block;
-    content: "";
-    background: rgba(99, 193, 110, 0.8);
-    width: 100%;
-    height: 300px;
+	display: block;
+	content: "";
+	background: rgba(99, 193, 110, 0.8);
+	width: 100%;
+	height: 300px;
 }
 .lnl-singlelnl-header h1{
 	position: absolute;
@@ -82,9 +83,10 @@ h1, h2{
 }
 
 .label-blue {
-    background: #3fa9f5;
-    font-size: 16px;
+	background: #3fa9f5;
+	font-size: 16px;
 }
+/* Lunch and Learn Card */
 .card {
 	font-size: 1em;
 	overflow: hidden;
@@ -139,10 +141,10 @@ h1, h2{
 	border: 1px solid rgba(0, 0, 0, .05);
 }
 .lnl-price {
-    font-weight: bold;
-    font-size: 26px;
-    line-height: 30px;
-    color: #63c16e;
+	font-weight: bold;
+	font-size: 26px;
+	line-height: 30px;
+	color: #63c16e;
 }
 .video-price{
 	font-size: 36px;
@@ -164,27 +166,29 @@ h1, h2{
 	margin-right: auto;
 	position: relative;
 }
-.lnl-video-thumbnail:before {
-    position: absolute;
-    cursor: pointer;
-    display: block;
-    content: "\f04b";
-    max-width: 340px;
-    max-height: 240px;
-    width: 100%;
-    height: 100%;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: 80px;
-    text-rendering: auto;
-    line-height: 250px;
-    color: #fff;
-    margin: 5px;
-    transition: 0.1s;
+.lnl-video:before {
+	position: absolute;
+	cursor: pointer;
+	display: block;
+	content: "\f04b";
+	max-width: 340px;
+	max-height: 240px;
+	width: 100%;
+	height: 100%;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: 80px;
+	text-rendering: auto;
+	line-height: 250px;
+	color: #fff;
+	margin: 5px;
+	transition: 0.1s;
+	-webkit-transition: 0.1s;
 }
-.lnl-video-thumbnail:hover:before {
-    font-size: 110px;
-    background: rgba(0, 0, 0, 0.5);
-    transition: 0.1s;
+.lnl-video:hover:before {
+	font-size: 110px;
+	background: rgba(0, 0, 0, 0.5);
+	transition: 0.1s;
+	-webkit-transition: 0.1s;
 }
 /* Rating Styles */
 .lnl-stars{margin-top: 10px;}
@@ -201,12 +205,92 @@ h1, h2{
 /* End Rating Styles */
 
 .lnl-footer{
-    padding: 22px;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #fff;
-    text-align: center;
+	padding: 22px;
+	bottom: 0;
+	width: 100%;
+	height: 60px;
+	background-color: #fff;
+	text-align: center;
 }
 
-media
+/* Educator Card in Lunch and Learn page */
+.profile 
+{
+	min-height: 355px;
+	display: inline-block;
+}
+figcaption.ratings
+{
+	margin-top:20px;
+}
+figcaption.ratings a
+{
+	color:#f1c40f;
+	font-size:11px;
+}
+figcaption.ratings a:hover
+{
+	color:#f39c12;
+	text-decoration:none;
+}
+.rating-educator-card {
+    margin: 10px 0px;
+}
+.rating-educator-card .rating-num {
+	font-size: 30px;
+}
+.rating-educator-card .lnl-stars {
+	margin-top: 0px;
+}
+.divider 
+{
+	border-top:1px solid rgba(0,0,0,0.1);
+}
+.emphasis h2
+{
+	margin-bottom:0;
+}
+span.tags 
+{
+	background: #f4a996;
+	border-radius: 2px;
+	color: #f5f5f5;
+	font-weight: bold;
+	padding: 2px 4px;
+}
+.dropdown-menu 
+{
+	background-color: #34495e;    
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	width: 250px;
+	margin-left: -125px;
+	left: 50%;
+}
+.dropdown-menu .divider 
+{
+	background:none;    
+}
+.dropdown-menu>li>a
+{
+	color:#f5f5f5;
+}
+.dropup .dropdown-menu 
+{
+	margin-bottom:10px;
+}
+.dropup .dropdown-menu:before 
+{
+	content: "";
+	border-top: 10px solid #34495e;
+	border-right: 10px solid transparent;
+	border-left: 10px solid transparent;
+	position: absolute;
+	bottom: -10px;
+	left: 50%;
+	margin-left: -10px;
+	z-index: 10;
+}
+.educator-info hr{
+	margin: 5px 0px; 
+}

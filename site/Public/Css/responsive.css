@@ -3,3 +3,16 @@
 		margin-top: 0px;
 	}
 }
+@media screen and (max-width: 1200px) {
+	.lnl-video:before {
+		max-width: 273px;
+		max-height: 195px;
+		font-size: 50px;
+		line-height: 200px;
+		margin: 5px;
+	}
+	.lnl-video:hover:before {
+		font-size: 80px;
+		background: rgba(0, 0, 0, 0.5);
+	}
+}
