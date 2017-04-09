@@ -14,7 +14,7 @@
         <!-- Bootstrap core CSS -->
         <link href="{$baseUrl}Public/Css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <!-- Font Awesome CSS -->
-        <link href="{$baseUrl}Public/font-awesome-4.7.0/Css/font-awesome.min.css" rel="stylesheet">
+        <link href="{$baseUrl}Public/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
         <!-- Custom styles for this template -->
         <link href="{$baseUrl}Public/Css/style.css" rel="stylesheet">
@@ -32,21 +32,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand lnl-brand" href="#"><img src="{$baseUrl}Public/images/lnl-logo.jpg"></a>
+                    <a class="navbar-brand lnl-brand" href="#"><img src="{$baseUrl}Public/Images/lnl-logo.jpg"></a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <div class="col-sm-6 col-md-6 lnl-manu-search">
-                        <form class="navbar-form" role="search">
-                            <div class="input-group">
-                                {$searchform}
-                                {*<input type="text" class="form-control" placeholder="Search for...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-                                </span>*}
-                            </div><!-- /input-group -->
-                        </form>
+                        {$searchform}
                     </div>
                     <ul class="nav navbar-nav navbar-right col-md-4">
                         <li><a href="#">Link</a></li>

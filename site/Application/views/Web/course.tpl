@@ -1,19 +1,3 @@
-<!-- Modal -->
-<div id="lnl-video-modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" onclick="$('#playerID').get(0).stopVideo();">&times;</button>
-                <h4 class="modal-title">Lunch and Learn Video</h4>
-            </div>
-            <div class="modal-body">
-                <iframe id="playerID"  width="560" height="315" src="https://www.youtube.com/embed/{$course->getVideoLink()} " frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
-
-    </div>
-</div>
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron lnl-singlelnl-header">
@@ -88,7 +72,7 @@
                         <div class="row">
                             <div class=" col-md-12">
                                 <span class="lnl-price video-price">${$course->getCost()} </span>
-                                <button class="btn lnl-green float-right btn-lg">Book Now</button>
+                                <a href="{$baseUrl}BookedCourse/edit/id_course/{$course->getID()}" class="btn lnl-green float-right btn-lg">Book Now</a>
                             </div>
                         </div>
                         <hr>
