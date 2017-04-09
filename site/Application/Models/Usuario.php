@@ -146,8 +146,8 @@ class Usuario extends Db_Table {
     static function getCompanyList($i = '') {
 
         $lObjLst = new Usuario();
-        $lObjLst->where('grupo', '3'); // the group of Companyes
-        $lObjLst->where('tipo', 'user'); // the group of Companyes
+        $lObjLst->where('grupo', '4'); // the group of Companyes
+        $lObjLst->where('tipo', 'user'); // Just the users 
         $lObjLst->readLst('array');
         $rows = $lObjLst->getItens();
 //        $rows = $lObjLst->fetchAll();
