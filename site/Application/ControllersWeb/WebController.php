@@ -327,7 +327,7 @@ class WebController extends Zend_Controller_Action {
         $user->save();
 
 
-        $br->setBrowserUrl(BASE_URL . '/../index');
+        $br->setBrowserUrl(BASE_URL . '/../login/logout');
         $br->setRemoveWindow('RegisterUsers');
         // $br->setUpdateDataTables('gridUsers');
         // $br->setUpdateDataTables('gridGrupos');
