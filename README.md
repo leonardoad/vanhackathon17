@@ -1,4 +1,4 @@
-#VanHackathon 2017
+##VanHackathon 2017
 
 This is and app done in the VanHackathon 2017 (http://www.vanhack.com/hackathon/) responding to the Lunch n' Learn Challenge from the Milma Tech company (http://www.mlimatech.com/)
 
@@ -18,7 +18,6 @@ $ git clone git@github.com:romuloberri/rbmicroframework.git
 Set permission to the templates and images folder:
 ```
 /Libs/View/templates_c
-/site/Public/Images/Course
 ```
 
 Restore the database using the script that is on the path
