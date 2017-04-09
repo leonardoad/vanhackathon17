@@ -30,6 +30,7 @@ switch ($_SERVER['HTTP_HOST']) {
         break;
 
     case 'romuloberri.com.br':
+    case 'www.romuloberri.com.br':
 
 //        error_reporting(0);
         error_reporting(E_ERROR);
@@ -61,7 +62,9 @@ if ($operatingSystem == 'WINDOWS') {
     $path .= $pathSeparator . RAIZ_DIRETORY . $applicationName . 'Application' . $bar . 'Models';
     $path .= $pathSeparator . RAIZ_DIRETORY . $applicationName . 'Application' . $bar . 'ModelsView';
 }
-set_include_path(get_include_path() . $path);
+$path .= $pathSeparator . RAIZ_DIRETORY . 'Libs' . $bar . 'Zend';
+//set_include_path(get_include_path() . $path);
+set_include_path($path);
 
 //print '<pre>';
 //die(print_r(get_include_path() ));
@@ -190,7 +193,7 @@ Zend_Db_Table_Abstract::setDefaultAdapter($db);
 ###################################################################################
 
 Zend_Registry::set('db', $db);
-    
+
 
 ############################ SEGURAN�A DO SISTEMA #########################
 //print'<pre>';(print_r($array ));
