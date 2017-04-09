@@ -38,6 +38,13 @@ class Usuario extends Db_Table {
             return $usuario->getID();
     }
 
+    public static function getGroupUserLogado() {
+        $session = Zend_Registry::get('session');
+        $usuario = $session->usuario;
+        if (is_object($usuario))
+            return $usuario->getGrupo();
+    }
+
     public static function getIdExternoUsuarioLogado() {
         $session = Zend_Registry::get('session');
         $usuario = $session->usuario;
@@ -56,8 +63,6 @@ class Usuario extends Db_Table {
     function setDificuldade($param) {
         $this->a_dificuldade = json_encode($param);
     }
-
-    
 
     public function getPhotoPath() {
         if ($this->a_Photo) {
@@ -79,6 +84,7 @@ class Usuario extends Db_Table {
         }
         return $avg;
     }
+
     public function getAvarageStars() {
         $avg = $this->getAvarageStarsNumber();
         for ($i = 0; $i < $avg; $i++) {
@@ -127,6 +133,30 @@ class Usuario extends Db_Table {
 //        die(print_r($list));
         if (intval($i) != 0) {
 //            print'<pre>';(print_r(str_pad($i, 3, '0', STR_PAD_LEFT)  ));
+            return $list[$i];
+        }
+        return $list;
+    }
+
+    /**
+     * Return a list of Users that are Companies
+     *
+     * @return array
+     */
+    static function getCompanyList($i = '') {
+
+        $lObjLst = new Usuario();
+        $lObjLst->where('grupo', '3'); // the group of Companyes
+        $lObjLst->where('tipo', 'user'); // the group of Companyes
+        $lObjLst->readLst('array');
+        $rows = $lObjLst->getItens();
+//        $rows = $lObjLst->fetchAll();
+        $list = array();
+        $list[""] = "";
+        foreach ($rows as $row) {
+            $list[$row["id_usuario"]] = utf8_encode($row["nomecompleto"]);
+        }
+        if (intval($i) != 0) {
             return $list[$i];
         }
         return $list;

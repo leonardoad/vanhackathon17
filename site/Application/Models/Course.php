@@ -40,6 +40,26 @@ class Course extends Db_Table {
         }
     }
 
+    public function getEducatorName() {
+        if ($this->getID_Educator() != '') {
+            $c = new Usuario();
+            $c->read($this->getID_Educator());
+            return $c->getNomeCompleto();
+        } else {
+            return '';
+        }
+    }
+
+    public function getEducatorEmail() {
+        if ($this->getID_Educator() != '') {
+            $c = new Usuario();
+            $c->read($this->getID_Educator());
+            return $c->getEmail();
+        } else {
+            return '';
+        }
+    }
+
     public function getAvarageStarsNumber() {
         $l = new Review();
         $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse and bookedcourse.id_course = ' . $this->getID(), '');
@@ -87,22 +107,17 @@ class Course extends Db_Table {
     }
 
     public function formatTime($time) {
-        $h = substr($time, 0, 5);
-        list($h, $m) = explode(':', $h);
-        if ($h > 0) {
-            $ret .= $h . 'h ';
-        }
-        if ($m > 0) {
-            $ret .= $m . 'm';
-        }
+        list($h, $m) = explode(':', $time);
+        $ret = ($h > 0) ? $h . 'h ' : '';
+        $ret .= ($m > 0) ? $m . 'm ' : '';
         return $ret;
     }
 
-    public function getFormatedTime() {
+    public function getFormattedTime() {
         return $this->formatTime($this->getTime());
     }
 
-    public function getFormatedSetupTime() {
+    public function getFormattedSetupTime() {
         return $this->formatTime($this->getSetupTime());
     }
 
@@ -121,8 +136,15 @@ class Course extends Db_Table {
         $this->setID_Category($post->ID_Category);
         $this->setDescription($post->Description);
         $this->setVideoLink($post->VideoLink);
-        $this->setTime($post->Time);
-        $this->setSetupTime($post->SetupTime);
+
+        //the time coming from the post cam be just with hh:mm, so we have to add the seconds to store on DB
+        $time = (strlen($post->Time) == 5) ? $post->Time . ':00' : $post->Time;
+        $this->setTime($time);
+
+        //the time coming from the post cam be just with hh:mm, so we have to add the seconds to store on DB
+        $SetupTime = (strlen($post->SetupTime) == 5) ? $post->SetupTime . ':00' : $post->SetupTime;
+        $this->setSetupTime($SetupTime);
+
         $this->setCost($post->Cost);
         $this->setAudience_Min($post->Audience_Min);
         $this->setAudience_Max($post->Audience_Max);
@@ -206,17 +228,6 @@ class Course extends Db_Table {
         $res  = $stmt->fetchAll();
 
         return $this->formatCourses($res);
-    }
-
-    public function getFormattedTime() {
-        //return date('H \H\r m\M\i\n', $this->getTime());
-        // var_dump($this->getTime());
-        // die();
-        return $this->getTime();
-    }
-
-    public function getFormattedAudience() {
-
     }
 
 }

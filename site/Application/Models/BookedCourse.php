@@ -29,6 +29,16 @@ class BookedCourse extends Db_Table {
         }
     }
 
+    public function getEducatorName() {
+        if ($this->getID_Educator() != '') {
+            $c = new Usuario();
+            $c->read($this->getID_Educator());
+            return $c->getNomeCompleto();
+        } else {
+            return '';
+        }
+    }
+
     public function getCompanyName() {
         if ($this->getID_Company() != '') {
             $c = new Usuario();
@@ -37,6 +47,21 @@ class BookedCourse extends Db_Table {
         } else {
             return '';
         }
+    }
+
+    public function formatTime($time) {
+        list($h, $m) = explode(':', $time);
+        $ret = ($h > 0) ? $h . 'h ' : '';
+        $ret .= ($m > 0) ? $m . 'm ' : '';
+        return $ret;
+    }
+
+    public function getFormattedTime() {
+        return $this->formatTime($this->getTime());
+    }
+
+    public function getFormattedSetupTime() {
+        return $this->formatTime($this->getSetupTime());
     }
 
     public function setDataFromRequest($post) {

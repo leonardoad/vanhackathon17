@@ -75,7 +75,7 @@
                     border-radius: 1px;
                 }
                 .backgound-login{
-                    background: url('{/literal}{$baseUrl}{literal}Public/Images/fundo_login.jpg'); background-repeat: no-repeat;
+                    background: url('{/literal}{$baseUrl}{literal}Public/Images/l-n-l-people.jpg'); background-repeat: no-repeat;
                     background-size: cover;
                     padding: 0;
                     margin: 0;
@@ -103,7 +103,7 @@
 
         {*        <h2 class="form-signin-heading">Por favor, faça login.</h2>*}
         <div class="container">
-            <img class="logo" src="{$baseUrl}Public/Images/logo_sombra.png">
+{*            <img class="logo" src="{$baseUrl}Public/Images/logo_sombra.png">*}
             {$body}
         </div>
 

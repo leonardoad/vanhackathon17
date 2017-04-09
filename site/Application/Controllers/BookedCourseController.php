@@ -97,9 +97,8 @@ class BookedCourseController extends Zend_Controller_Action {
     public function listabookedcourseAction() {
         $post = Zend_Registry::get('post');
 
-        $post->id_indicador;
         $lLst = new $this->Model;
-        $lLst->join('course', 'course.id_course = bookedcourse.id_course and course.id_educator = '. Usuario::getIdUsuarioLogado(), 'id_educator');
+        $lLst->join('course', 'course.id_course = bookedcourse.id_course and course.id_educator = ' . Usuario::getIdUsuarioLogado(), 'id_educator');
         $lLst->readLst();
 
         Grid_ControlDataTables::setDataGrid($lLst, false, true);
@@ -111,8 +110,8 @@ class BookedCourseController extends Zend_Controller_Action {
         $lLst = new Review;
         if ($post->id_bookedcourse != '') {
             $lLst->where('id_bookedcourse', $post->id_bookedcourse);
+            $lLst->readLst();
         }
-        $lLst->readLst();
 
         Grid_ControlDataTables::setDataGrid($lLst, false, true);
     }
@@ -137,16 +136,25 @@ class BookedCourseController extends Zend_Controller_Action {
 
 
         $element = new Ui_Element_Select('ID_Course', "Course");
-//        $element->addMultiOptions(Category::getCategoryList());
-        $element->addMultiOptions(Category::getOptionList2('id_course', 'title', 'title', 'Course'));
+//        $element->addMultiOptions(Course::getCourseList());
+        $element->addMultiOptions(Course::getOptionList2('id_course', 'title', 'title', 'Course'));
         $element->setRequired();
+        if ($post->id_course) {
+            $element->setValue($post->id_course);
+            $element->setReadOnly();
+        }
         $form->addElement($element);
 
         $element = new Ui_Element_Select('ID_Company', "Company");
-//        $element->addMultiOptions(Category::getCategoryList());
+        $element->addMultiOptions(Usuario::getCompanyList());
 //        $element->addMultiOptions(Category::getOptionList2('id_usuario', 'nomecompleto', 'nomecompleto', 'Usuario', false, 'readCompanyLst'));
-        $element->addMultiOptions(Category::getOptionList2('id_usuario', 'nomecompleto', 'nomecompleto', 'Usuario'));
+//        $element->addMultiOptions(Category::getOptionList2('id_usuario', 'nomecompleto', 'nomecompleto', 'Usuario'));
         $element->setRequired();
+        $group = Usuario::getGroupUserLogado();
+        if ($group == 4) {
+            $element->setValue(Usuario::getIdUsuarioLogado());
+            $element->setReadOnly();
+        }
         $form->addElement($element);
 
         $element = new Ui_Element_Date('PretendDate', "Pretend Date");
@@ -157,7 +165,7 @@ class BookedCourseController extends Zend_Controller_Action {
         $element = new Ui_Element_Date('RealDate', "Confirmed Date");
         $element->setRequired();
         $element->setReadOnly(!Usuario::verificaAcesso('CHANGE_REALDATE', 'editar'));
-        $element->setValue(date('d/m/Y'));
+//        $element->setValue(date('d/m/Y'));
         $form->addElement($element);
 
         $element = new Ui_Element_Checkbox('BundleFood', "Bundle in the Food");
@@ -171,17 +179,18 @@ class BookedCourseController extends Zend_Controller_Action {
 
 
 
+        if ($post->id_bookedcourse != '') {
 
-        /*
-         *  --------- Reviews Grid  ------------
-         */
-        $grid = new Ui_Element_DataTables($this->IdGrid2);
-        $grid->setParams('', BASE_URL . $this->Action . '/listaReview/id_bookedcourse/' . $post->id);
-        $grid->setStateSave(true);
-        $grid->setShowSearching(false);
-        $grid->setShowOrdering(false);
-        $grid->setShowLengthChange(false);
-        $grid->setShowInfo(false);
+            /*
+             *  --------- Reviews Grid  ------------
+             */
+            $grid = new Ui_Element_DataTables($this->IdGrid2);
+            $grid->setParams('', BASE_URL . $this->Action . '/listaReview/id_bookedcourse/' . $post->id);
+            $grid->setStateSave(true);
+            $grid->setShowSearching(false);
+            $grid->setShowOrdering(false);
+            $grid->setShowLengthChange(false);
+            $grid->setShowInfo(false);
 
 //        $button = new Ui_Element_DataTables_Button('btnNovaBookedCourse', 'Editar');
 //        $button->setImg('edit');
@@ -199,34 +208,35 @@ class BookedCourseController extends Zend_Controller_Action {
 //        $column->setWidth('3');
 //        $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Name', 'CompanyName');
-        $column->setWidth('3');
-        $grid->addColumn($column);
+            $column = new Ui_Element_DataTables_Column_Text('Name', 'CompanyName');
+            $column->setWidth('3');
+            $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Stars', 'StarsGrid');
-        $column->setWidth('3');
-        $grid->addColumn($column);
+            $column = new Ui_Element_DataTables_Column_Text('Stars', 'StarsGrid');
+            $column->setWidth('3');
+            $grid->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Comment', 'Comment');
-        $column->setWidth('8');
-        $grid->addColumn($column);
+            $column = new Ui_Element_DataTables_Column_Text('Comment', 'Comment');
+            $column->setWidth('8');
+            $grid->addColumn($column);
 
 
 
-        $form->addElement($grid);
+            $form->addElement($grid);
 // ===================================================
 
+
+            $button = new Ui_Element_Btn('btnNewReview');
+            $button->setDisplay('Leave a Review', 'commenting-o');
+            $button->setType('info');
+            $form->addElement($button);
+        }
 
         if (isset($post->id)) {
             $form->setDataForm($obj);
         }
         $obj->setInstance($this->ItemEditInstanceName);
 
-
-        $button = new Ui_Element_Btn('btnNewReview');
-        $button->setDisplay('Leave a Review', 'commenting-o');
-        $button->setType('info');
-        $form->addElement($button);
 
         $button = new Ui_Element_Btn('btnSalvarBookedCourse');
         $button->setDisplay('Save', 'check');
