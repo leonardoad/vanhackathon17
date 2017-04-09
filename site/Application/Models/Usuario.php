@@ -387,4 +387,8 @@ class Usuario extends Db_Table {
         $this->setDatasenha(date('d/m/Y'));
     }
 
+    public function getApproved_decoded() {
+        return ($this->getApproved() == 'S')?'Yes':'No';
+    }
+
 }
