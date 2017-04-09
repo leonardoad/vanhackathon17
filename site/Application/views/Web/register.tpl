@@ -8,15 +8,15 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <p>{$nomecompleto}  </p>
+            </div>
+            <div class="col-lg-6">
+                <p>{$email}  </p>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-9">
-                <p>{$email}  </p>
-            </div>
-            <div class="col-lg-3">
+            <div class="col-lg-6">
                 <p>{$telephone}  </p>
             </div>
         </div>
@@ -31,7 +31,7 @@
         <table width="100%">
 
             <tr>
-                <td class="text-center"> {$btnSaveRegister} {$btnCancelRegister}  </td>
+                <td class="text-center"> {$btnSaveRegister} {*{$btnCancelRegister} *} </td>
             </tr>
         </table>
     </div>

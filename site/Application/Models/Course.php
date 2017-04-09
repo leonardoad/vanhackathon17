@@ -99,7 +99,11 @@ class Course extends Db_Table {
     }
 
     public function getPhotoPath() {
-        return HTTP_REFERER . 'Public/Images/Course/' . $this->getID() . '_' . $this->getPhoto();
+        if ($this->getPhoto() != '') {
+            return HTTP_REFERER . 'Public/Images/Course/' . $this->getID() . '_' . $this->getPhoto();
+        } else {
+            return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSODALYDYo2dqN0DG_kPNi2X7EAy1K8SpRRZQWkNv9alC62IHggOw';
+        }
     }
 
     public function getGroupSize() {
