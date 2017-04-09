@@ -121,7 +121,7 @@ h1, h2{
 .card-text {
 	clear: both;
 	margin-top: .5em;
-	color: rgba(0, 0, 0, .68);
+	color: #666;
 }
 
 .card-footer {
@@ -293,4 +293,61 @@ span.tags
 }
 .educator-info hr{
 	margin: 5px 0px; 
+}
+
+/* Search Result Page */
+
+.lnl-search-result-body{
+	margin-top: -250px;
+	background-color: #fff;
+	border-radius: 5px;
+	padding: 30px;
+	border: 1px solid #e5e5e5;
+}
+.lnl-search-result-header{
+	min-height: 300px;
+	background: url(../images/lunch-n-learn-header-bw.jpg);
+	background-size: cover;
+	background-position: center -330px;
+	padding: 0px;
+	margin: 0px;
+}
+.lnl-search-result-header:before {
+	display: block;
+	content: "";
+	background: rgba(244, 169, 150, 0.8);
+	width: 100%;
+	height: 300px;
+}
+.single-lnl{
+	margin-bottom: 30px;
+}
+.lnl-pagination li>a{
+	color: #666;
+}
+.lnl-pagination li>a:focus, .lnl-pagination li>a:hover{
+	color: #333;
+	background-color: rgba(244, 169, 150, 0.2);
+}
+.lnl-pagination .active>a{
+	background-color: #f4a996;
+	border-color: #f4a996;
+}
+.txt-right{
+	text-align: right;
+}
+.lnl-filter .slider-horizontal{
+	width: 100%;
+}
+.form-check.form-check-inline {
+    display: inline-block;
+    margin-right: 10px;
+}
+.custom-select {
+    display: inline-block;
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    line-height: 1.25;
+    vertical-align: middle;
 }
