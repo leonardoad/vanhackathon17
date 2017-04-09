@@ -35,27 +35,27 @@
 
                   {section name=i loop=$courses}
 
-                      {*<p>pop: {$courses[i].popularity}</p>
+                      {*<p>pop: {$courses[i]->getPopularity()}</p>
                       <p>rat: {$courses[i].rating}</p>*}
 
                   <div class="col-md-4 single-lnl">
                     <div class="card card-inverse card-info">
-                      <img class="card-img-top" src="images/lnl-image-1.jpg">
+                      <img class="card-img-top" src="{$course->getPhotoPath()}">
                       <div class="card-block">
-                        <h4 class="card-title mt-3">{$courses[i].title}</h4>
+                        <h4 class="card-title mt-3">{$courses[i]->get()}</h4>
                         <div class="meta card-text">
-                          <p>{$courses[i].description}</p>
+                          <p>{$courses[i]->getDescription()}</p>
                           <hr>
                         </div>
                         <div class="card-text">
-                          <p><strong>Location:</strong> Vancouver</p>
-                          <p><strong>Duration:</strong> {$courses[i].time}</p>
-                          <p><strong>Group Size:</strong> {$courses[i].audience_min} - 
-                      {$courses[i].audience_max}</p>
+                          <p><strong>Duration:</strong> {$courses[i]->getTime()}</p>
+                          <p><strong>Group Size:</strong> {$courses[i]->getGroupSize()}</p>
+                          <p><strong>Rating:</strong> {$courses[i]->getRating()}</p>
+
                         </div>
                       </div>
                       <div class="card-footer">
-                        <span class="lnl-price">${$courses[i].cost}</span>
+                        <span class="lnl-price">${$courses[i]->getCost()}</span>
                         <button class="btn lnl-green float-right btn-sm">Book Now</button>
                       </div>
                     </div>

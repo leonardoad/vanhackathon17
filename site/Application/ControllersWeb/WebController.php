@@ -63,18 +63,21 @@ class WebController extends Zend_Controller_Action {
         $form->addElement($button);
 
         $searchform = new Ui_Form();
-        $searchform->setName('searchForm');
+        $searchform->setName('searchFormMenu');
         $searchform->setAction('web');
+        $searchform->setAttrib('class',"navbar-form");
 
         $element = new Ui_Element_Text('search', "");
         $element->setAttrib('maxlength', '255');
         $element->setVisible($showSearch);
+        $element->setAttrib('placeholder',"Search for...");
         $searchform->addElement($element);
 
         $button = new Ui_Element_Btn('btnSearch');
         $button->setDisplay('', 'search');
         $button->setType('success');
         $button->setAttrib('sendFormFields', '1');
+        //$button->setAttrib('url', 'web');
         $button->setVisible($showSearch);
         $searchform->addElement($button);
 
@@ -184,7 +187,7 @@ class WebController extends Zend_Controller_Action {
             $priceminvalue, $pricemaxvalue,
             $audienceminvalue, $audiencemaxvalue,
             $ratingminvalue, $ratingmaxvalue);
-
+//var_dump($CoursesFound);die();
         $view = Zend_Registry::get('view');
 
         $view->assign('nothingFound', count($CoursesFound) == 0);

@@ -166,6 +166,7 @@ class Course extends Db_Table {
                 $set = "set$key";
                 $c->$set($value);
             }
+            $c->setRating($res[$num]['rating']);
             $l[] = $c;
         }
         return $l;
