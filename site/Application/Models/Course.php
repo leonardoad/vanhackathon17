@@ -129,21 +129,39 @@ class Course extends Db_Table {
 //        $this->setTexto($post->getUnescaped('Texto'));
     }
 
-    public function getPopularCourses() {
-        $l = new Review();
-        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse', ''); //make a max here
-        $l->join('course', 'course.id_course = course.id_course', 'id_course, title, description,videolink, time, cost, audience_min, audience_max');
-        $l->readLst();
-        return $l->getItens();
+    private function formatCourses($res) {
 
-//        foreach ($lPopular as $key => $value) {
-//             $fotos = Arquivo::getNomeArquivos($value['id_noticia'], 1);
-// //            $lPacotes[$key]['imagem'] = str_replace('/', '**', $fotos[0]);
-//             $lPacotes[$key]['imagem'] = $fotos[0];
-//             $lPacotes[$key]['textobr'] = nl2br($value['textobr']);
-//         }
+        foreach ($res as $num => $row) {
 
-//        return $lPopular;
+            if ($res[$num]['rating'] == NULL) {
+                $res[$num]['rating'] = 'not rated yet';
+            } else {
+                $res[$num]['rating'] = number_format($res[$num]['rating'],1);
+            }
+        }
+        return $res;
+    }
+    public function getPopularCourses($qtd = 3) {
+        $sql = "SELECT COUNT(r.id_review) popularity,
+                       AVG(r.stars) rating,
+                       c.id_course, c.id_educator, c.title, c.description,
+                       c.registerdate, c.videolink, c.`time`,
+                       c.setuptime, c.cost, c.audience_min,
+                       c.audience_max, c.photo
+                        FROM course c
+                        LEFT JOIN bookedcourse b
+                          ON c.id_course = b.id_course
+                        LEFT JOIN review r
+                          ON b.id_bookedcourse = r.id_bookedcourse
+                       GROUP BY c.id_course
+                       ORDER BY 1 desc
+                       LIMIT $qtd";
+
+        $db   = Zend_Registry::get('db');
+        $stmt = $db->query($sql);
+        $res  = $stmt->fetchAll();
+
+        return $this->formatCourses($res);
     }
 
     public function getCourses($search,
@@ -154,13 +172,19 @@ class Course extends Db_Table {
 
 
         $where = " c.cost BETWEEN $priceminvalue AND $pricemaxvalue ".
-            " AND c.audience_max > $audienceminvalue ".
-            " AND c.audience_min < $audiencemaxvalue ";
-            //" AND RATING... BETWEEN $ratingminvalue AND $ratingmaxvalue;
+            " AND c.audience_max >= $audienceminvalue ".
+            " AND c.audience_min <= $audiencemaxvalue ";
 
         if ($search != '') {
-            $where .= ' AND (c.title LIKE "%$search%" OR c.description LIKE "%$search%") ';
+            $search = addslashes($search);
+            $where .= " AND (c.title LIKE '%$search%' OR c.description LIKE '%$search%') ";
         }
+
+        $showNotRated = '';
+        if ($ratingminvalue == 0) {
+            $showNotRated = ' OR rating IS NULL ';
+        }
+
 
         $sql = "SELECT COUNT(r.id_review) popularity,
                        AVG(r.stars) rating,
@@ -175,11 +199,13 @@ class Course extends Db_Table {
                           ON b.id_bookedcourse = r.id_bookedcourse
                        WHERE $where 
                        GROUP BY c.id_course
+                       HAVING rating BETWEEN $ratingminvalue AND $ratingmaxvalue $showNotRated
                        ORDER BY 1";
-        $db = Zend_Registry::get('db');
+        $db   = Zend_Registry::get('db');
         $stmt = $db->query($sql);
-        return $stmt->fetchAll();
-        //var_dump($stmt->fetchAll()); die();
+        $res  = $stmt->fetchAll();
+
+        return $this->formatCourses($res);
     }
 
     public function getFormattedTime() {

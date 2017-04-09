@@ -106,7 +106,7 @@ class WebController extends Zend_Controller_Action {
         $audiencetop = 500;
         $audiencebottom = 1;
         $ratingtop = 5;
-        $ratingbottom = 1;
+        $ratingbottom = 0;
 
         $post = Zend_Registry::get('post');
 

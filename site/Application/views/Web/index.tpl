@@ -12,12 +12,12 @@
         <title>{$pageTitle} - Lunch & Learn</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="{$baseUrl}Public/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+        <link href="{$baseUrl}Public/Css/bootstrap/bootstrap.min.css" rel="stylesheet">
         <!-- Font Awesome CSS -->
-        <link href="{$baseUrl}Public/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="{$baseUrl}Public/font-awesome-4.7.0/Css/font-awesome.min.css" rel="stylesheet">
 
         <!-- Custom styles for this template -->
-        <link href="{$baseUrl}Public/css/style.css" rel="stylesheet">
+        <link href="{$baseUrl}Public/Css/style.css" rel="stylesheet">
 
     </head>
 

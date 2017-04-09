@@ -27,7 +27,6 @@ Nothing found! Please, try another filter.
 
         <p>pop: {$courses[i].popularity}</p>
         <p>rat: {$courses[i].rating}</p>
-
     {/section}
 
 {/if}
