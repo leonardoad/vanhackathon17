@@ -105,10 +105,12 @@ class IndexController extends Zend_Controller_Action {
         $mainMenu->addMenuItem($menuItem);
 
         $menuItem = new Ui_Element_MenuItem("Booked", "Booked Lunch n' Learn", HTTP_REFERER . 'bookedcourse/index', '', 'calendar');
-        $menuItem->setVisible('PROC_CAD_LaL', 'ver');
+        $menuItem->setVisible('PROC_CAD_BOOKED', 'ver');
         $mainMenu->addMenuItem($menuItem);
 
-
+        $menuItem = new Ui_Element_MenuItem("Educators", "Approve Educators", HTTP_REFERER . 'usuario/educatorsindex', '', 'address-book-o');
+        $menuItem->setVisible('PROC_CAD_APPROVE_EDU', 'ver');
+        $mainMenu->addMenuItem($menuItem);
 
         $menu = new Ui_Element_MenuItem('cadastros', 'Registers', HTTP_REFERER, ' ', 'th-large');
         $menu->setVisible('PROC_CAD_TOPICO_LAUDO', 'ver');

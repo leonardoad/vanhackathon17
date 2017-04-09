@@ -195,7 +195,9 @@ class Course extends Db_Table {
 
         $where = " c.cost BETWEEN $priceminvalue AND $pricemaxvalue ".
             " AND c.audience_max >= $audienceminvalue ".
-            " AND c.audience_min <= $audiencemaxvalue ";
+            " AND c.audience_min <= $audiencemaxvalue ".
+            " AND u.approved = 'S'"
+;
 
         if ($search != '') {
             $search = addslashes($search);
@@ -213,8 +215,10 @@ class Course extends Db_Table {
                        c.id_course, c.id_educator, c.title, c.description, 
                        c.registerdate, c.videolink, c.`time`, 
                        c.setuptime, c.cost, c.audience_min, 
-                       c.audience_max, c.photo
+                       c.audience_max, c.photo, u.nomecompleto
                         FROM course c
+                        JOIN usuario u
+                          ON c.id_educator = u.id_usuario
                         LEFT JOIN bookedcourse b
                           ON c.id_course = b.id_course
                         LEFT JOIN review r

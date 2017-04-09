@@ -5,6 +5,8 @@ class UsuarioController extends Zend_Controller_Action {
     public function init() {
         Browser_Control::setScript('js', 'Md5', 'md5.js');
         Browser_Control::setScript('js', 'Mask', 'Mask/Mask.js');
+        $this->Action = 'Usuario';
+        $this->Model = 'Usuario';
     }
 
     private function gridsAction($tipo) {
@@ -725,4 +727,116 @@ class UsuarioController extends Zend_Controller_Action {
         $br->send();
     }
 
+    public function educatorsindexAction() {
+        $post = Zend_Registry::get('post');
+        $form = new Ui_Form();
+        $form->setName('formEducators');
+        $form->setAction($this->Action);
+
+
+        /*
+         *  --------- Grid das ACOES ------------
+         */
+        $grid = new Ui_Element_DataTables('educatorsGrid');
+        $grid->setParams('', BASE_URL . $this->Action . '/educatorslist');
+//        $grid->setTemplateID('grid');
+        $grid->setStateSave(true);
+//        $grid->setShowSearching(false);
+//        $grid->setShowOrdering(false);
+//        $grid->setShowLengthChange(false);
+//        $grid->setShowInfo(false);
+
+
+        $button = new Ui_Element_DataTables_Button('btnApprove', 'Approve');
+        $button->setImg('check-square-o');
+        $button->setAttrib('msg', "Do you confirm approving this educator?");
+        $button->setVisible('PROC_CAD_APPROVE_EDU', 'inserir');
+        $grid->addButton($button);
+
+        $button = new Ui_Element_DataTables_Button('btnDeny', 'Deny');
+        $button->setImg('ban');
+        $button->setAttrib('msg', "Do you confirm hiding this educator content from the site?");
+        $button->setVisible('PROC_CAD_APPROVE_EDU', 'excluir');
+        $grid->addButton($button);
+
+        $column = new Ui_Element_DataTables_Column_Text('Name', 'nomecompleto');
+        $column->setWidth('7');
+        $grid->addColumn($column);
+
+        $column = new Ui_Element_DataTables_Column_Text('Approved', 'approved_decoded');
+        $column->setWidth('3');
+        $grid->addColumn($column);
+
+        $form->addElement($grid);
+        Session_Control::setDataSession($grid->getId(), $grid);
+
+        $view = Zend_Registry::get('view');
+
+        $view->assign('scripts', Browser_Control::getScripts());
+        $view->assign('titulo', 'Approved Educators');
+
+        $view->assign('body', $form->displayTpl($view, 'Usuario/approveEducators.tpl'));
+        $view->output('index.tpl');
+    }
+
+
+
+    public function educatorslistAction() {
+        $post = Zend_Registry::get('post');
+
+        $post->id_indicador;
+        $lLst = new $this->Model;
+        $lLst->where('grupo', 3);
+        $lLst->readLst();
+
+        Grid_ControlDataTables::setDataGrid($lLst, false, true);
+    }
+
+    public function btnapproveclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+
+        $obj = new Usuario();
+        if (isset($post->id)) {
+            $obj->read($post->id);
+        }
+        $obj->setApproved('S');
+
+        try {
+            $obj->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+
+        $br->setMsgAlert($obj->getNomecompleto().' was approved!', 'Now all lunch n\' learn registered by him/her will be visible on the site');
+
+        $br->setUpdateDatatables('educatorsGrid');
+        $br->send();
+    }
+
+    public function btndenyclickAction() {
+        $br = new Browser_Control();
+        $post = Zend_Registry::get('post');
+
+        $obj = new Usuario();
+        if (isset($post->id)) {
+            $obj->read($post->id);
+        }
+        $obj->setApproved('N');
+
+        try {
+            $obj->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+        
+        $br->setMsgAlert($obj->getNomecompleto().' has his/her content hidden!', 'Now all lunch n\' learn registered by him/her will NOT be visible on the site');
+
+        $br->setUpdateDatatables('educatorsGrid');
+        $br->send();
+    }
 }
