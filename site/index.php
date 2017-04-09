@@ -35,7 +35,7 @@ switch ($_SERVER['HTTP_HOST']) {
         error_reporting(E_ERROR);
 //        error_reporting(E_ALL ^ E_NOTICE | E_STRICT);
         $dbconfig = 'producao';
-        define('BASE', "vanhackathon17"); // BASE eh o caminho apartir da raiz do site(Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
+        define('BASE', ""); // BASE eh o caminho apartir da raiz do site(Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
         break;
 }
 date_default_timezone_set('America/Sao_Paulo');

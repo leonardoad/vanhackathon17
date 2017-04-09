@@ -1,4 +1,2 @@
 RewriteEngine on
-RewriteRule !\.(js|ico|txt|gif|jpg|png|css|'woff2'|eot|woff|ttf|svg)$ index.php
-php_flag magic_quotes_gpc off
-php_flag register_globals off
+RewriteRule !\.(js|ico|txt|gif|jpg|png|css|'woff2'|eot|woff|ttf|svg)$ index.php 
