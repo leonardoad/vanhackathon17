@@ -56,7 +56,7 @@ class Zend_Translate_Adapter_XmlTm extends Zend_Translate_Adapter {
     {
         $this->_data = array();
         $this->_lang = $locale;
-        if (!is_readable($filename)) {
+        if (!@is_readable($filename)) {
             require_once 'Zend/Translate/Exception.php';
             throw new Zend_Translate_Exception('Translation file \'' . $filename . '\' is not readable.');
         }

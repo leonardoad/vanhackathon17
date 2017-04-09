@@ -148,7 +148,7 @@ class Zend_Loader
 
     /**
      * Returns TRUE if the $filename is readable, or FALSE otherwise.
-     * This function uses the PHP include_path, where PHP's is_readable()
+     * This function uses the PHP include_path, where PHP's @is_readable()
      * does not.
      *
      * Note from ZF-2900:
@@ -161,7 +161,7 @@ class Zend_Loader
      */
     public static function isReadable($filename)
     {
-        if (is_readable($filename)) {
+        if (@is_readable($filename)) {
             // Return early if the filename is readable without needing the
             // include_path
             return true;
@@ -177,13 +177,13 @@ class Zend_Loader
 
         foreach (self::explodeIncludePath() as $path) {
             if ($path == '.') {
-                if (is_readable($filename)) {
+                if (@is_readable($filename)) {
                     return true;
                 }
                 continue;
             }
             $file = $path . '/' . $filename;
-            if (is_readable($file)) {
+            if (@is_readable($file)) {
                 return true;
             }
         }

@@ -67,7 +67,7 @@ class Zend_Auth_Adapter_Http_Resolver_File implements Zend_Auth_Adapter_Http_Res
      */
     public function setFile($path)
     {
-        if (empty($path) || !is_readable($path)) {
+        if (empty($path) || !@is_readable($path)) {
             /**
              * @see Zend_Auth_Adapter_Http_Resolver_Exception
              */

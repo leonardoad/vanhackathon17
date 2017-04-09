@@ -86,7 +86,7 @@ class Zend_Service_LiveDocx_MailMerge extends Zend_Service_LiveDocx
      */
     public function setLocalTemplate($filename)
     {
-        if (!is_readable($filename)) {
+        if (!@is_readable($filename)) {
             throw new Zend_Service_LiveDocx_Exception(
                 'Cannot read local template from disk.'
             );

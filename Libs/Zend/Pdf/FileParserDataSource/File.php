@@ -79,7 +79,7 @@ class Zend_Pdf_FileParserDataSource_File extends Zend_Pdf_FileParserDataSource
             throw new Zend_Pdf_Exception("Invalid file path: $filePath",
                                          Zend_Pdf_Exception::BAD_FILE_PATH);
         }
-        if (! is_readable($filePath)) {
+        if (! @is_readable($filePath)) {
             require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception("File is not readable: $filePath",
                                          Zend_Pdf_Exception::NOT_READABLE);

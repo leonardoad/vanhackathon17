@@ -227,7 +227,7 @@ class Zend_Cache_Backend
      */
     protected function _isGoodTmpDir($dir)
     {
-        if (is_readable($dir)) {
+        if (@is_readable($dir)) {
             if (is_writable($dir)) {
                 return true;
             }

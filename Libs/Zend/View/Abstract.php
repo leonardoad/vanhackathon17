@@ -976,7 +976,7 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
         }
 
         foreach ($this->_path['script'] as $dir) {
-            if (is_readable($dir . $name)) {
+            if (@is_readable($dir . $name)) {
                 return $dir . $name;
             }
         }

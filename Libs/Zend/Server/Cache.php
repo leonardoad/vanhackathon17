@@ -110,7 +110,7 @@ class Zend_Server_Cache
     {
         if (!is_string($filename)
             || !file_exists($filename)
-            || !is_readable($filename))
+            || !@is_readable($filename))
         {
             return false;
         }
