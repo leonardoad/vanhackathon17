@@ -40,7 +40,7 @@
 
                   <div class="col-md-4 single-lnl">
                     <div class="card card-inverse card-info">
-                      <img class="card-img-top" src="{$course->getPhotoPath()}">
+                      <img class="card-img-top" src="{$courses[i]->getPhotoPath()}">
                       <div class="card-block">
                         <h4 class="card-title mt-3">{$courses[i]->get()}</h4>
                         <div class="meta card-text">
@@ -48,10 +48,10 @@
                           <hr>
                         </div>
                         <div class="card-text">
+                          <p><strong>Instructor:</strong> {$courses[i]->getEducatorName()}</p>
                           <p><strong>Duration:</strong> {$courses[i]->getTime()}</p>
                           <p><strong>Group Size:</strong> {$courses[i]->getGroupSize()}</p>
                           <p><strong>Rating:</strong> {$courses[i]->getRating()}</p>
-
                         </div>
                       </div>
                       <div class="card-footer">
