@@ -230,7 +230,7 @@ abstract class Zend_Cache
 
     /**
      * Returns TRUE if the $filename is readable, or FALSE otherwise.
-     * This function uses the PHP include_path, where PHP's is_readable()
+     * This function uses the PHP include_path, where PHP's @is_readable()
      * does not.
      *
      * Note : this method comes from Zend_Loader (see #ZF-2891 for details)

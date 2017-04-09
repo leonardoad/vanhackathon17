@@ -59,7 +59,7 @@ class Zend_Translate_Adapter_Qt extends Zend_Translate_Adapter {
     protected function _loadTranslationData($filename, $locale, array $options = array())
     {
         $this->_data = array();
-        if (!is_readable($filename)) {
+        if (!@is_readable($filename)) {
             require_once 'Zend/Translate/Exception.php';
             throw new Zend_Translate_Exception('Translation file \'' . $filename . '\' is not readable.');
         }

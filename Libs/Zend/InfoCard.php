@@ -223,8 +223,8 @@ class Zend_InfoCard
             throw new Zend_InfoCard_Exception("Could not locate the public and private certificate pair files: $private_key_file, $public_key_file");
         }
 
-        if(!is_readable($private_key_file) ||
-           !is_readable($public_key_file)) {
+        if(!@is_readable($private_key_file) ||
+           !@is_readable($public_key_file)) {
             require_once 'Zend/InfoCard/Exception.php';
             throw new Zend_InfoCard_Exception("Could not read the public and private certificate pair files (check permissions): $private_key_file, $public_key_file");
         }

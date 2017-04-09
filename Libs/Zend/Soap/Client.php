@@ -717,7 +717,7 @@ class Zend_Soap_Client
      */
     public function setHttpsCertificate($localCert)
     {
-        if (!is_readable($localCert)) {
+        if (!@is_readable($localCert)) {
             require_once 'Zend/Soap/Client/Exception.php';
             throw new Zend_Soap_Client_Exception('Invalid HTTPS client certificate path.');
         }
