@@ -196,8 +196,7 @@ class Course extends Db_Table {
         $where = " c.cost BETWEEN $priceminvalue AND $pricemaxvalue ".
             " AND c.audience_max >= $audienceminvalue ".
             " AND c.audience_min <= $audiencemaxvalue ".
-            " AND u.approved = 'S'"
-;
+            " AND u.approved = 'S'";
 
         if ($search != '') {
             $search = addslashes($search);
