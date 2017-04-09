@@ -1,13 +1,13 @@
 <?php
 
-class BookedCourseController extends Zend_Controller_Action {
+class BookedcourseController extends Zend_Controller_Action {
 
     public function init() {
         Browser_Control::setScript('js', 'Mask', 'Mask/Mask.js');
         $this->IdGrid = 'gridBookedCourse';
         $this->IdGrid2 = 'gridReview';
         $this->NomeForm = 'formBookedCourse';
-        $this->Action = 'BookedCourse';
+        $this->Action = 'Bookedcourse';
         $this->TituloLista = "Lunch n' Learn";
         $this->TituloEdicao = "Editing a Lunch n' Learn";
         $this->ItemEditInstanceName = 'BookedCourseEdit';
