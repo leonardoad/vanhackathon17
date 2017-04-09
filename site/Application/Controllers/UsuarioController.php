@@ -75,13 +75,12 @@ class UsuarioController extends Zend_Controller_Action {
         $button->setVisible('CAD_EMPRESA', 'inserir');
         $grid->addButton($button);
 
-        if ($tipo == 'user') {
-            $button = new Ui_Element_DataTables_Button('btnEditDificuldade', 'Dificuldade');
-            $button->setImg('star-o');
-            $button->setVisible('CAD_USUARIO_DIFICULDADE', 'inserir');
-            $grid->addButton($button);
-        }
-
+//        if ($tipo == 'user') {
+//            $button = new Ui_Element_DataTables_Button('btnEditDificuldade', 'Dificuldade');
+//            $button->setImg('star-o');
+//            $button->setVisible('CAD_USUARIO_DIFICULDADE', 'inserir');
+//            $grid->addButton($button);
+//        }
 //        $column = new Ui_Element_DataTables_Column_Check('ID', 'id_usuario', '30', 'center');
 //        $column->setCondicao('N', 'excluivel');
 //        $grid->addColumn($column);
@@ -94,7 +93,7 @@ class UsuarioController extends Zend_Controller_Action {
 
         // Grupo
         if ($tipo == 'user') {
-            $column = new Ui_Element_DataTables_Column_Text('Login', 'loginUser', '120');
+            $column = new Ui_Element_DataTables_Column_Text('Email', 'email', '120');
             $grid->addColumn($column);
 
             $column = new Ui_Element_DataTables_Column_Text('Grupo', 'nomeGrupo', '120');
@@ -111,7 +110,7 @@ class UsuarioController extends Zend_Controller_Action {
 
 
         $button = new Ui_Element_Btn('btnNovo');
-        $button->setDisplay('Novo Item', 'plus');
+        $button->setDisplay('New Item', 'plus');
         $button->setType('success');
         $button->setAttrib('params', 'tipo=' . $tipo . '');
         $button->setVisible('CAD_USER', 'inserir');
@@ -150,12 +149,12 @@ class UsuarioController extends Zend_Controller_Action {
         $tabGeral->setTitle('Geral');
         $tabGeral->setTemplate('Usuario/tabGeral.tpl');
 
-        $element = new Ui_Element_Checkbox('ativo', 'Ativo');
+        $element = new Ui_Element_Checkbox('ativo', 'Active');
         $element->setCheckedValue('S');
         $element->setUncheckedValue('N');
         $tabGeral->addElement($element);
 
-        $element = new Ui_Element_Text('nomeCompleto', 'Nome Completo');
+        $element = new Ui_Element_Text('nomeCompleto', 'Full Name');
         $element->setAttrib('maxlength', '25');
         $element->setAttrib('obrig', 'obrig');
         $element->setRequired();
@@ -164,29 +163,30 @@ class UsuarioController extends Zend_Controller_Action {
 
 
         if ($tipo == 'user') {
-            $element = new Ui_Element_Text('loginUser', 'Usuário');
-            $element->setAttrib('maxlength', '25');
-            $element->setAttrib('obrig', 'obrig');
-            $element->setRequired();
+//            $element = new Ui_Element_Text('loginUser', 'Usuário');
+//            $element->setAttrib('maxlength', '25');
+//            $element->setAttrib('obrig', 'obrig');
+//            $element->setRequired();
 //            if ($post->id) {
 //                $element->setReadOnly('true');
 //            }
-            $tabGeral->addElement($element);
+//            $tabGeral->addElement($element);
 
 
             $users = new Usuario;
             $users->where('tipo', 'grupo');
-            $element = new Ui_Element_Select('grupo', 'Grupo de Usuário');
+            $element = new Ui_Element_Select('grupo', 'User Group');
             $element->setAttrib('event', 'change');
             $element->addMultiOptions($users->getOptionList('id_usuario', 'nomecompleto', $users));
             $tabGeral->addElement($element);
 
-            $element = new Ui_Element_Password('senha', 'Senha');
+            $element = new Ui_Element_Password('senha', 'Password');
+            $element->setAttrib('placeholder', "Leave it blank if you don't want to change it");
             $element->setAttrib('maxlength', 32);
             $element->setAttrib('cript', '1');
             $tabGeral->addElement($element);
 
-            $element = new Ui_Element_Text('email', 'Email');
+            $element = new Ui_Element_Text('email', 'E-Mail');
             $element->setAttrib('maxlength', 255);
             $element->setAttrib('obrig', 'obrig');
             $element->setRequired();
@@ -216,7 +216,7 @@ class UsuarioController extends Zend_Controller_Action {
 //        $tabGeral->addElement($element);
 
         $salvar = new Ui_Element_Btn('btnSalvar');
-        $salvar->setDisplay('Salvar', PATH_IMAGES . 'Buttons/Ok.png');
+        $salvar->setDisplay('Save', PATH_IMAGES . 'Buttons/Ok.png');
         if ($tipo == 'user') {
             $salvar->setAttrib('params', 'id=' . $post->id . '&tipo=user');
         } else {
@@ -227,14 +227,14 @@ class UsuarioController extends Zend_Controller_Action {
         $form->addElement($salvar);
 
         $cancelar = new Ui_Element_Btn('btnCancelar');
-        $cancelar->setDisplay('Cancelar', PATH_IMAGES . 'Buttons/Cancelar.png');
+        $cancelar->setDisplay('Close', PATH_IMAGES . 'Buttons/Cancelar.png');
         $form->addElement($cancelar);
 
         $mainTab->addTab($tabGeral);
 
         // Tab permissões
         $tabPermissoes = new Ui_Element_Tab('tabPermissoes');
-        $tabPermissoes->setTitle('Permissões');
+        $tabPermissoes->setTitle('Permissions');
         $tabPermissoes->setTemplate('Usuario/tabPermissoes.tpl');
 
         // Grid permissões
@@ -246,15 +246,15 @@ class UsuarioController extends Zend_Controller_Action {
 //        $gridPermissoes->setDimension('', '300');
 
 
-        $button = new Ui_Element_DataTables_Button('btnExcluirPermissao', 'Excluir');
+        $button = new Ui_Element_DataTables_Button('btnExcluirPermissao', 'Delete');
         $button->setImg('trash-o');
-        $button->setAttribs('msg = "Excluir o item selecionado ?"');
+        $button->setAttribs('msg = "Are you sure ou want to delete it?"');
         $button->setVisible('CAD_EMPRESA', 'excluir');
 //        $button->setSendFormFields();
         $gridPermissoes->addButton($button);
 
 
-        $button = new Ui_Element_DataTables_Button('btnEditar', 'Editar');
+        $button = new Ui_Element_DataTables_Button('btnEditar', 'Edit');
         $button->setImg('edit');
         $button->setUrl('Permissao');
         $button->setVisible('CAD_EMPRESA', 'inserir');
@@ -264,27 +264,27 @@ class UsuarioController extends Zend_Controller_Action {
 //        $column->setCondicao('S', 'grupo');
 //        $gridPermissoes->addcolumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Processo', 'descricao');
+        $column = new Ui_Element_DataTables_Column_Text('Name', 'descricao');
         $column->setWidth('3');
         $gridPermissoes->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Ver', 'ver', 'center');
+        $column = new Ui_Element_DataTables_Column_Text('See', 'ver', 'center');
         $column->setWidth('1');
         $gridPermissoes->addColumn($column);
 //
-        $column = new Ui_Element_DataTables_Column_Text('Inserir', 'inserir', 'center');
+        $column = new Ui_Element_DataTables_Column_Text('Create', 'inserir', 'center');
         $column->setWidth('1');
         $gridPermissoes->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Excluir', 'excluir', 'center');
+        $column = new Ui_Element_DataTables_Column_Text('Delete', 'excluir', 'center');
         $column->setWidth('1');
         $gridPermissoes->addColumn($column);
 
-        $column = new Ui_Element_DataTables_Column_Text('Editar', 'editar', 'center');
+        $column = new Ui_Element_DataTables_Column_Text('Edit', 'editar', 'center');
         $column->setWidth('1');
         $gridPermissoes->addColumn($column);
 //
-        $column = new Ui_Element_DataTables_Column_Text('Herdada', 'grupo', 'center');
+        $column = new Ui_Element_DataTables_Column_Text('Enherited', 'grupo', 'center');
         $column->setWidth('1');
         $gridPermissoes->addColumn($column);
 
@@ -295,7 +295,7 @@ class UsuarioController extends Zend_Controller_Action {
 
 
         $button = new Ui_Element_Btn('btnInserir');
-        $button->setDisplay('Inserir', 'plus');
+        $button->setDisplay('New', 'plus');
         $button->setAttrib('click', '');
         $button->setAttrib('url', 'Permissao');
         $button->setType('success');
@@ -316,14 +316,14 @@ class UsuarioController extends Zend_Controller_Action {
 //            $mainTab->addTab($tab);
 //        }
         // Tab Logs
-        $tabLogs = new Ui_Element_Tab('tabLogs');
-        $tabLogs->setTitle('Logs');
-
-        $log = Log::gridLogs($post->id, 'Usuario');
-
-        $tabLogs->addElement($log);
-
-        $mainTab->addTab($tabLogs);
+//        $tabLogs = new Ui_Element_Tab('tabLogs');
+//        $tabLogs->setTitle('Logs');
+//
+//        $log = Log::gridLogs($post->id, 'Usuario');
+//
+//        $tabLogs->addElement($log);
+//
+//        $mainTab->addTab($tabLogs);
 
         $form->addElement($mainTab);
 
@@ -338,18 +338,18 @@ class UsuarioController extends Zend_Controller_Action {
         Session_Control::setDataSession('userEdit', $obj);
 
         if ($tipo == 'user') {
-            $label = 'Login do usúario';
-            $descricao = 'Nome Completo';
+            $label = 'User Login';
+            $descricao = 'Full Name';
         } else {
-            $label = 'Nome do grupo';
-            $descricao = 'Descrição';
+            $label = 'Group Name';
+            $descricao = 'Description';
         }
 
         $view = Zend_Registry::get('view');
         $view->assign('labelLogin', $label);
         $view->assign('descricao', $descricao);
 
-        $w = new Ui_Window('EditUsers', 'Edição de usúarios', $form->displayTpl($view, 'Usuario/edit.tpl'));
+        $w = new Ui_Window('EditUsers', 'Editing', $form->displayTpl($view, 'Usuario/edit.tpl'));
         $w->setDimension('795', '620');
         $w->setCloseOnEscape();
 
@@ -779,8 +779,6 @@ class UsuarioController extends Zend_Controller_Action {
         $view->output('index.tpl');
     }
 
-
-
     public function educatorslistAction() {
         $post = Zend_Registry::get('post');
 
@@ -810,7 +808,7 @@ class UsuarioController extends Zend_Controller_Action {
             die();
         }
 
-        $br->setMsgAlert($obj->getNomecompleto().' was approved!', 'Now all lunch n\' learn registered by him/her will be visible on the site');
+        $br->setMsgAlert($obj->getNomecompleto() . ' was approved!', 'Now all lunch n\' learn registered by him/her will be visible on the site');
 
         $br->setUpdateDatatables('educatorsGrid');
         $br->send();
@@ -833,10 +831,11 @@ class UsuarioController extends Zend_Controller_Action {
             $br->send();
             die();
         }
-        
-        $br->setMsgAlert($obj->getNomecompleto().' has his/her content hidden!', 'Now all lunch n\' learn registered by him/her will NOT be visible on the site');
+
+        $br->setMsgAlert($obj->getNomecompleto() . ' has his/her content hidden!', 'Now all lunch n\' learn registered by him/her will NOT be visible on the site');
 
         $br->setUpdateDatatables('educatorsGrid');
         $br->send();
     }
+
 }
