@@ -64,17 +64,6 @@
 
                 {/if}
                 </div><!-- end row -->
-                <div class="row lnl-pagination pull-right">
-                  <div class="col-md-12">
-                    <ul class="pagination">
-                      <li class="active"><a href="#">1</a></li>
-                      <li><a href="#">2</a></li>
-                      <li><a href="#">3</a></li>
-                      <li><a href="#">4</a></li>
-                      <li><a href="#">5</a></li>
-                    </ul>
-                  </div><!-- end col-md-12 -->
-                </div><!-- end row -->
               </div>
             </div>
 
