@@ -30,19 +30,15 @@ class WebController extends Zend_Controller_Action {
 
         $pageTitle = "Lunch n' Learn";
 
-//start WebController::getMenu()
         $view->assign('scripts', Browser_Control::getScripts());
-//end WebController::getMenu()
 
         $view->assign('content', $html);
         $view->assign('pageTitle', $pageTitle);
         $view->assign('menu', WebController::getMenu());
         $view->output('Web/index.tpl');
-
-
     }
 
-    public static function getMenu() {
+    public static function getMenu($showSearch=true) {
         $form = new Ui_Form();
         $form->setName('formSignup');
         $form->setAction('web');
@@ -56,7 +52,7 @@ class WebController extends Zend_Controller_Action {
         $button->setDisplay('Log In', '');
         $button->setType('success');
         $button->setVisible(Usuario::getIdUsuarioLogado() == '');
-        $button->setHref(BASE_URL .'login');
+        $button->setHref(BASE_URL . 'login');
         $form->addElement($button);
 
         $button = new Ui_Element_Btn('btnLogOut');
@@ -72,12 +68,14 @@ class WebController extends Zend_Controller_Action {
 
         $element = new Ui_Element_Text('search', "");
         $element->setAttrib('maxlength', '255');
+        $element->setVisible($showSearch);
         $searchform->addElement($element);
 
         $button = new Ui_Element_Btn('btnSearch');
-        $button->setDisplay('Search', 's');
+        $button->setDisplay('', 'search');
         $button->setType('success');
-        //$button->setHref(BASE_URL . $this->Action . '/site/logout');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setVisible($showSearch);
         $searchform->addElement($button);
 
         $view = Zend_Registry::get('view');
@@ -86,9 +84,134 @@ class WebController extends Zend_Controller_Action {
         return $view->fetch('Web/menu.tpl');
     }
 
-
     public function btnsearchclickAction() {
-        
+
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control;
+        $br->setBrowserUrl(HTTP_REFERER . 'web/searchresult/pricemin/' . $post->pricemin.
+            '/pricemax/' . $post->pricemax.
+            '/audiencemin/' . $post->audiencemin.
+            '/audiencemax/' . $post->audiencemax.
+            '/ratingmin/' . $post->ratingmin.
+            '/ratingmax/' . $post->ratingmax.
+            '/search/' . $post->search
+            );
+        $br->send();
+    }
+
+    public function searchresultAction() {
+
+        $pricetop = 5000;
+        $pricebottom = 0;
+        $audiencetop = 500;
+        $audiencebottom = 1;
+        $ratingtop = 5;
+        $ratingbottom = 1;
+
+        $post = Zend_Registry::get('post');
+
+        // popular Lunch n Learns
+        $Course = new Course();
+        $lSearched = array();//$Course->getSearchResult($post);
+
+        if (isset($post->pricemin) && ($post->pricemin!='')) {
+            $priceminvalue = $post->pricemin;
+        } else {
+            $priceminvalue = $pricebottom;
+        }
+
+        if (isset($post->pricemax) && ($post->pricemax!='')) {
+            $pricemaxvalue = $post->pricemax;
+        } else {
+            $pricemaxvalue = $pricetop;
+        }
+
+        if (isset($post->audiencemin) && ($post->audiencemin!='')) {
+            $audienceminvalue = $post->audiencemin;
+        } else {
+            $audienceminvalue = $audiencebottom;
+        }
+
+        if (isset($post->audiencemax) && ($post->audiencemax!='')) {
+            $audiencemaxvalue = $post->audiencemax;
+        } else {
+            $audiencemaxvalue = $audiencetop;
+        }
+
+        if (isset($post->ratingmin) && ($post->ratingmin!='')) {
+            $ratingminvalue = $post->ratingmin;
+        } else {
+            $ratingminvalue = $ratingbottom;
+        }
+
+        if (isset($post->ratingmax) && ($post->ratingmax!='')) {
+            $ratingmaxvalue = $post->ratingmax;
+        } else {
+            $ratingmaxvalue = $ratingtop;
+        }
+
+        $form = new Ui_Form();
+        $form->setName('searchFilterForm');
+        $form->setAction($this->Action);
+
+        $element = new Ui_Element_Text('search', "Title/description");
+        $element->setAttrib('maxlength', '255');
+        $element->setValue($post->search);
+        $form->addElement($element);
+
+        $element = new Ui_Element_Hidden('pricemin', "");
+        $form->addElement($element);
+        $element = new Ui_Element_Hidden('pricemax', "");
+        $form->addElement($element);
+        $element = new Ui_Element_Hidden('audiencemin', "");
+        $form->addElement($element);
+        $element = new Ui_Element_Hidden('audiencemax', "");
+        $form->addElement($element);
+        $element = new Ui_Element_Hidden('ratingmin', "");
+        $form->addElement($element);
+        $element = new Ui_Element_Hidden('ratingmax', "");
+        $form->addElement($element);
+
+        $btnSearch = new Ui_Element_Btn('btnSearch');
+        $btnSearch->setDisplay('Search', 'check'); //??
+        $btnSearch->setType('success');
+        $btnSearch->setAttrib('sendFormFields', '1');
+        $form->addElement($btnSearch);
+
+        // Load the filtered courses
+        $Course = new Course();
+        $CoursesFound = $Course->getCourses($post->search,
+            $priceminvalue, $pricemaxvalue,
+            $audienceminvalue, $audiencemaxvalue,
+            $ratingminvalue, $ratingmaxvalue);
+
+        $view = Zend_Registry::get('view');
+
+        $view->assign('nothingFound', count($CoursesFound) == 0);
+        $view->assign('courses', $CoursesFound);
+        $view->assign('priceminvalue', $priceminvalue);
+        $view->assign('pricemaxvalue', $pricemaxvalue);
+        $view->assign('pricetop', $pricetop);
+        $view->assign('pricebottom', $pricebottom);
+        $view->assign('audienceminvalue', $audienceminvalue);
+        $view->assign('audiencemaxvalue', $audiencemaxvalue);
+        $view->assign('audiencetop', $audiencetop);
+        $view->assign('audiencebottom', $audiencebottom);
+        $view->assign('ratingminvalue', $ratingminvalue);
+        $view->assign('ratingmaxvalue', $ratingmaxvalue);
+        $view->assign('ratingtop', $ratingtop);
+        $view->assign('ratingbottom', $ratingbottom);
+        $view->assign('searchFiltersForm', $form->displayTpl($view, 'Web/searchFilters.tpl'));
+        $html = $view->fetch('Web/search.tpl');
+
+        $pageTitle = "Lunch n' Learn - Search";
+
+        $view->assign('scripts', Browser_Control::getScripts());
+
+        $view->assign('content', $html);
+        $view->assign('pageTitle', $pageTitle);
+        $view->assign('menu', WebController::getMenu(false));
+        $view->output('Web/index.tpl');
     }
 
     public function btnsignupclickAction() {
@@ -161,6 +284,26 @@ class WebController extends Zend_Controller_Action {
         $br->send();
     }
 
+    public function openvideoclickAction() {
+        $view = Zend_Registry::get('view');
+        $post = Zend_Registry::get('post');
+
+        $ID = $post->id;
+
+        $lCourse = new Course();
+        $lCourse = $lCourse->read($ID);
+
+        $html = '<iframe id="playerID"  width="560" height="315" src="https://www.youtube.com/embed/' . $post->videolink . '" frameborder="0" allowfullscreen></iframe>';
+
+        $br = new Browser_Control;
+        $w = new Ui_Window('RegisterUsers', $lCourse->getTitle(), $html);
+        $w->setDimension('600', '415');
+        $w->setCloseOnEscape();
+
+        $br->newWindow($w);
+        $br->send();
+    }
+
     public function btnsaveregisterclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();
@@ -205,6 +348,7 @@ class WebController extends Zend_Controller_Action {
 
         $pageTitle = "Lunch n' Learn " . $lCourse->getTitle();
         $view->assign('content', $html);
+        $view->assign('scripts', Browser_Control::getScripts());
         $view->assign('pageTitle', $pageTitle);
         $view->assign('menu', WebController::getMenu());
         $view->output('Web/index.tpl');
@@ -217,13 +361,19 @@ class WebController extends Zend_Controller_Action {
         $ID = $post->id;
 
         $lUser = new Usuario();
-        $lUser = $lUser->read($ID);
+        $lUser->read($ID);
 
+        $lCourseLst = new Course();
+        $lCourseLst->where('id_educator', $ID);
+        $lCourseLst->readLst();
+//print'<pre>';die(print_r( $lCourseLst ));
         $view->assign('profile', $lUser);
+        $view->assign('courseLst', $lCourseLst->getItens());
 
         $html = $view->fetch('Web/profile.tpl');
 
         $pageTitle = " " . $lUser->getNomeCompleto();
+        $view->assign('scripts', Browser_Control::getScripts());
         $view->assign('content', $html);
         $view->assign('pageTitle', $pageTitle);
         $view->assign('menu', WebController::getMenu());
@@ -357,10 +507,10 @@ class WebController extends Zend_Controller_Action {
 //         $view->assign('conteudo', $view->fetch('Web/contato.tpl'));
 //         $view->output('Web/index.tpl');
 //     }
-    public static function getMenu() {
-        $view = Zend_Registry::get('view');
-        return $view->fetch('Web/menu.tpl');
-    }
+    // public static function getMenu() {
+    //     $view = Zend_Registry::get('view');
+    //     return $view->fetch('Web/menu.tpl');
+    // }
 
 //     /**
 //      * 

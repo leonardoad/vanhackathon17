@@ -57,21 +57,50 @@ class Usuario extends Db_Table {
         $this->a_dificuldade = json_encode($param);
     }
 
-    public function getAvarageStars() {
+    
+
+    public function getPhotoPath() {
+        if ($this->a_Photo) {
+            return HTTP_REFERER . 'Public/Images/Profile/' . $this->getID() . '_' . $this->a_Photo;
+        }
+    }
+
+    public function getAvarageStarsNumber() {
         $l = new Review();
         $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse ', '');
         $l->join('course', ' course.id_course = bookedcourse.id_course and course.id_educator = ' . $this->getID(), '');
         $l->readLst();
-        for ($i = 0; $i < $l->countItens(); $i++) {
-            $lReview = $l->getItem($i);
-            $countStars += $lReview->getStars();
+        if ($l->countItens() > 0) {
+            for ($i = 0; $i < $l->countItens(); $i++) {
+                $lReview = $l->getItem($i);
+                $countStars += $lReview->getStars();
+            }
+            $avg = $countStars / $l->countItens();
         }
-        $avg = $countStars / $l->countItens();
+        return $avg;
+    }
+    public function getAvarageStars() {
+        $avg = $this->getAvarageStarsNumber();
         for ($i = 0; $i < $avg; $i++) {
-//            $ret .= "<i class='fa fa-star'></i>";
-            $ret .= '* ';
+            $ret .= "<i class='fa fa-star'></i>";
+//            $ret .= '* ';
         }
         return $ret;
+    }
+
+    public function getCountEventHosted() {
+        $l = new BookedCourse();
+        $l->join('course', ' course.id_course = bookedcourse.id_course and course.id_educator = ' . $this->getID(), '');
+        $l->readLst('array');
+        return $l->countItens();
+    }
+
+    public function getCountReviews() {
+        $l = new Review();
+        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse ', '');
+        $l->join('course', ' course.id_course = bookedcourse.id_course and course.id_educator = ' . $this->getID(), '');
+        $l->readLst('array');
+        return $l->countItens();
     }
 
     /**

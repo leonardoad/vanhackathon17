@@ -160,10 +160,10 @@
 
                     {*                    <a class="navbar-brand" href="{$baseUrl}index"><img src="{$baseUrl}Public/Images/logo.png" title="{$title}" style="height: 180%;width:50%;margin-top: -10px "></a>*}
                     <div class="navbar-brand col-xs-7 col-sm-9" style="color:#232323">
-                        <button type="button"  id="burger" title="Esconda e mostre o menu"  >
+                        <button type="button"  id="burger" title="Hide the menu"  >
                             <i class="fa fa-bars"></i>
                         </button>
-                        <a  href="#none" title="Voltar" onclick="window.history.go(-1);
+                        <a  href="#none" title="Go back!" onclick="window.history.go(-1);
                                 return false;"><i class="fa fa-arrow-left"></i>
                         </a>
                         {$titulo}
@@ -171,7 +171,7 @@
                     {*                        <h3 class="">{$titulo}</h3>*}
 
                     <ul class="nav navbar-top-links navbar-right ">
-                        <a href="#" id="btnfavoritapagina" name="btnfavoritapagina" title="Marcar essa página como a página inicial do sistema!" event="click" url="usuario"><i class="fa fa-star"></i></a>
+                        <a href="#" id="btnfavoritapagina" name="btnfavoritapagina" title="Make this page your home page!" event="click" url="usuario"><i class="fa fa-star"></i></a>
                             {* <li class="dropdown  hidden-xs">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="{$HTTP_REFERER}tarefa'">
                             <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -194,28 +194,33 @@
                         <!-- /.dropdown -->
                         <li class="dropdown ">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-user fa-fw"></i> <span class="hidden-sm hidden-xs">{$nomeUsuario}</span> <i class="fa fa-caret-down"></i>
+                                {*                                <i class="fa fa-user fa-fw"></i>*}
+                                <span class="hidden-sm hidden-xs">{$nomeUsuario}</span> <i class="fa fa-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
+                                {if $userPhoto!=''}
+                                    <li class="text-center"><img   src="{$userPhoto}" class="img-circle" style="height: 100px;width:  100px">
+                                    {/if}
+                                </li>
                                 <li><a href="{$baseUrl}usuario/loadprofile"><i class="fa fa-user fa-fw"></i> My profile</a>
                                 </li>
                                 <li><a href="{$baseUrl}login/trocasenha"><i class="fa fa-gear fa-fw"></i>Change password</a>
                                 </li>
                                 {if $permissoesLst.proc_cad_usuarios !='' || $permissoesLst.all!=''}
-                                    <li><a href="{$baseUrl}usuario/users"><i class="fa fa-gear fa-fw"></i> Usuários</a>
+                                    <li><a href="{$baseUrl}usuario/users"><i class="fa fa-gear fa-fw"></i> Users</a>
                                     </li>
-                                    <li><a href="{$baseUrl}usuario/grupos"><i class="fa fa-gear fa-fw"></i> Grupos</a>
+                                    <li><a href="{$baseUrl}usuario/grupos"><i class="fa fa-gear fa-fw"></i> Groups</a>
                                     </li>
                                 {/if}
                                 {if $permissoesLst.all!=''}
-                                    <li><a href="{$baseUrl}processo"><i class="fa fa-gear fa-fw"></i> Processos</a>
+                                    <li><a href="{$baseUrl}processo"><i class="fa fa-gear fa-fw"></i> Process</a>
                                     </li>
                                 {/if}
-                                <li class="divider"></li>
+                                {*<li class="divider"></li>
                                 <li><a href="{$baseUrl}../../beta/site/index"  ><i class="fa fa-flask fa-fw"></i> Ambiente de Testes</a>
-                                </li>
+                                </li>*}
                                 <li class="divider"></li>
-                                <li><a href="{$baseUrl}login/logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                                <li><a href="{$baseUrl}login/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                                 </li>
                             </ul>
                             <!-- /.dropdown-user -->
@@ -229,7 +234,7 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
-                            <form action="busca" id="formBusca" name="formBusca">
+                            {*<form action="busca" id="formBusca" name="formBusca">
                                 <div class="input-group custom-search-form">
                                     <input type="text" id="q"  name="q" class="form-control" placeholder="Procurar FT/OS...">
                                     <span class="input-group-btn">
@@ -238,7 +243,7 @@
                                         </button>
                                     </span>
                                 </div>
-                            </form>
+                            </form>*}
                             <!-- /input-group -->
                         </li>
                         {$menu}
