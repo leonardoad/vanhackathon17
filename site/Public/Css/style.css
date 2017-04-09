@@ -30,6 +30,12 @@ h1, h2{
 .lnl-manu-search{
 	text-align: center;
 }
+.lnl-login{
+	margin-top: 8px;
+}
+.lnl-login button{
+	margin-right: 15px;
+}
 .lnl-profile-header{
 	min-height: 300px;
 	background: url(../images/lunch-n-learn-header-bw.jpg);
@@ -362,7 +368,7 @@ span.tags
 	background-position: center center;
 	padding: 0px;
 	margin: 0px;
-	height: calc(100vh - 50px);
+	min-height: calc(100vh - 50px);
 	width: 100%;
 }
 .lnl-first:before{
@@ -387,8 +393,9 @@ span.tags
     font-size: 60px;
 }
 .lnl-fullh-row{
-	height: 100vh;
+	min-height: 100vh;
 	width: 100%;
+	padding: 0px 15px;
 }
 .lnl-content{
 	padding-top: 30vh;
@@ -414,7 +421,7 @@ span.tags
 	background-position: center center;
 	padding: 0px;
 	margin: 0px;
-	height: calc(100vh - 50px);
+	min-height: calc(100vh - 50px);
 	width: 100%;
 	position: relative;
 	color: #fff;
@@ -429,9 +436,26 @@ span.tags
 	top: 0;
 	left: 0;
 }
+.lnl-second img{
+	margin-top: 100px;
+}
 .lnl-third img{
 	margin-top: 100px;
 }
 .lnl-fourth .lnl-content{
 	padding-top: 10vh;
+}
+.lnl-five{
+	display: table;
+	background: #133248;
+	padding: 0px;
+	margin: 0px;
+	min-height: 50vh;
+	width: 100%;
+	position: relative;
+	color: #fff;
+	padding-top: 100px;
+}
+.lnl-five a{
+	color: #bebebe;
 }
