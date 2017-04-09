@@ -7,16 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{$TituloPagina} - {$NomeSistema}</title>
 
-        {*        <link rel="shortcut icon"  href="{$baseUrl}Public/Images/favicon/favicon.png" />*}
-        <link rel="apple-touch-icon-precomposed" href="{$baseUrl}Public/Images/favicon/touch-icon-iphone.png">
-        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{$baseUrl}Public/Images/favicon/touch-icon-ipad.png">
-        <link rel="apple-touch-icon-precomposed" sizes="180x180" href="{$baseUrl}Public/Images/favicon/touch-icon-iphone-retina.png">
-        <link rel="apple-touch-icon-precomposed" sizes="167x167" href="{$baseUrl}Public/Images/favicon/touch-icon-ipad-retina.png">
-
-        <link rel="icon" type="image/png" href="{$baseUrl}Public/Images/favicon/favicon-32x32.png" sizes="32x32">
-        <link rel="icon" type="image/png" href="{$baseUrl}Public/Images/favicon/favicon-16x16.png" sizes="16x16">
-        <link rel="manifest" href="{$baseUrl}Public/Images/favicon/manifest.json">
-        <link rel="mask-icon" href="{$baseUrl}Public/Images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon"  href="{$baseUrl}Public/Images/favicon.ico" />
 
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="grey">
@@ -237,14 +228,14 @@
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
                             {*<form action="busca" id="formBusca" name="formBusca">
-                                <div class="input-group custom-search-form">
-                                    <input type="text" id="q"  name="q" class="form-control" placeholder="Procurar FT/OS...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" event="click" link="#none" type="info" href="#none" sendFormFields="1" id="btnBusca" name="btnBusca" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
+                            <div class="input-group custom-search-form">
+                            <input type="text" id="q"  name="q" class="form-control" placeholder="Procurar FT/OS...">
+                            <span class="input-group-btn">
+                            <button class="btn btn-default" event="click" link="#none" type="info" href="#none" sendFormFields="1" id="btnBusca" name="btnBusca" type="button">
+                            <i class="fa fa-search"></i>
+                            </button>
+                            </span>
+                            </div>
                             </form>*}
                             <!-- /input-group -->
                         </li>

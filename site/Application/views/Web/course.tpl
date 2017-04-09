@@ -72,7 +72,7 @@
                         <div class="row">
                             <div class=" col-md-12">
                                 <span class="lnl-price video-price">${$course->getCost()} </span>
-                                <a href="{$baseUrl}BookedCourse/edit/id_course/{$course->getID()}" class="btn lnl-green float-right btn-lg">Book Now</a>
+                                <a href="{$baseUrl}bookedcourse/edit/id_course/{$course->getID()}" class="btn lnl-green float-right btn-lg">Book Now</a>
                             </div>
                         </div>
                         <hr>

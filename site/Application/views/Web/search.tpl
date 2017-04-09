@@ -43,7 +43,7 @@
                       <div class="card-block">
                         <h4 class="card-title mt-3">{$courses[i]->getTitle()}</h4>
                         <div class="meta card-text">
-                          <p>{$courses[i]->getDescription()}</p>
+                            <p>{$courses[i]->getDescription()|truncate:200}</p>
                           <hr>
                         </div>
                         <div class="card-text">
@@ -55,7 +55,7 @@
                       </div>
                       <div class="card-footer">
                         <span class="lnl-price">${$courses[i]->getCost()}</span>
-                        <button class="btn lnl-green float-right btn-sm">Book Now</button>
+                        <a href="{$baseUrl}web/lunchandlearn/id/{$courses[i]->getID()}"  class="btn lnl-green float-right btn-sm">Read More</a>
                       </div>
                     </div>
                   </div><!-- end col-md-4 -->
