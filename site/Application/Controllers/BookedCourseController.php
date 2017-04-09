@@ -40,13 +40,13 @@ class BookedCourseController extends Zend_Controller_Action {
         $button = new Ui_Element_DataTables_Button('btnNovaBookedCourse', 'Editar');
         $button->setImg('edit');
         $button->setHref(HTTP_REFERER . $this->Action . '/edit');
-        $button->setVisible('PROC_CAD_BOOKING', 'inserir');
+        $button->setVisible('PROC_CAD_BOOKED', 'inserir');
         $grid->addButton($button);
 
         $button = new Ui_Element_DataTables_Button('btnExcluirBookedCourse', 'Excluir');
         $button->setImg('trash');
         $button->setAttrib('msg', "Deseja mesmo excluir este item?");
-        $button->setVisible('PROC_CAD_BOOKING', 'excluir');
+        $button->setVisible('PROC_CAD_BOOKED', 'excluir');
         $grid->addButton($button);
 
 //
