@@ -284,6 +284,26 @@ class WebController extends Zend_Controller_Action {
         $br->send();
     }
 
+    public function openvideoclickAction() {
+        $view = Zend_Registry::get('view');
+        $post = Zend_Registry::get('post');
+
+        $ID = $post->id;
+
+        $lCourse = new Course();
+        $lCourse = $lCourse->read($ID);
+
+        $html = '<iframe id="playerID"  width="560" height="315" src="https://www.youtube.com/embed/' . $post->videolink . '" frameborder="0" allowfullscreen></iframe>';
+
+        $br = new Browser_Control;
+        $w = new Ui_Window('RegisterUsers', $lCourse->getTitle(), $html);
+        $w->setDimension('600', '415');
+        $w->setCloseOnEscape();
+
+        $br->newWindow($w);
+        $br->send();
+    }
+
     public function btnsaveregisterclickAction() {
         $post = Zend_Registry::get('post');
         $br = new Browser_Control();

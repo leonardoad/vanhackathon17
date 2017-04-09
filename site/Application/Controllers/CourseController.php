@@ -170,7 +170,7 @@ class CourseController extends Zend_Controller_Action {
         $element = new Ui_Element_Textarea('Description', "Description");
         $element->setAttrib('maxlength', '5000');
         $element->setAttrib('rows', '7');
-//        $element->setTinyMce();
+        $element->setTinyMce();
         $element->setRequired();
         $form->addElement($element);
 //

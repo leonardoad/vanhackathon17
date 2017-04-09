@@ -57,14 +57,7 @@ class Usuario extends Db_Table {
         $this->a_dificuldade = json_encode($param);
     }
 
-    public function getAvarageStars() {
-        $avg = $this->getAvarageStarsNumber();
-        for ($i = 0; $i < $avg; $i++) {
-            $ret .= "<i class='fa fa-star'></i>";
-//            $ret .= '* ';
-        }
-        return $ret;
-    }
+    
 
     public function getPhotoPath() {
         if ($this->a_Photo) {
@@ -85,6 +78,14 @@ class Usuario extends Db_Table {
             $avg = $countStars / $l->countItens();
         }
         return $avg;
+    }
+    public function getAvarageStars() {
+        $avg = $this->getAvarageStarsNumber();
+        for ($i = 0; $i < $avg; $i++) {
+            $ret .= "<i class='fa fa-star'></i>";
+//            $ret .= '* ';
+        }
+        return $ret;
     }
 
     public function getCountEventHosted() {

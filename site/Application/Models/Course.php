@@ -40,7 +40,7 @@ class Course extends Db_Table {
         }
     }
 
-    public function getAvarageStars() {
+    public function getAvarageStarsNumber() {
         $l = new Review();
         $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse and bookedcourse.id_course = ' . $this->getID(), '');
         $l->readLst();
@@ -50,12 +50,32 @@ class Course extends Db_Table {
                 $countStars += $lReview->getStars();
             }
             $avg = $countStars / $l->countItens();
-            for ($i = 0; $i < $avg; $i++) {
-//            $ret .= "<i class='fa fa-star'></i>";
-                $ret .= '* ';
-            }
+        }
+        return $avg;
+    }
+
+    public function getAvarageStars() {
+        $avg = $this->getAvarageStarsNumber();
+        for ($i = 0; $i < $avg; $i++) {
+            $ret .= "<i class='fa fa-star'></i>";
+//            $ret .= '* ';
         }
         return $ret;
+    }
+
+    public function getCountEventHosted() {
+        $l = new BookedCourse();
+        $l->join('course', ' course.id_course = bookedcourse.id_course and course.id_course = ' . $this->getID(), '');
+        $l->readLst('array');
+        return $l->countItens();
+    }
+
+    public function getCountReviews() {
+        $l = new Review();
+        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse ', '');
+        $l->join('course', ' course.id_course = bookedcourse.id_course and course.id_course = ' . $this->getID(), '');
+        $l->readLst('array');
+        return $l->countItens();
     }
 
     public function getPhotoPath() {
