@@ -1,1 +1,1 @@
-{$search} {$btnSearch}
+<div class="row"><div class="col-sm-8">{$search} </div><div class="col-sm-4">{$btnSearch}</div></div>
