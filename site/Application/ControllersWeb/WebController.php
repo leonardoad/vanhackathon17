@@ -36,8 +36,6 @@ class WebController extends Zend_Controller_Action {
         $view->assign('pageTitle', $pageTitle);
         $view->assign('menu', WebController::getMenu());
         $view->output('Web/index.tpl');
-
-
     }
 
     public static function getMenu($showSearch=true) {
@@ -54,7 +52,7 @@ class WebController extends Zend_Controller_Action {
         $button->setDisplay('Log In', '');
         $button->setType('success');
         $button->setVisible(Usuario::getIdUsuarioLogado() == '');
-        $button->setHref(BASE_URL .'login');
+        $button->setHref(BASE_URL . 'login');
         $form->addElement($button);
 
         $button = new Ui_Element_Btn('btnLogOut');
@@ -74,7 +72,7 @@ class WebController extends Zend_Controller_Action {
         $searchform->addElement($element);
 
         $button = new Ui_Element_Btn('btnSearch');
-        $button->setDisplay('Search', 's');
+        $button->setDisplay('', 'search');
         $button->setType('success');
         $button->setAttrib('sendFormFields', '1');
         $button->setVisible($showSearch);
@@ -85,7 +83,6 @@ class WebController extends Zend_Controller_Action {
         $view->assign('searchform', $searchform->displayTpl($view, 'Web/searchForm.tpl'));
         return $view->fetch('Web/menu.tpl');
     }
-
 
     public function btnsearchclickAction() {
 
@@ -331,6 +328,7 @@ class WebController extends Zend_Controller_Action {
 
         $pageTitle = "Lunch n' Learn " . $lCourse->getTitle();
         $view->assign('content', $html);
+        $view->assign('scripts', Browser_Control::getScripts());
         $view->assign('pageTitle', $pageTitle);
         $view->assign('menu', WebController::getMenu());
         $view->output('Web/index.tpl');
@@ -343,13 +341,19 @@ class WebController extends Zend_Controller_Action {
         $ID = $post->id;
 
         $lUser = new Usuario();
-        $lUser = $lUser->read($ID);
+        $lUser->read($ID);
 
+        $lCourseLst = new Course();
+        $lCourseLst->where('id_educator', $ID);
+        $lCourseLst->readLst();
+//print'<pre>';die(print_r( $lCourseLst ));
         $view->assign('profile', $lUser);
+        $view->assign('courseLst', $lCourseLst->getItens());
 
         $html = $view->fetch('Web/profile.tpl');
 
         $pageTitle = " " . $lUser->getNomeCompleto();
+        $view->assign('scripts', Browser_Control::getScripts());
         $view->assign('content', $html);
         $view->assign('pageTitle', $pageTitle);
         $view->assign('menu', WebController::getMenu());

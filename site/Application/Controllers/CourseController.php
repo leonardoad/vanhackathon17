@@ -234,7 +234,9 @@ class CourseController extends Zend_Controller_Action {
 
         $course = Course::getInstance($this->ItemEditInstanceName);
 //print'<pre>';die(print_r(  RAIZ_DIRETORY . 'site/Public/Images/Course/' . $photo['name'] ));
-        $course->setPhoto($photo['name']);
+        if ($photo['name'] != '') {
+            $course->setPhoto($photo['name']);
+        }
         $course->setDataFromRequest($post);
         try {
             $course->save();
@@ -244,9 +246,11 @@ class CourseController extends Zend_Controller_Action {
             die();
         }
 //        print'<pre>';die(print_r( $photo['tmp_name'] ));
-        move_uploaded_file($photo['tmp_name'], RAIZ_DIRETORY . 'site/Public/Images/Course/' . $course->getID() . '_' . $photo['name']);
+        if ($photo['name'] != '') {
+            move_uploaded_file($photo['tmp_name'], RAIZ_DIRETORY . 'site/Public/Images/Course/' . $course->getID() . '_' . $photo['name']);
+            $br->setAttrib('PhotoPath', 'src', $course->getPhotoPath());
+        }
         $br->setMsgAlert('Saved!', 'Your changes were stored with success!');
-        $br->setAttrib('PhotoPath', 'src', $course->getPhotoPath());
 
         $br->send();
         exit;

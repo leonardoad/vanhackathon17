@@ -44,20 +44,26 @@ class Course extends Db_Table {
         $l = new Review();
         $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse and bookedcourse.id_course = ' . $this->getID(), '');
         $l->readLst();
-        for ($i = 0; $i < $l->countItens(); $i++) {
-            $lReview = $l->getItem($i);
-            $countStars += $lReview->getStars();
-        }
-        $avg = $countStars / $l->countItens();
-        for ($i = 0; $i < $avg; $i++) {
+        if ($l->countItens() > 0) {
+            for ($i = 0; $i < $l->countItens(); $i++) {
+                $lReview = $l->getItem($i);
+                $countStars += $lReview->getStars();
+            }
+            $avg = $countStars / $l->countItens();
+            for ($i = 0; $i < $avg; $i++) {
 //            $ret .= "<i class='fa fa-star'></i>";
-            $ret .= '* ';
+                $ret .= '* ';
+            }
         }
         return $ret;
     }
 
     public function getPhotoPath() {
         return HTTP_REFERER . 'Public/Images/Course/' . $this->getID() . '_' . $this->getPhoto();
+    }
+
+    public function getGroupSize() {
+        return $this->getAudience_Min() . ' - ' . $this->getAudience_Max();
     }
 
     public function formatTime($time) {
@@ -103,11 +109,10 @@ class Course extends Db_Table {
 //        $this->setTexto($post->getUnescaped('Texto'));
     }
 
-    public function getPopularCourses()
-    {
+    public function getPopularCourses() {
         $l = new Review();
-        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse','');//make a max here
-        $l->join('course', 'course.id_course = course.id_course','id_course, title, description,videolink, time, cost, audience_min, audience_max');
+        $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse', ''); //make a max here
+        $l->join('course', 'course.id_course = course.id_course', 'id_course, title, description,videolink, time, cost, audience_min, audience_max');
         $l->readLst();
         return $l->getItens();
 
@@ -157,16 +162,14 @@ class Course extends Db_Table {
         //var_dump($stmt->fetchAll()); die();
     }
 
-    public function getFormattedTime()
-    {
+    public function getFormattedTime() {
         //return date('H \H\r m\M\i\n', $this->getTime());
         // var_dump($this->getTime());
         // die();
         return $this->getTime();
     }
 
-    public function getFormattedAudience()
-    {
+    public function getFormattedAudience() {
 
     }
 
