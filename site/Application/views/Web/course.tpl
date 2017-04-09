@@ -112,8 +112,8 @@
                 </div>
                 <ul class="list-group">
                     {*                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Location</strong></span> Vancouver</li>*}
-                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Duration</strong></span> {$course->getFormatedTime()} </li>
-                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Setup Time</strong></span> {$course->getFormatedSetupTime()} </li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Duration</strong></span> {$course->getFormattedTime()} </li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Setup Time</strong></span> {$course->getFormattedSetupTime()} </li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong class="">Group Size</strong></span>{$course->getGroupSize()}</li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong class="">Event Hosted</strong></span>{$course->getCountEventHosted()}</li>
                 </ul>

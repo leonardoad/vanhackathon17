@@ -15,13 +15,79 @@ class IndexController extends Zend_Controller_Action {
 
     public function indexAction() {
         $view = Zend_Registry::get('view');
-        $session = Zend_Registry::get('session');
-        $usuario = $session->usuario;
+//        $session = Zend_Registry::get('session');
+//        $usuario = $session->usuario;
+
+        $lLst = new BookedCourse;
+
+        $group = Usuario::getGroupUserLogado();
+        if ($group == 4) { // COMPANY
+            $lLst->join('course', 'course.id_course = bookedcourse.id_course and bookedcourse.id_company = ' . Usuario::getIdUsuarioLogado(), 'title,time,cost,setuptime,id_educator');
+        } else
+        if ($group == 3) { //EDUCATOR
+            $lLst->join('course', 'course.id_course = bookedcourse.id_course and course.id_educator = ' . Usuario::getIdUsuarioLogado(), 'title,time,cost,setuptime,id_educator');
+        } else {//ADMIN
+            $lLst->join('course', 'course.id_course = bookedcourse.id_course and (course.id_educator = ' . Usuario::getIdUsuarioLogado() . ' or bookedcourse.id_company = ' . Usuario::getIdUsuarioLogado() . ')', 'title,time,cost,setuptime,id_educator');
+        }
+        $lLst->readLst();
+//        print'<pre>';
+//        die(print_r($lLst->limpaObjeto()));
+        $view->assign('courseLst', $lLst->getItens());
+
 
         $view->assign('titulo', "Home");
         $view->assign('scripts', Browser_Control::getScripts());
         $view->assign('body', $view->fetch('Index/index.tpl'));
         $view->output('index.tpl');
+    }
+
+    public function contacteducatorclickAction() {
+        $view = Zend_Registry::get('view');
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control;
+
+        $form = new Ui_Form();
+        $form->setAction('Index');
+        $form->setName('formContactEducator');
+
+        $lLst = new Course;
+        $lLst->read($post->id_course);
+
+        $view->assign('educatorName', $lLst->getEducatorName());
+        $view->assign('educatorEmail', $lLst->getEducatorEmail());
+
+        $element = new Ui_Element_Textarea('msg', 'Message to your Educator');
+        $element->setAttrib('maxlength', '1000');
+        $element->setRequired();
+        $element->setAttrib('row', 5);
+        $form->addElement($element);
+
+        $salvar = new Ui_Element_Btn('btnEnviar');
+        $salvar->setDisplay('Send', 'send-o');
+        $salvar->setAttrib('sendFormFields', '1');
+        $salvar->setAttrib('validaObrig', '1');
+        $form->addElement($salvar);
+
+
+
+        $view = Zend_Registry::get('view');
+
+        $w = new Ui_Window('EditContact', 'Get in touch with your Educator', $form->displayTpl($view, 'Index/contact.tpl'));
+        $w->setDimension('600', '');
+        $w->setCloseOnEscape(true);
+
+        $br->newWindow($w);
+        $br->send();
+    }
+
+    public function btnenviarclickAction() {
+        $view = Zend_Registry::get('view');
+        $post = Zend_Registry::get('post');
+        $br = new Browser_Control;
+
+        $br->setMsgAlert('Sent!', 'You message was sent! <br><br>Thanks!');
+        $br->setRemoveWindow('EditContact');
+        $br->send();
     }
 
     public static function getMenu() {
