@@ -34,6 +34,10 @@ db.config.password = 'mypassword'
 db.config.dbname = vanhackathon17
 ```
 
+To login as site master admin use:
+user: admin
+password: menuap
+
 ## Authors
 
 * **Rômulo Berri** - [romuloberri](https://github.com/romuloberri)
