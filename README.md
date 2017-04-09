@@ -1,4 +1,4 @@
-##VanHackathon 2017
+# VanHackathon 2017
 
 This is and app done in the VanHackathon 2017 (http://www.vanhack.com/hackathon/) responding to the Lunch n' Learn Challenge from the Milma Tech company (http://www.mlimatech.com/)
 
