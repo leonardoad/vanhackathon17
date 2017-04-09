@@ -138,13 +138,11 @@ class CourseController extends Zend_Controller_Action {
 
         $element = new Ui_Element_TextMask('Time', "Length of the meeting");
         $element->setMask('99:99');
-        $element->setPlaceholder('hh:mm');
         $element->setRequired();
         $form->addElement($element);
 
         $element = new Ui_Element_TextMask('SetupTime', "Preparation Time");
         $element->setMask('99:99');
-        $element->setPlaceholder('hh:mm');
         $element->setRequired();
         $form->addElement($element);
 

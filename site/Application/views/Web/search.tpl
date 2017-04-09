@@ -47,10 +47,10 @@
                           <hr>
                         </div>
                         <div class="card-text">
+                          <p><strong>Instructor:</strong> {$courses[i]->getEducatorName()}</p>
                           <p><strong>Duration:</strong> {$courses[i]->getTime()}</p>
                           <p><strong>Group Size:</strong> {$courses[i]->getGroupSize()}</p>
                           <p><strong>Rating:</strong> {$courses[i]->getRating()}</p>
-
                         </div>
                       </div>
                       <div class="card-footer">

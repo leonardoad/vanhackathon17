@@ -23,8 +23,9 @@
                     <div class="card-text">
                         {*                                            <p><strong>Location:</strong> {$popularCourses[j]->getLocation()}</p>*}
                         <p><strong>Instructor:</strong> {$popularCourses[j]->getEducatorName()}</p>
-                        <p><strong>Duration:</strong> {$popularCourses[j]->getFormattedTime()}</p>
+                        <p><strong>Duration:</strong> {$popularCourses[j]->getTime()}</p>
                         <p><strong>Group Size:</strong> {$popularCourses[j]->getGroupSize()}</p>
+                        <p><strong>Rating:</strong> {$popularCourses[j]->getRating()}</p>
                     </div>
                 </div>
                 <div class="card-footer">
