@@ -66,6 +66,12 @@ class Usuario extends Db_Table {
         return $ret;
     }
 
+    public function getPhotoPath() {
+        if ($this->a_Photo) {
+            return HTTP_REFERER . 'Public/Images/Profile/' . $this->getID() . '_' . $this->a_Photo;
+        }
+    }
+
     public function getAvarageStarsNumber() {
         $l = new Review();
         $l->join('bookedcourse', 'bookedcourse.id_bookedcourse = review.id_bookedcourse ', '');

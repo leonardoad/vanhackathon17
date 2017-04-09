@@ -618,12 +618,20 @@ class UsuarioController extends Zend_Controller_Action {
         //temporariamente estou desativando o readonly para poder cadastrar as acoes antigas
         $readOnly = false;
 
-        $user = new Usuario;
-        $user->read(Usuario::getIdUsuarioLogado());
+        $obj = new Usuario;
+        $obj->read(Usuario::getIdUsuarioLogado());
 
         $form = new Ui_Form();
         $form->setAction('usuario');
         $form->setName('formProfileEdit');
+        $form->setAttrib('enctype', 'multipart/form-data');
+
+        $element = new Ui_Element_File("Photo", 'Photo');
+//        $element->setAttrib('multiple', '');
+//        $element->setAttrib('obrig', '');
+        $form->addElement($element);
+
+        $view->assign('PhotoPath', $obj->getPhotoPath());
 
         $element = new Ui_Element_Text('nomecompleto', "Name");
         $element->setAttrib('maxlength', '35');
@@ -640,14 +648,14 @@ class UsuarioController extends Zend_Controller_Action {
         $element->setRequired();
         $form->addElement($element);
 
-        $form->setDataForm($user);
-        $user->setInstance('userEdit');
+        $form->setDataForm($obj);
+        $obj->setInstance('userEdit');
 
         $button = new Ui_Element_Btn('btnSaveProfile');
         $button->setDisplay('Save', 'check');
         $button->setType('success');
 //        $button->setVisible(!$readOnly);
-        $button->setVisible('PROC_CAD_TOPICO_LAUDO', 'editar');
+//        $button->setVisible('PROC_CAD_USERS', 'editar');
         $button->setAttrib('click', '');
 
         $button->setAttrib('sendFormFields', '1');
@@ -673,20 +681,37 @@ class UsuarioController extends Zend_Controller_Action {
         $br = new Browser_Control();
 
         $form = Session_Control::getDataSession('formUsersEdit');
-
-        //$valid = $form->processAjax($_POST);
+        $photo = $post->Photo;
 
         $br = new Browser_Control();
-        // if ($valid != 'true') {
-        //     $br->validaForm($valid);
-        //     $br->send();
-        //     exit;
-        // }
 
         $user = Usuario::getInstance('userEdit');
-        $user->setDataFromProfileRequest($post);
-        $user->save();
 
+        if ($photo['name'] != '') {
+            $user->setPhoto($photo['name']);
+        }
+
+        $user->setDataFromProfileRequest($post);
+
+        try {
+            $user->save();
+        } catch (Exception $exc) {
+            $br->setAlert('Error!', '<pre>' . print_r($exc, true) . '</pre>', '100%', '600');
+            $br->send();
+            die();
+        }
+        if ($photo['name'] != '') {
+            $path = RAIZ_DIRETORY . 'site/Public/Images/Profile';
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            move_uploaded_file($photo['tmp_name'], $path . '/' . $user->getID() . '_' . $photo['name']);
+            $br->setAttrib('PhotoPath', 'src', $user->getPhotoPath());
+        }
+
+        $session = Zend_Registry::get('session');
+        $session->usuario = $user;
+        Zend_Registry::set('session', $session);
 
         $br->setBrowserUrl(BASE_URL . 'index');
         $br->send();
@@ -696,7 +721,7 @@ class UsuarioController extends Zend_Controller_Action {
 
     public function btncancelarprofileclickAction() {
         $br = new Browser_Control;
-        $br->setBrowserUrl(BASE_URL.'index');
+        $br->setBrowserUrl(BASE_URL . 'index');
         $br->send();
     }
 

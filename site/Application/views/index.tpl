@@ -194,9 +194,14 @@
                         <!-- /.dropdown -->
                         <li class="dropdown ">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="fa fa-user fa-fw"></i> <span class="hidden-sm hidden-xs">{$nomeUsuario}</span> <i class="fa fa-caret-down"></i>
+                                {*                                <i class="fa fa-user fa-fw"></i>*}
+                                <span class="hidden-sm hidden-xs">{$nomeUsuario}</span> <i class="fa fa-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
+                                {if $userPhoto!=''}
+                                    <li class="text-center"><img   src="{$userPhoto}" class="img-circle" style="height: 100px;width:  100px">
+                                    {/if}
+                                </li>
                                 <li><a href="{$baseUrl}usuario/loadprofile"><i class="fa fa-user fa-fw"></i> My profile</a>
                                 </li>
                                 <li><a href="{$baseUrl}login/trocasenha"><i class="fa fa-gear fa-fw"></i>Change password</a>

@@ -247,7 +247,11 @@ class CourseController extends Zend_Controller_Action {
         }
 //        print'<pre>';die(print_r( $photo['tmp_name'] ));
         if ($photo['name'] != '') {
-            move_uploaded_file($photo['tmp_name'], RAIZ_DIRETORY . 'site/Public/Images/Course/' . $course->getID() . '_' . $photo['name']);
+            $path = RAIZ_DIRETORY . 'site/Public/Images/Course/';
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            move_uploaded_file($photo['tmp_name'], $path . $course->getID() . '_' . $photo['name']);
             $br->setAttrib('PhotoPath', 'src', $course->getPhotoPath());
         }
         $br->setMsgAlert('Saved!', 'Your changes were stored with success!');

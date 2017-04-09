@@ -28,7 +28,7 @@ switch ($_SERVER['HTTP_HOST']) {
         $dbconfig = 'local';
         define('BASE', "vanhackathon17"); // BASE eh o caminho apartir da raiz do site(Ex.: na locaweb e o "public_htm", mas o caminho fica sem o "public_html")
         break;
- 
+
     case 'romuloberri.com.br':
 
 //        error_reporting(0);
@@ -93,7 +93,7 @@ Browser_Control::setScript('css', 'Tabs', 'Ui/Ui.css');
 //Browser_Control::setScript('css', 'Button', 'Button/Button.css');
 //Browser_Control::setScript('css', 'Principal', '../Css/Principal.css');
 
-Zend_Session::setOptions(['hash_bits_per_character' => 5]); 
+Zend_Session::setOptions(['hash_bits_per_character' => 5]);
 /* coloca numa lista a URL */
 $array1 = explode('/', $_SERVER['REQUEST_URI']);
 $array = array();
@@ -190,7 +190,7 @@ Zend_Db_Table_Abstract::setDefaultAdapter($db);
 ###################################################################################
 
 Zend_Registry::set('db', $db);
-
+    
 
 ############################ SEGURAN�A DO SISTEMA #########################
 //print'<pre>';(print_r($array ));
@@ -233,6 +233,7 @@ if (strcasecmp($web, 'web') != 0) {
     $view->assign('NomeSistema', cNOME_SISTEMA);
     $view->assign('usuarioLogado', Session_Control::getPropertyUserLogado('nomecompleto'));
     $view->assign('nomeUsuario', Session_Control::getPropertyUserLogado('nomecompleto'));
+    $view->assign('userPhoto', Session_Control::getPropertyUserLogado('PhotoPath'));
     $view->assign('ano', date('Y'));
     $view->assign('permissoesLst', Session_Control::getPropertyUserLogado('permissoesLst'));
 //    $view->assign('ListaAcaoTopo', RncAcao::getListaRncAcaoTopo($view));

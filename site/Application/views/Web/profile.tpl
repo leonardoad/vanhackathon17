@@ -14,7 +14,11 @@
                 <!--left col-->
                 <div class="media lnl-media">
                     <div class="lnl-profile-thumbnail" align="center">
-                        <img class="thumbnail img-responsive" src="{$baseUrl}Public/images/josemario.jpg" width="300px" height="300px">
+                        {if $profile->getPhotoPath()!=''}
+                            <img class="thumbnail img-responsive" src="{$profile->getPhotoPath()}" width="300px" height="300px">
+                        {else}
+                            <img class="thumbnail img-responsive" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSODALYDYo2dqN0DG_kPNi2X7EAy1K8SpRRZQWkNv9alC62IHggOw" width="300px" height="300px">
+                        {/if}
                     </div>
                     <div class="media-body">
                         <hr>
@@ -39,7 +43,7 @@
                 </div>
                 <ul class="list-group">
                     <li class="list-group-item text-muted" contenteditable="false">Profile</li>
-{*                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span> {$profile->getRegisterDate()}</li>*}
+                        {*                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Joined</strong></span> {$profile->getRegisterDate()}</li>*}
                     <li class="list-group-item text-right"><span class="pull-left"><strong class="">Events Hosted</strong></span> {$profile->getCountEventHosted()}</li>
                     <li class="list-group-item text-right"><span class="pull-left"><strong class="">Lunch and Learn</strong></span> {$courseLst|@count}</li>
                         {*                    <li class="list-group-item text-right"><span class="pull-left"><strong class="">Location: </strong></span> Colombia</li>*}
@@ -87,7 +91,8 @@
                                     </div>
                                     <div class="card-footer">
                                         <span class="lnl-price">${$courseLst[j]->getCost()}</span>
-                                        <button class="btn lnl-green float-right btn-sm">Book Now</button>
+                                        {*                                        <a href="{$baseUrl}web/lunchandlearn/id/{$courseLst[j]->getID()}" class="btn lnl-green float-right btn-sm">Book Now</a>*}
+                                        <a href="{$baseUrl}web/lunchandlearn/id/{$courseLst[j]->getID()}" class="btn lnl-green float-right btn-sm">Read More</a>
                                     </div>
                                 </div>
                             </div>
