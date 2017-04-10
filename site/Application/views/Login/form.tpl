@@ -26,6 +26,7 @@
                 {$senha}
                 {$remember}
                 {$btnLogin}
+                {$btnSignUp}
             </div>
         </div>                     
         {* <div class="text-right" style="padding: 5px wi">

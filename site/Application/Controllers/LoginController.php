@@ -64,8 +64,15 @@ class LoginController extends Zend_Controller_Action {
         $element->setAttrib('hotkeys', 'enter, btnLogin, click');
         $form->addElement($element);
 
+        $button = new Ui_Element_Btn('btnSignUp');
+        $button->setDisplay('Sign Up');
+        $button->setAttrib('url', 'web');
+        $button->setAttrib('sendFormFields', '1');
+        $button->setAttrib('class', 'btn btn-md btn-success btn-block');
+        $form->addElement($button);
+
         $button = new Ui_Element_Btn('btnLogin');
-        $button->setDisplay('Entrar');
+        $button->setDisplay('Login');
         $button->setAttrib('sendFormFields', '1');
         $button->setAttrib('class', 'btn btn-md btn-success btn-block');
         $form->addElement($button);

@@ -79,7 +79,7 @@
                                     <div class="card-block">
                                         <h4 class="card-title mt-3">{$courseLst[j]->getTitle()}</h4>
                                         <div class="meta card-text">
-                                            {$courseLst[j]->getDescription()}
+                                            {$courseLst[j]->getDescription()|truncate:200}
                                             {*                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel gravida metus, non ultrices sapien. </p>*}
                                             <hr>
                                         </div>

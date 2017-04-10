@@ -18,14 +18,22 @@ class WebController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
+        $view = Zend_Registry::get('view');
 
         // popular Lunch n Learns
         $Course = new Course();
         $lPopular = $Course->getPopularCourses();
-
-        $view = Zend_Registry::get('view');
-
         $view->assign('popularCourses', $lPopular);
+
+        $EducatorLst = new Usuario();
+        $EducatorLst->where('tipo', 'user');
+        $EducatorLst->where('grupo', '3');
+        $EducatorLst->where('approved', 'S');
+        $EducatorLst->readLst();
+        $EducatorLst = $EducatorLst->getItens();
+        $view->assign('educatorLst', $EducatorLst);
+
+
         $html = $view->fetch('Web/Home.tpl');
 
         $pageTitle = "Lunch n' Learn";

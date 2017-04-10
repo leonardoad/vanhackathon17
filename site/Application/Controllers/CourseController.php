@@ -171,7 +171,7 @@ class CourseController extends Zend_Controller_Action {
         $element->setAttrib('maxlength', '5000');
         $element->setAttrib('rows', '7');
         $element->setTinyMce();
-        $element->setRequired();
+//        $element->setRequired();
         $form->addElement($element);
 //
         $element = new Ui_Element_File("Photo", 'Photo');

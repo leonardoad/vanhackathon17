@@ -108,3 +108,50 @@
         </div><!-- end row -->
     </div> <!-- end container -->
 </div><!-- end container fluid -->
+<div class="row lnl-fullh-row lnl-fourth">
+    <div class="container">
+        <div class="row lnl-content">
+            <div class="col-md-10 col-centered txt-center">
+                <h1>Popular Educators</h1>
+                <p>Morbi odio metus, dapibus non nibh id amet.</p></br>
+                {section name=j loop=$educatorLst}
+                    <div class="col-md-4">
+                        <div class="card card-inverse card-info" style="margin-top: 30px">
+                            {*                            <img class="card-img-top" src="{$educatorLst[j]->getPhotoPath()}">*}
+                            {if $educatorLst[j]->getPhotoPath()!=''}
+                                <img class="card-img-top" src="{$educatorLst[j]->getPhotoPath()}" width="300px" height="300px">
+                            {else}
+                                <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSODALYDYo2dqN0DG_kPNi2X7EAy1K8SpRRZQWkNv9alC62IHggOw" width="300px" height="300px">
+                            {/if}
+                            <div class="card-block">
+                                <h4 class="card-title mt-3">{$educatorLst[j]->getNomeCompleto()}</h4>
+                                <div class="col-md-12 lnl-stars">
+                                    <div class="rating col-md-6 ">
+                                        {$educatorLst[j]->getAvarageStars()}
+                                        {*<span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star-half-o"></span>*}
+                                    </div>
+                                    <div>
+                                        <span class="fa fa-user col-md-6 "></span> {$educatorLst[j]->getCountReviews()} reviews
+                                    </div>
+                                </div>
+                                {*<div class="card-text">
+                                <p><strong>Instructor:</strong> {$educatorLst[j]->getAvarageStars()}</p>
+                                <p><strong>Duration:</strong> {$educatorLst[j]->getFormattedTime()}</p>
+                                <p><strong>Group Size:</strong> {$educatorLst[j]->getGroupSize()}</p>
+                                </div>*}
+                            </div>
+                            <div class="card-footer">
+                                <a href="{$baseUrl}web/profile/id/{$educatorLst[j]->getID()}" class="btn lnl-green float-right btn-sm">Read More</a>
+                            </div>
+                        </div>
+                    </div> 
+                {/section}
+            </div>
+            <div class="col-md-6"></div>
+        </div><!-- end row -->
+    </div> <!-- end container -->
+</div><!-- end container fluid -->
